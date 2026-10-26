@@ -39,6 +39,39 @@ const tests=async function(){
   };
   for(const [id,source] of Object.entries(cases)){edit(source);await tick();assert(!$('diagnostics').classList.contains('has-warning'),id+': '+$('diagnostics').textContent);}
  });
+
+ await test('group3 standard diagrams and safe error fallback',async()=>{
+  const layouts={bar:'bar-rows',line:'chart-surface',waterfall:'waterfall-bar',composition:'composition-strip',funnel:'funnel-rows',cycle:'cycle-diagram','value-chain':'value-body',swimlane:'swimlane-grid','risk-register':'risk-table'};
+  for(const [id,cls] of Object.entries(layouts)){
+   const slide=samples.find(s=>s.layout===id);assert(slide,'missing '+id);edit(slide.source);await tick();assert($('viewport').querySelector('.'+cls),'missing diagram '+id);assert(!$('diagnostics').classList.contains('has-warning'),id+': '+$('diagnostics').textContent);
+   if(id==='line')assert($('viewport').querySelectorAll('.plot-segment').length===4,'line edges');
+   if(id==='waterfall')assert($('viewport').textContent.includes('+30')&&$('viewport').textContent.includes('-15'),'signed labels');
+   if(id==='funnel')assert($('viewport').textContent.includes('20.0%'),'preceding conversion');
+   if(id==='cycle')assert([...$('viewport').querySelectorAll('.cycle-card')].map(n=>n.dataset.order).join(',')==='1,2,3,4','cycle order');
+   if(id==='swimlane')assert($('viewport').querySelectorAll('.handoff-end').length===3,'handoffs');
+   edit(slide.source+'\n## 余分な構成要素\n- 保持する');await tick();assert($('viewport').querySelector('.validation-source'),'error source '+id);assert($('viewport').textContent.includes('保持する'),'discarded source '+id);
+  }
+ });
+ await test('group3 upper element counts fit the fixed design canvas',async()=>{
+  const table=(id,headers,rows,meta='')=>'# T\n<!-- layout: '+id+' -->\n'+meta+'\n| '+headers.join(' | ')+' |\n| '+headers.map(()=>'---').join(' | ')+' |\n'+rows.map(row=>'| '+row.join(' | ')+' |').join('\n');
+  const cases={
+   bar:table('bar',['項目','値'],Array.from({length:7},(_,i)=>['項目'+i,String(i-3)]),'<!-- unit: 件 -->'),
+   line:table('line',['期間','値'],Array.from({length:8},(_,i)=>['期間'+i,String(i-4)]),'<!-- unit: 件 -->'),
+   waterfall:table('waterfall',['区分','項目','値'],[['start','起点','10'],...[1,2,3,4,5].map(i=>['delta','増分'+i,'1']),['end','終点','15']],'<!-- unit: 件 -->'),
+   composition:table('composition',['区分','割合'],[1,2,3,4,5].map(i=>['区分'+i,'20'])),
+   funnel:table('funnel',['段階','件数'],[100,80,60,40,20].map((v,i)=>['段階'+i,String(v)]),'<!-- unit: 件 -->\n<!-- cohort: 対象期間と母集団 -->'),
+   cycle:'# T\n<!-- layout: cycle -->\n<!-- center: 目的 -->\n'+[1,2,3,4].map(i=>'## 工程'+i+'\n説明').join('\n'),
+   'value-chain':'# T\n<!-- layout: value-chain -->\n## 主活動\n'+[1,2,3,4,5].map(i=>'- 活動'+i+': 説明').join('\n')+'\n## 支援活動\n- 共通基盤: 説明\n- 人材育成: 説明',
+   swimlane:table('swimlane',['担当','A','B','C','D','E'],[['部署1','作業1','-','-','作業4','-'],['部署2','-','作業2','-','-','作業5'],['部署3','-','-','作業3','-','-']]),
+   'risk-register':table('risk-register',['リスク','重大度','対応','責任者'],[1,2,3,4].map(i=>['リスク'+i,'中','対応','担当']),'判定基準を明記する。')
+  };
+  for(const [id,source] of Object.entries(cases)){edit(source);await tick();assert(!$('diagnostics').classList.contains('has-warning'),id+': '+$('diagnostics').textContent);}
+ });
+ await test('line gaps, zero bars and invalid chart sums are explicit',async()=>{
+  edit('# T\n<!-- layout: line -->\n<!-- unit: 件 -->\n| 期間 | 値 |\n| --- | --- |\n| A | 4 |\n| B | 欠測 |\n| C | 2 |\n| D | 0 |');await tick();assert($('viewport').querySelectorAll('.plot-segment').length===1,'missing gap');
+  edit('# T\n<!-- layout: bar -->\n<!-- unit: 件 -->\n| 項目 | 値 |\n| --- | --- |\n| A | 0 |\n| B | 0 |\n| C | 0 |');await tick();assert([...$('viewport').querySelectorAll('.bar-fill')].every(n=>n.style.width==='0%'),'zero bars');assert($('diagnostics').textContent.includes('すべて0'),'zero note');
+  const source=samples.find(s=>s.layout==='waterfall').source.replace('| 120 |','| 999 |');edit(source);await tick();assert($('viewport').querySelector('.validation-source').textContent===source,'bad sum fallback');
+ });
  await test('live update, long unbroken Japanese and Latin overflow',async()=>{for(const text of ['長い日本語'.repeat(400),'x'.repeat(2000)]){edit('# Overflow\n<!-- layout: pillars -->\n## A\n'+text+'\n## B\n短文\n## C\n短文');await tick();assert($('diagnostics').textContent.includes('表示領域を超え'),'measured overflow missing');assert($('viewport').textContent.includes(text),'text was discarded');}});
  await test('hostile HTML, scripts, URLs are inert text',async()=>{edit('# Safe\n> **強調**\n<img src="https://invalid.test/" onerror="window.pwned=1">\n<script>window.pwned=1</scr'+'ipt>\n[link](javascript:alert(1))');await tick();assert(!w.pwned,'script executed');assert(!$('viewport').querySelector('img,script,a,iframe'),'injected element');assert($('viewport').querySelector('strong').textContent==='強調','emphasis');assert($('viewport').textContent.includes('<img'),'HTML lost');});
  await test('invalid shape and unknown layout retain all content',async()=>{edit('# T\n<!-- layout: compare -->\n## A\n1\n## B\n2\n## C\n3');await tick();assert($('viewport').querySelectorAll('.column').length===3,'discarded section');assert($('diagnostics').textContent.includes('現在3個'),'shape warning');edit('# T\n<!-- layout: unknown -->\nPreserved');await tick();assert($('viewport').textContent.includes('Preserved'),'fallback');});
