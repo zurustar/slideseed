@@ -66,14 +66,16 @@ SlideSeedは、Markdown形式で記述したテキストを、コンサルティ
 
 リポジトリの [LICENSE](LICENSE) を参照してください。
 
-## 現在の実装：基本エンジン + 4パターン
+## 現在の実装：基本エンジン + 5パターン
 
 `index.html` をダウンロードしてChrome / Edgeで開いてください。単一ファイルで完全オフライン動作し、追加のインストールやビルドは不要です。
 
-対応パターンは `message`（キーメッセージ）、`compare`（左右比較）、`pillars`（3本柱）、`process`（3〜5工程のプロセスフロー）です。左でMarkdownを編集し、右でスライドを選択・確認できます。Markdownの読込・保存、全画面発表、ブラウザ印刷によるPDF出力、構造・文字量・はみ出し警告を備えています。サンプルは初期表示され、[samples/demo.md](samples/demo.md) にも収録しています。
+対応パターンは `message`（キーメッセージ）、`compare`（左右比較）、`pillars`（3本柱）、`process`（3〜5工程のプロセスフロー）、`matrix`（2×2マトリクス）です。左でMarkdownを編集し、右でスライドを選択・確認できます。Markdownの読込・保存、全画面発表、ブラウザ印刷によるPDF出力、構造・文字量・はみ出し警告を備えています。サンプルは初期表示され、[samples/demo.md](samples/demo.md) にも収録しています。
 
-これは4パターンの段階実装です。`matrix`、`problem-solution` は未実装であり、[要件定義](docs/requirements.md) の全6パターンのMVP完成とは区別します。
+これは5パターンの段階実装です。`problem-solution` は未実装であり、[要件定義](docs/requirements.md) の全6パターンのMVP完成とは区別します。
 
-記法の確定事項、実装済み・未実装の一覧、テスト手順と未確認事項は [実装記録](docs/implementation.md) を参照してください。開発用の解析テストは追加依存なしで `node --test tests/engine.test.cjs tests/process.test.cjs`、ブラウザ検証ページの生成は `node tests/browser.test.cjs` で実行できます（Node.jsは開発テストのみで使用し、利用者には不要です）。現環境ではブラウザ実機検証を完了できていないため、配布前に実装記録の手動確認を行ってください。
+記法の確定事項、実装済み・未実装の一覧、テスト手順と未確認事項は [実装記録](docs/implementation.md) を参照してください。開発用の解析テストは追加依存なしで `node --test tests/engine.test.cjs tests/process.test.cjs tests/matrix.test.cjs`、ブラウザ検証ページの生成は `node tests/browser.test.cjs` で実行できます（Node.jsは開発テストのみで使用し、利用者には不要です）。現環境ではブラウザ実機検証を完了できていないため、配布前に実装記録の手動確認を行ってください。
 
 プロセスフローは `<!-- layout: process -->` で指定します。各 `##` を工程、段落を説明、箇条書きを成果物として扱います。[入力例](samples/process.md)を参照してください。工程数が3〜5以外の場合は、誤った図解を避けるため入力確認表示に切り替えます。
+
+マトリクスは `<!-- layout: matrix -->` と横・縦それぞれの軸指定を使います。象限の順序は左上・右上・左下・右下です。[入力例](samples/matrix.md)を参照してください。軸の欠落・重複・不正、象限数の過不足がある場合は、内容を保持した入力確認表示に切り替えます。
