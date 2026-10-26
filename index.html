@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src 'none'; img-src 'none'; font-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>SlideSeed — 内容から、伝わる資料へ</title>
+<style>
+:root {
+  --accent:#CC0033;
+  --ink:#24272c;
+  --muted:#68717b;
+  --line:#dfe2e5;
+  --paper:#fff;
+  --wash:#f4f5f6;
+  font-family:'Meiryo UI','Meiryo','Yu Gothic',sans-serif;
+  color:var(--ink);
+  background:#fff}
+* {
+  box-sizing:border-box}
+body {
+  margin:0}
+button,textarea,input {
+  font:inherit}
+button {
+  cursor:pointer;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:5px;
+  padding:9px 14px;
+  color:var(--ink)}
+button:hover {
+  border-color:var(--accent);
+  color:var(--accent)}
+button:disabled {
+  opacity:.4;
+  cursor:default}
+button:focus-visible,a:focus-visible,summary:focus-visible {
+  outline:3px solid var(--accent);
+  outline-offset:3px}
+.primary {
+  background:var(--accent);
+  border-color:var(--accent);
+  color:white}
+.primary:hover {
+  background:#a8002a;
+  color:white}
+header.app-header {
+  height:76px;
+  padding:0 28px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-bottom:1px solid var(--line);
+  gap:20px}
+.brand {
+  font-size:24px;
+  letter-spacing:-1px;
+  font-weight:bold}
+.brand span {
+  color:var(--accent)}
+.tagline {
+  font-size:11px;
+  color:var(--muted);
+  letter-spacing:1px;
+  margin:4px 0 0}
+.toolbar {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap}
+.workspace {
+  display:grid;
+  grid-template-columns:minmax(300px,36%) minmax(0,1fr);
+  height:calc(100dvh - 76px)}
+.editor-pane {
+  display:flex;
+  flex-direction:column;
+  min-height:0;
+  border-right:1px solid var(--line)}
+.pane-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:17px 22px;
+  border-bottom:1px solid var(--line);
+  font-size:12px;
+  font-weight:bold;
+  letter-spacing:1px}
+.eyebrow {
+  color:var(--muted);
+  font-size:11px;
+  font-weight:normal;
+  letter-spacing:1px}
+textarea {
+  flex:1;
+  min-height:160px;
+  width:100%;
+  border:0;
+  resize:none;
+  padding:24px 22px;
+  outline:none;
+  font:13px/1.9 'Meiryo UI','Meiryo',monospace;
+  tab-size:2;
+  background:#fff;
+  color:var(--ink)}
+textarea:focus {
+  box-shadow:inset 3px 0 var(--accent)}
+.help {
+  border-top:1px solid var(--line);
+  padding:14px 22px;
+  font-size:12px;
+  max-height:36vh;
+  overflow:auto}
+.help summary {
+  cursor:pointer;
+  color:var(--muted)}
+.help p {
+  line-height:1.8}
+.help code {
+  background:var(--wash);
+  padding:2px 4px}
+.preview-pane {
+  background:var(--wash);
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  min-height:0}
+.preview-pane .pane-head {
+  background:#fff}
+.stage {
+  flex:1;
+  min-height:100px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:28px;
+  overflow:hidden}
+.slide-viewport {
+  position:relative;
+  flex:none;
+  background:white;
+  box-shadow:0 6px 28px #20283012}
+.slide {
+  width:1280px;
+  height:720px;
+  background:var(--paper);
+  position:relative;
+  padding:52px 64px 42px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  transform-origin:top left;
+  color:var(--ink);
+  line-break:strict;
+  word-break:normal;
+  overflow-wrap:anywhere}
+.slide-header {
+  flex:none}
+.slide-kicker {
+  font-size:13px;
+  letter-spacing:2px;
+  color:var(--accent);
+  font-weight:bold;
+  margin-bottom:16px}
+.slide h1 {
+  font-size:34px;
+  line-height:1.5;
+  margin:0;
+  font-weight:700;
+  letter-spacing:.02em}
+.title-rule {
+  width:48px;
+  height:4px;
+  background:var(--accent);
+  margin-top:20px}
+.slide-content {
+  flex:1;
+  min-height:0;
+  margin-top:32px;
+  position:relative;
+  overflow:hidden}
+.slide-footer {
+  display:flex;
+  justify-content:space-between;
+  border-top:1px solid var(--line);
+  padding-top:14px;
+  margin-top:20px;
+  font-size:12px;
+  letter-spacing:1px;
+  color:var(--muted);
+  flex:none}
+.slide p {
+  font-size:22px;
+  line-height:1.7;
+  margin:0 0 16px}
+.slide ul {
+  padding:0;
+  list-style:none;
+  margin:16px 0 0}
+.slide li {
+  font-size:22px;
+  line-height:1.65;
+  padding-left:19px;
+  position:relative;
+  margin-bottom:13px}
+.slide li:before {
+  content:'';
+  position:absolute;
+  left:0;
+  top:.7em;
+  width:5px;
+  height:5px;
+  background:var(--accent)}
+.slide strong {
+  font-weight:700;
+  color:var(--accent)}
+.slide h2 {
+  font-size:27px;
+  line-height:1.5;
+  margin:0 0 20px}
+.message-content {
+  display:flex;
+  flex-direction:column;
+  justify-content:center}
+.hero {
+  font-size:46px;
+  line-height:1.6;
+  font-weight:700;
+  letter-spacing:.02em;
+  border-left:5px solid var(--accent);
+  padding:0 0 0 30px;
+  margin:0 0 28px}
+.message-support {
+  padding-left:35px}
+.message-support h2 {
+  font-size:22px;
+  margin:16px 0 8px}
+.message-support p,.message-support li {
+  font-size:21px}
+.message-support ul {
+  display:flex;
+  gap:36px;
+  flex-wrap:wrap}
+.columns {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:40px;
+  min-height:0}
+.pillars .columns {
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:28px}
+.column {
+  min-width:0;
+  border-top:2px solid var(--line);
+  padding:22px 24px 10px;
+  background:#f8f9fa;
+  overflow:hidden}
+.compare .column:last-child {
+  border-color:var(--accent);
+  background:#fff5f7}
+.pillar-index {
+  color:var(--accent);
+  font-size:38px;
+  font-weight:bold;
+  line-height:1;
+  margin-bottom:22px;
+  letter-spacing:-1px}
+.pillars .column {
+  background:white;
+  border-top:3px solid var(--accent);
+  padding:22px 10px 8px}
+.pillars .column+.column {
+  border-left:1px solid var(--line);
+  padding-left:24px}
+.pillars .column p,.pillars .column li {
+  font-size:20px}
+.structured-content {
+  display:flex;
+  flex-direction:column;
+  gap:20px}
+.structured-content>.columns {
+  flex:1;
+  overflow:hidden}
+.takeaway {
+  font-size:24px;
+  line-height:1.6;
+  font-weight:bold;
+  border-left:4px solid var(--accent);
+  padding:10px 20px;
+  background:#f7f7f8;
+  flex:none}
+.intro p,.intro li {
+  font-size:20px}
+.intro h2 {
+  font-size:22px}
+.intro ul {
+  display:flex;
+  gap:24px;
+  flex-wrap:wrap}
+.navigation {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  gap:16px;
+  padding:10px 24px}
+.navigation select {
+  max-width:65%;
+  padding:8px;
+  background:white;
+  border:1px solid var(--line);
+  border-radius:4px;
+  color:var(--ink);
+  font:inherit;
+  font-size:12px}
+.diagnostics {
+  margin:4px 24px 20px;
+  padding:12px 15px;
+  border:1px solid var(--line);
+  background:white;
+  font-size:12px;
+  line-height:1.7;
+  max-height:140px;
+  overflow:auto}
+.diagnostics.has-warning {
+  border-left:3px solid var(--accent)}
+.diagnostics ul {
+  padding-left:20px;
+  margin:4px 0}
+.status {
+  font-size:12px;
+  color:var(--muted);
+  padding:0 24px 12px;
+  min-height:26px}
+.presentation-controls {
+  display:none}
+.presenting .app-header,.presenting .editor-pane,.presenting .preview-pane>.pane-head,.presenting .navigation,.presenting .diagnostics,.presenting .status {
+  display:none}
+.presenting .workspace {
+  display:block;
+  height:100dvh}
+.presenting .preview-pane {
+  height:100%}
+.presenting .stage {
+  height:100%;
+  padding:36px;
+  background:#181a1d}
+.presenting .presentation-controls {
+  display:flex;
+  position:fixed;
+  bottom:4px;
+  left:50%;
+  transform:translateX(-50%);
+  gap:8px;
+  align-items:center;
+  color:white;
+  font-size:12px}
+.presentation-controls button {
+  font-size:12px;
+  padding:5px 12px}
+.print-deck {
+  display:none}
+@media(max-width:850px) {
+  header.app-header {
+  height:auto;
+  min-height:76px;
+  padding:14px;
+  flex-wrap:wrap}
+.workspace {
+  height:auto;
+  min-height:calc(100dvh - 100px);
+  grid-template-columns:1fr}
+.editor-pane {
+  height:400px;
+  border-right:0}
+.preview-pane {
+  min-height:470px}
+.stage {
+  min-height:260px;
+  padding:16px}
+.toolbar button {
+  font-size:12px;
+  padding:8px}
+.tagline {
+  display:none}
+.presenting .workspace {
+  min-height:0}
+.presenting .stage {
+  min-height:0}
+.presenting .preview-pane {
+  min-height:0}
+}
+@page {
+  size:338.667mm 190.5mm;
+  margin:0}
+@media print {
+  body>* {
+  display:none!important}
+body>.print-deck {
+  display:block!important}
+.print-deck .slide {
+  width:1280px;
+  height:720px;
+  transform:none!important;
+  break-after:page;
+  page-break-after:always;
+  print-color-adjust:exact;
+  -webkit-print-color-adjust:exact}
+.print-deck .slide:last-child {
+  break-after:auto}
+}
+
+</style>
+</head>
+<body>
+<header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="sample">サンプル</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
+<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
+<div class="presentation-controls"><button id="present-prev" aria-label="前のスライド">←</button><span id="present-count"></span><button id="present-next" aria-label="次のスライド">→</button><button id="exit">終了 (Esc)</button></div><input id="file" type="file" accept=".md,.markdown,.txt,text/plain,text/markdown" hidden><div class="print-deck" id="print-deck" aria-hidden="true"></div>
+<script id="engine">
+'use strict';
+// Pure parsing and validation: no browser state and no HTML interpretation.
+function parseMarkdown(source){
+ return source.replace(/\r\n?/g,'\n').replace(/^\uFEFF/,'').split(/^\s*---[\t ]*$/m).map((chunk)=>{
+  const s={title:'',layout:'',sections:[],intro:[],quotes:[],warnings:[]};let target=s.intro;
+  for(const line of chunk.split('\n')){
+   if(!line.trim())continue;
+   let m;
+   if((m=line.match(/^\s*<!--\s*layout:\s*([\w-]+)\s*-->\s*$/))){if(s.layout)s.warnings.push('レイアウト指定が複数あります。最後の指定を使用します。');s.layout=m[1];}
+   else if((m=line.match(/^#\s+(.+)$/))){if(s.title){s.warnings.push('タイトルは1つにしてください。追加のタイトルは本文に表示します。');target.push({type:'p',text:line});}else s.title=m[1];}
+   else if((m=line.match(/^##\s+(.+)$/))){const section={heading:m[1],blocks:[]};s.sections.push(section);target=section.blocks;}
+   else if((m=line.match(/^>\s?(.*)$/)))s.quotes.push(m[1]);
+   else if((m=line.match(/^\s*-\s+(.+)$/)))target.push({type:'li',text:m[1]});
+   else target.push({type:'p',text:line});
+  }
+  if(!s.layout)s.layout=s.sections.length===2?'compare':s.sections.length===3?'pillars':'message';
+  if(!['message','compare','pillars'].includes(s.layout)){s.warnings.push('未対応のレイアウト「'+s.layout+'」です。messageで表示します。');s.layout='message';}
+  if(!s.title){s.title='無題のスライド';s.warnings.push('「# タイトル」を追加してください。');}
+  const expected={compare:2,pillars:3}[s.layout];
+  if(expected&&s.sections.length!==expected)s.warnings.push(s.layout+' は「## 見出し」を'+expected+'個にしてください（現在'+s.sections.length+'個）。内容は保持して表示します。');
+  if(s.title.length>36)s.warnings.push('タイトルは36字以内を推奨します。');
+  if(s.quotes.join(' ').length>60)s.warnings.push('キーメッセージは60字以内を推奨します。');
+  if(s.layout==='message'&&!s.quotes.length)s.warnings.push('「> キーメッセージ」を追加すると主張が明確になります。');
+  for(const section of s.sections){if(section.heading.length>16)s.warnings.push('見出しは16字以内を推奨します。');if(section.blocks.filter(b=>b.type==='li').length>3)s.warnings.push('各構成要素の箇条書きは3項目以内を推奨します。');}
+  if([...s.intro,...s.sections.flatMap(s=>s.blocks)].some(b=>b.text.length>50))s.warnings.push('本文・項目は各50字以内を推奨します。');
+  return s;
+ });
+}
+// Only text nodes and application-owned elements enter the DOM.
+function el(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;}
+function inline(node,text){text.split(/(\*\*[^*]+\*\*)/g).forEach(part=>{if(part.startsWith('**')&&part.endsWith('**')&&part.length>4)node.append(el('strong','',part.slice(2,-2)));else node.append(document.createTextNode(part));});return node;}
+function blocks(parent,items){let list=null;for(const item of items){if(item.type==='li'){if(!list){list=el('ul');parent.append(list);}list.append(inline(el('li'),item.text));}else{list=null;parent.append(inline(el('p'),item.text));}}}
+function message(s,content){content.classList.add('message-content');if(s.quotes.length)content.append(inline(el('div','hero'),s.quotes.join(' ')));const support=el('div','message-support');blocks(support,s.intro);for(const section of s.sections){support.append(inline(el('h2'),section.heading));blocks(support,section.blocks);}content.append(support);}
+function structured(s,content){content.classList.add('structured-content');if(s.intro.length){const intro=el('div','intro');blocks(intro,s.intro);content.append(intro);}const columns=el('div','columns');s.sections.forEach((section,i)=>{const col=el('section','column');if(s.layout==='pillars')col.append(el('div','pillar-index',String(i+1).padStart(2,'0')));col.append(inline(el('h2'),section.heading));blocks(col,section.blocks);columns.append(col);});content.append(columns);if(s.quotes.length)content.append(inline(el('div','takeaway'),s.quotes.join(' ')));}
+function renderSlide(s,index,total){const slide=el('article','slide '+s.layout);slide.setAttribute('aria-label',`${index+1} / ${total} ${s.title}`);const header=el('div','slide-header');header.append(el('div','slide-kicker',{message:'KEY MESSAGE',compare:'COMPARISON',pillars:'THREE PILLARS'}[s.layout]),inline(el('h1'),s.title),el('div','title-rule'));const content=el('div','slide-content');({message,compare:structured,pillars:structured}[s.layout])(s,content);const footer=el('div','slide-footer');footer.append(el('span','','SlideSeed'),el('span','',`${String(index+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`));slide.append(header,content,footer);return slide;}
+function overflowed(slide){return [slide,...slide.querySelectorAll('.slide-content,.column,.hero,.takeaway,.slide-header')].some(n=>n.scrollHeight>n.clientHeight+2||n.scrollWidth>n.clientWidth+2);}
+</script>
+<script id="app">
+'use strict';
+const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n";
+const $=id=>document.getElementById(id);
+let deck=[],current=0,presenting=false,revision=0,readSequence=0;
+function fit(){const stage=$('stage'),vp=$('viewport');const style=getComputedStyle(stage);const width=stage.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);const height=stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);const scale=Math.max(.01,Math.min(width/1280,height/720));vp.style.width=1280*scale+'px';vp.style.height=720*scale+'px';const slide=vp.firstElementChild;if(slide)slide.style.transform=`scale(${scale})`;}
+function show(){current=Math.max(0,Math.min(current,deck.length-1));const slide=renderSlide(deck[current],current,deck.length);$('viewport').replaceChildren(slide);$('slides').value=String(current);$('previous').disabled=$('present-prev').disabled=current===0;$('next').disabled=$('present-next').disabled=current===deck.length-1;$('layout-label').textContent=deck[current].layout.toUpperCase()+' · 16:9';$('present-count').textContent=`${current+1} / ${deck.length}`;fit();requestAnimationFrame(checkAll);}
+function checkAll(){const warnings=[];deck.forEach((s,i)=>{for(const w of s.warnings)warnings.push(`${i+1}枚目：${w}`);const slide=renderSlide(s,i,deck.length);slide.style.position='absolute';slide.style.visibility='hidden';document.body.append(slide);if(overflowed(slide))warnings.push(`${i+1}枚目：文字が表示領域を超えています。内容を分割・短縮してください（自動縮小・省略はしません）。`);slide.remove();});const box=$('diagnostics');box.classList.toggle('has-warning',warnings.length>0);box.replaceChildren(el('strong','',warnings.length?`要確認 · ${warnings.length}件`:'表示チェック OK'));if(warnings.length){const ul=el('ul');[...new Set(warnings)].forEach(w=>ul.append(el('li','',w)));box.append(ul);}else box.append(document.createTextNode(' — 全スライドに構造・はみ出しの警告はありません。'));}
+function update(){revision++;deck=parseMarkdown($('editor').value);$('slides').replaceChildren(...deck.map((s,i)=>{const o=el('option','',`${i+1} / ${deck.length}　${s.title}`);o.value=String(i);return o;}));show();}
+function move(delta){current+=delta;show();}
+function status(text){$('status').textContent=text;}
+async function start(){presenting=true;document.body.classList.add('presenting');show();try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();}catch{status('全画面APIが利用できないため、ウィンドウ内で発表します。Escで終了できます。');}fit();}
+function end(){presenting=false;document.body.classList.remove('presenting');if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});fit();$('present').focus();}
+$('editor').value=SAMPLE;$('editor').addEventListener('input',update);
+$('previous').onclick=$('present-prev').onclick=()=>move(-1);$('next').onclick=$('present-next').onclick=()=>move(1);$('slides').onchange=()=>{current=Number($('slides').value);show();};
+$('sample').onclick=()=>{if($('editor').value!==SAMPLE&&!confirm('編集中の内容をサンプルに置き換えます。必要なら先に保存してください。'))return;$('editor').value=SAMPLE;current=0;update();status('3パターンのサンプルを読み込みました。');};
+$('load').onclick=()=>{$('file').value='';$('file').click();};
+$('file').onchange=async()=>{const file=$('file').files[0];if(!file)return;const sequence=++readSequence;const before=revision;try{const text=await file.text();if(sequence!==readSequence)return;if((before!==revision||$('editor').value!==SAMPLE)&&!confirm('編集中の内容をファイルで置き換えます。必要ならキャンセルして保存してください。'))return;$('editor').value=text;current=0;update();status(file.name+' を読み込みました。');}catch{status('ファイルを読み込めませんでした。もう一度選択してください。');}};
+$('save').onclick=()=>{const blob=new Blob([$ ('editor').value],{type:'text/markdown;charset=utf-8'});const url=URL.createObjectURL(blob);const a=el('a');a.href=url;a.download='slideseed.md';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);status('Markdownの保存を開始しました。');};
+function preparePrint(){const root=$('print-deck');root.replaceChildren(...deck.map((s,i)=>renderSlide(s,i,deck.length)));}
+$('print').onclick=()=>{preparePrint();window.print();};window.addEventListener('beforeprint',preparePrint);
+$('present').onclick=start;$('exit').onclick=end;
+document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&presenting)end();else fit();});
+document.addEventListener('keydown',event=>{if(!presenting||event.ctrlKey||event.metaKey||event.altKey)return;const k=event.key;if(['ArrowRight','ArrowDown',' ','PageDown'].includes(k)){event.preventDefault();move(1);}else if(['ArrowLeft','ArrowUp','PageUp'].includes(k)){event.preventDefault();move(-1);}else if(k==='Home'){event.preventDefault();current=0;show();}else if(k==='End'){event.preventDefault();current=deck.length-1;show();}else if(k==='Escape'){event.preventDefault();end();}});
+new ResizeObserver(fit).observe($('stage'));window.addEventListener('resize',fit);document.fonts.ready.then(()=>{fit();checkAll();});update();
+</script>
+</body>
+</html>
