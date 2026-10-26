@@ -409,18 +409,33 @@ body>.print-deck {
   break-after:auto}
 }
 
+
+/* Ordered steps: number, description and deliverable have distinct roles. */
+.process-grid { display:grid; grid-template-columns:repeat(var(--step-count),minmax(0,1fr)); gap:28px; flex:1; min-height:0; }
+.process-step { position:relative; min-width:0; min-height:0; }
+.step-body { height:100%; overflow:hidden; border-top:2px solid var(--accent); padding-top:16px; }
+.step-index { font-size:28px; line-height:1; font-weight:bold; color:var(--accent); margin-bottom:10px; }
+.process h2 { font-size:22px; line-height:1.4; margin:0 0 12px; }
+.process .step-body p { font-size:18px; line-height:1.5; margin:0 0 6px; }
+.step-deliverable { margin-top:12px; padding-top:10px; border-top:1px solid var(--line); }
+.step-label { font-size:11px; letter-spacing:1px; color:var(--muted); margin-bottom:5px; }
+.step-link { position:absolute; left:-25px; top:18px; width:22px; font-size:22px; line-height:1; color:var(--muted); text-align:center; }
+.validation-content { display:flex; flex-direction:column; gap:16px; }
+.validation-note { font-size:20px; line-height:1.6; border-left:4px solid var(--accent); padding-left:16px; flex:none; }
+.validation-source { font:18px/1.7 'Meiryo UI','Meiryo',sans-serif; white-space:pre-wrap; overflow-wrap:anywhere; overflow:auto; min-height:0; margin:0; padding:16px; background:var(--wash); }
+
 </style>
 </head>
 <body>
 <header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="sample">サンプル</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
-<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
+<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
 <div class="presentation-controls"><button id="present-prev" aria-label="前のスライド">←</button><span id="present-count"></span><button id="present-next" aria-label="次のスライド">→</button><button id="exit">終了 (Esc)</button></div><input id="file" type="file" accept=".md,.markdown,.txt,text/plain,text/markdown" hidden><div class="print-deck" id="print-deck" aria-hidden="true"></div>
 <script id="engine">
 'use strict';
 // Pure parsing and validation: no browser state and no HTML interpretation.
 function parseMarkdown(source){
  return source.replace(/\r\n?/g,'\n').replace(/^\uFEFF/,'').split(/^\s*---[\t ]*$/m).map((chunk)=>{
-  const s={title:'',layout:'',sections:[],intro:[],quotes:[],warnings:[]};let target=s.intro;
+  const s={title:'',layout:'',sections:[],intro:[],quotes:[],warnings:[],source:chunk,invalid:false};let target=s.intro;
   for(const line of chunk.split('\n')){
    if(!line.trim())continue;
    let m;
@@ -432,7 +447,7 @@ function parseMarkdown(source){
    else target.push({type:'p',text:line});
   }
   if(!s.layout)s.layout=s.sections.length===2?'compare':s.sections.length===3?'pillars':'message';
-  if(!['message','compare','pillars'].includes(s.layout)){s.warnings.push('未対応のレイアウト「'+s.layout+'」です。messageで表示します。');s.layout='message';}
+  if(!['message','compare','pillars','process'].includes(s.layout)){s.warnings.push('未対応のレイアウト「'+s.layout+'」です。messageで表示します。');s.layout='message';}
   if(!s.title){s.title='無題のスライド';s.warnings.push('「# タイトル」を追加してください。');}
   const expected={compare:2,pillars:3}[s.layout];
   if(expected&&s.sections.length!==expected)s.warnings.push(s.layout+' は「## 見出し」を'+expected+'個にしてください（現在'+s.sections.length+'個）。内容は保持して表示します。');
@@ -441,8 +456,27 @@ function parseMarkdown(source){
   if(s.layout==='message'&&!s.quotes.length)s.warnings.push('「> キーメッセージ」を追加すると主張が明確になります。');
   for(const section of s.sections){if(section.heading.length>16)s.warnings.push('見出しは16字以内を推奨します。');if(section.blocks.filter(b=>b.type==='li').length>3)s.warnings.push('各構成要素の箇条書きは3項目以内を推奨します。');}
   if([...s.intro,...s.sections.flatMap(s=>s.blocks)].some(b=>b.text.length>50))s.warnings.push('本文・項目は各50字以内を推奨します。');
+  if(s.layout==='process')validateProcess(s);
   return s;
  });
+}
+// A count error changes the meaning of the diagram: retain the source instead.
+function validateProcess(s) {
+ const count = s.sections.length;
+ if (count < 3 || count > 5) {
+  s.invalid = true;
+  s.warnings.push('process は3〜5工程にしてください（現在' + count + '工程）。入力確認表示に切り替えます。');
+ }
+ for (const section of s.sections) {
+  const descriptions = section.blocks.filter(b => b.type === 'p');
+  const outputs = section.blocks.filter(b => b.type === 'li');
+  if (section.heading.length > 12) s.warnings.push('工程の見出しは12字以内を推奨します。');
+  if (descriptions.map(b => b.text).join(' ').length > 40) s.warnings.push('工程の説明は40字以内を推奨します。');
+  if (outputs.length !== 1) s.warnings.push('各工程の成果物は1項目を推奨します（入力内容はすべて保持します）。');
+  if (outputs.some(b => b.text.length > 30)) s.warnings.push('成果物は30字以内を推奨します。');
+  if (count === 5 && section.heading.length + section.blocks.reduce((n, b) => n + b.text.length, 0) > 60)
+   s.warnings.push('5工程では、各工程の見出し・説明・成果物の合計60字以内を推奨します。');
+ }
 }
 // Only text nodes and application-owned elements enter the DOM.
 function el(tag,className,text){const node=document.createElement(tag);if(className)node.className=className;if(text!==undefined)node.textContent=text;return node;}
@@ -450,12 +484,81 @@ function inline(node,text){text.split(/(\*\*[^*]+\*\*)/g).forEach(part=>{if(part
 function blocks(parent,items){let list=null;for(const item of items){if(item.type==='li'){if(!list){list=el('ul');parent.append(list);}list.append(inline(el('li'),item.text));}else{list=null;parent.append(inline(el('p'),item.text));}}}
 function message(s,content){content.classList.add('message-content');if(s.quotes.length)content.append(inline(el('div','hero'),s.quotes.join(' ')));const support=el('div','message-support');blocks(support,s.intro);for(const section of s.sections){support.append(inline(el('h2'),section.heading));blocks(support,section.blocks);}content.append(support);}
 function structured(s,content){content.classList.add('structured-content');if(s.intro.length){const intro=el('div','intro');blocks(intro,s.intro);content.append(intro);}const columns=el('div','columns');s.sections.forEach((section,i)=>{const col=el('section','column');if(s.layout==='pillars')col.append(el('div','pillar-index',String(i+1).padStart(2,'0')));col.append(inline(el('h2'),section.heading));blocks(col,section.blocks);columns.append(col);});content.append(columns);if(s.quotes.length)content.append(inline(el('div','takeaway'),s.quotes.join(' ')));}
-function renderSlide(s,index,total){const slide=el('article','slide '+s.layout);slide.setAttribute('aria-label',`${index+1} / ${total} ${s.title}`);const header=el('div','slide-header');header.append(el('div','slide-kicker',{message:'KEY MESSAGE',compare:'COMPARISON',pillars:'THREE PILLARS'}[s.layout]),inline(el('h1'),s.title),el('div','title-rule'));const content=el('div','slide-content');({message,compare:structured,pillars:structured}[s.layout])(s,content);const footer=el('div','slide-footer');footer.append(el('span','','SlideSeed'),el('span','',`${String(index+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`));slide.append(header,content,footer);return slide;}
-function overflowed(slide){return [slide,...slide.querySelectorAll('.slide-content,.column,.hero,.takeaway,.slide-header')].some(n=>n.scrollHeight>n.clientHeight+2||n.scrollWidth>n.clientWidth+2);}
+function addIntro(s, content) {
+ if (!s.intro.length) return;
+ const intro = el('div', 'intro');
+ blocks(intro, s.intro);
+ content.append(intro);
+}
+function addTakeaway(s, content) {
+ if (s.quotes.length) content.append(inline(el('div', 'takeaway'), s.quotes.join(' ')));
+}
+function validationSource(s, content) {
+ content.classList.add('validation-content');
+ content.append(el('div', 'validation-note', '入力を確認してください — 図解の構造が成立していません。エディタで修正してください。'));
+ const source = el('pre', 'validation-source', s.source);
+ source.tabIndex = 0;
+ source.setAttribute('aria-label', '保持した入力内容');
+ content.append(source);
+}
+function process(s, content) {
+ content.classList.add('structured-content');
+ addIntro(s, content);
+ const grid = el('div', 'process-grid');
+ grid.style.setProperty('--step-count', s.sections.length);
+ s.sections.forEach((section, index) => {
+  const step = el('section', 'process-step');
+  if (index) {
+   const link = el('span', 'step-link', '→');
+   link.setAttribute('aria-hidden', 'true');
+   step.append(link);
+  }
+  const body = el('div', 'step-body');
+  body.setAttribute('data-check-overflow', '');
+  body.append(el('div', 'step-index', String(index + 1).padStart(2, '0')), inline(el('h2'), section.heading));
+  const description = el('div', 'step-description');
+  blocks(description, section.blocks.filter(b => b.type === 'p'));
+  body.append(description);
+  const outputs = section.blocks.filter(b => b.type === 'li');
+  if (outputs.length) {
+   const deliverable = el('div', 'step-deliverable');
+   deliverable.append(el('div', 'step-label', '成果物'));
+   blocks(deliverable, outputs.map(b => ({type:'p', text:b.text})));
+   body.append(deliverable);
+  }
+  step.append(body);
+  grid.append(step);
+ });
+ content.append(grid);
+ addTakeaway(s, content);
+}
+const LAYOUTS = {
+ message: {label:'KEY MESSAGE', draw:message},
+ compare: {label:'COMPARISON', draw:structured},
+ pillars: {label:'THREE PILLARS', draw:structured},
+ process: {label:'PROCESS', draw:process}
+};
+function renderSlide(s, index, total) {
+ const slide = el('article', 'slide ' + s.layout);
+ slide.setAttribute('aria-label', `${index+1} / ${total} ${s.title}`);
+ const header = el('div', 'slide-header');
+ header.append(el('div', 'slide-kicker', LAYOUTS[s.layout].label), inline(el('h1'), s.title), el('div', 'title-rule'));
+ const content = el('div', 'slide-content');
+ (s.invalid ? validationSource : LAYOUTS[s.layout].draw)(s, content);
+ const footer = el('div', 'slide-footer');
+ footer.append(el('span', '', 'SlideSeed'), el('span', '', `${String(index+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`));
+ slide.append(header, content, footer);
+ return slide;
+}
+function overflowed(slide) {
+ return [slide, ...slide.querySelectorAll('.slide-content,.column,.hero,.takeaway,.slide-header,[data-check-overflow]')]
+  .some(n => n.scrollHeight > n.clientHeight + 2 || n.scrollWidth > n.clientWidth + 2);
+}
+
 </script>
 <script id="app">
 'use strict';
-const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n";
+const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n\n---\n\n# 小さく検証してから、全社へ展開する\n<!-- layout: process -->\n\n## 現状把握\n対象業務と制約を整理する。\n- 課題一覧\n\n## 小規模検証\n効果と運用負荷を確かめる。\n- 検証レポート\n\n## 全社展開\n標準手順に組み込む。\n- 運用ガイド\n\n> 各段階の成果物を、次の判断材料にする\n";
 const $=id=>document.getElementById(id);
 let deck=[],current=0,presenting=false,revision=0,readSequence=0;
 function fit(){const stage=$('stage'),vp=$('viewport');const style=getComputedStyle(stage);const width=stage.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);const height=stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);const scale=Math.max(.01,Math.min(width/1280,height/720));vp.style.width=1280*scale+'px';vp.style.height=720*scale+'px';const slide=vp.firstElementChild;if(slide)slide.style.transform=`scale(${scale})`;}
@@ -468,7 +571,7 @@ async function start(){presenting=true;document.body.classList.add('presenting')
 function end(){presenting=false;document.body.classList.remove('presenting');if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});fit();$('present').focus();}
 $('editor').value=SAMPLE;$('editor').addEventListener('input',update);
 $('previous').onclick=$('present-prev').onclick=()=>move(-1);$('next').onclick=$('present-next').onclick=()=>move(1);$('slides').onchange=()=>{current=Number($('slides').value);show();};
-$('sample').onclick=()=>{if($('editor').value!==SAMPLE&&!confirm('編集中の内容をサンプルに置き換えます。必要なら先に保存してください。'))return;$('editor').value=SAMPLE;current=0;update();status('3パターンのサンプルを読み込みました。');};
+$('sample').onclick=()=>{if($('editor').value!==SAMPLE&&!confirm('編集中の内容をサンプルに置き換えます。必要なら先に保存してください。'))return;$('editor').value=SAMPLE;current=0;update();status(deck.length+'パターンのサンプルを読み込みました。');};
 $('load').onclick=()=>{$('file').value='';$('file').click();};
 $('file').onchange=async()=>{const file=$('file').files[0];if(!file)return;const sequence=++readSequence;const before=revision;try{const text=await file.text();if(sequence!==readSequence)return;if((before!==revision||$('editor').value!==SAMPLE)&&!confirm('編集中の内容をファイルで置き換えます。必要ならキャンセルして保存してください。'))return;$('editor').value=text;current=0;update();status(file.name+' を読み込みました。');}catch{status('ファイルを読み込めませんでした。もう一度選択してください。');}};
 $('save').onclick=()=>{const blob=new Blob([$ ('editor').value],{type:'text/markdown;charset=utf-8'});const url=URL.createObjectURL(blob);const a=el('a');a.href=url;a.download='slideseed.md';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);status('Markdownの保存を開始しました。');};
