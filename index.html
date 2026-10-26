@@ -527,11 +527,97 @@ body>.print-deck {
 .action-details dt { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:4px; }
 .action-details dd { margin:0; font-size:20px; line-height:1.5; }
 
+/* Group 3: all chart positions are computed from validated numbers, never input CSS. */
+.chart-content { gap:14px; }
+.chart-meta { display:flex; justify-content:space-between; gap:24px; font-size:16px; line-height:1.5; flex:none; }
+.bar-rows { display:grid; grid-template-rows:repeat(var(--bar-count),minmax(0,1fr)); gap:4px; flex:1; min-height:0; }
+.bar-row { display:grid; grid-template-columns:256px minmax(0,1fr) 120px; gap:20px; align-items:center; min-height:0; overflow:hidden; }
+.bar-label { font-size:16px; line-height:1.4; }
+.bar-track { height:24px; position:relative; background:#f3f4f5; }
+.bar-zero { position:absolute; top:-6px; bottom:-6px; border-left:1px solid #555; }
+.bar-fill { position:absolute; top:0; bottom:0; background:#69727b; }
+.negative-bar { background:#a4abb2; border-top:2px solid #555; border-bottom:2px solid #555; }
+.highlighted-bar { background:var(--accent); }
+.bar-value { font-size:18px; line-height:1.4; text-align:right; font-variant-numeric:tabular-nums; overflow:hidden; }
+.bar-limits { display:flex; justify-content:space-between; padding-left:276px; padding-right:140px; font-size:12px; line-height:1.4; color:var(--muted); }
+.chart-surface { position:relative; width:1152px; height:254px; flex:none; }
+.plot-box { position:absolute; left:88px; top:28px; width:1032px; height:174px; }
+.plot-grid { position:absolute; left:0; right:0; border-top:1px solid #e3e6e9; }
+.plot-zero { border-color:#69727b; }
+.plot-ytick { position:absolute; left:-84px; top:0; width:76px; text-align:right; font-size:13px; line-height:1.3; transform:translateY(-50%); }
+.plot-xlabel { position:absolute; top:188px; width:120px; max-height:46px; overflow:hidden; transform:translateX(-50%); text-align:center; font-size:16px; line-height:1.35; }
+.plot-segment,.waterfall-connector,.composition-leader,.handoff-line { position:absolute; height:0; border-top:2px solid var(--accent); transform-origin:0 0; }
+.plot-dot { position:absolute; width:8px; height:8px; border-radius:50%; background:var(--accent); transform:translate(-50%,-50%); }
+.plot-value { position:absolute; width:112px; max-height:38px; overflow:hidden; transform:translate(-50%,calc(-100% - 8px)); text-align:center; font-size:14px; line-height:1.3; font-variant-numeric:tabular-nums; }
+.plot-missing { position:absolute; top:4px; transform:translateX(-50%); font-size:14px; color:var(--muted); }
+.waterfall-bar { position:absolute; width:48px; transform:translateX(-50%); }
+.waterfall-total { background:#59636c; }
+.waterfall-up { background:var(--accent); }
+.waterfall-down { background:#a4abb2; border-left:2px solid #59636c; border-right:2px solid #59636c; }
+.waterfall-connector { border-top:1px dashed #7c858e; }
+.composition-body { flex:1; min-height:0; display:flex; flex-direction:column; justify-content:center; }
+.composition-callouts { display:grid; grid-template-columns:repeat(var(--part-count),minmax(0,1fr)); text-align:center; font-size:16px; line-height:1.5; }
+.composition-leaders { position:relative; height:38px; flex:none; }
+.composition-leader { border-top:1px solid #69727b; }
+.composition-strip { display:flex; height:56px; background:#f5f6f7; position:relative; flex:none; }
+.composition-part { flex:none; border-right:1px solid white; }
+.part-0 { background:#CC0033; }.part-1 { background:#606b75; }.part-2 { background:#919aa3; }.part-3 { background:#bdc4cb; }.part-4 { background:#e0e4e8; border-top:1px solid #aeb5bc; border-bottom:1px solid #aeb5bc; }
+.composition-ends { display:flex; justify-content:space-between; font-size:13px; line-height:1.5; margin:8px 0 22px; }
+.composition-legend { display:grid; grid-template-columns:repeat(var(--part-count),minmax(0,1fr)); gap:24px; }
+.composition-item { min-width:0; overflow:hidden; border-top:1px solid var(--line); padding-top:10px; }
+.composition-index { font-size:12px; color:var(--muted); margin-bottom:8px; }
+.composition-item h2 { font-size:18px; line-height:1.5; margin:0 0 8px; }
+.composition-value { font-size:28px; line-height:1.4; font-variant-numeric:tabular-nums; }
+.funnel-rows { display:grid; grid-template-rows:repeat(var(--funnel-count),minmax(0,1fr)); gap:8px; flex:1; min-height:0; }
+.funnel-row { display:grid; grid-template-columns:200px minmax(0,1fr) 100px 168px; align-items:center; gap:16px; min-height:0; overflow:hidden; }
+.funnel-label,.funnel-value { font-size:18px; line-height:1.4; overflow:hidden; }
+.funnel-value { text-align:right; }
+.funnel-track { height:28px; border-left:1px solid #59636c; background:#f3f4f5; }
+.funnel-fill { height:100%; background:var(--accent); }
+.funnel-rate { font-size:16px; line-height:1.4; text-align:right; }
+.cycle-diagram { display:grid; grid-template-columns:minmax(0,1fr) 260px minmax(0,1fr); grid-template-rows:minmax(0,1fr) 104px minmax(0,1fr); gap:12px 24px; flex:1; min-height:0; }
+.cycle-card { background:#fafafa; border-top:2px solid var(--accent); padding:12px; min-height:0; overflow:hidden; }
+.cycle-card h2 { display:flex; justify-content:space-between; align-items:baseline; gap:8px; font-size:20px; line-height:1.4; margin:0 0 8px; }
+.cycle-number { font-size:12px; color:var(--muted); }
+.cycle-card p,.cycle-card li { font-size:18px; line-height:1.4; margin:0 0 6px; }
+.cycle-card ul { margin:0; }
+.cycle-arrow { display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--accent); }
+.cycle-center { grid-column:2; grid-row:2; align-self:center; text-align:center; padding:8px 12px; font-size:20px; line-height:1.4; max-height:104px; overflow:hidden; }
+.cycle-center-label { color:var(--muted); font-size:12px; line-height:1.5; margin-bottom:6px; }
+.value-body { display:flex; flex-direction:column; flex:1; min-height:0; gap:16px; }
+.value-primary { display:flex; flex-direction:column; min-height:0; flex:1; }
+.value-group-label { font-size:12px; line-height:1.5; color:var(--muted); margin-bottom:8px; }
+.value-main { display:grid; grid-template-columns:repeat(var(--activity-count),minmax(0,1fr)); gap:20px; min-height:0; flex:1; }
+.value-slot { position:relative; min-width:0; min-height:0; }
+.value-card { border-top:3px solid var(--accent); background:#fafafa; padding:12px; height:100%; overflow:hidden; }
+.value-card h2 { font-size:20px; line-height:1.4; margin:0 0 12px; }
+.value-card p { font-size:18px; line-height:1.5; margin:0; }
+.value-link { position:absolute; left:-18px; top:30px; font-size:18px; color:var(--muted); }
+.value-supports { flex:none; }
+.support-band { display:grid; grid-template-columns:240px minmax(0,1fr); gap:20px; padding:10px 12px; background:#f3f4f5; margin-top:8px; overflow:hidden; }
+.support-band h2,.support-band p { font-size:18px; line-height:1.4; margin:0; }
+.swimlane-semantic-row { display:contents; }
+.swimlane-grid { position:relative; display:grid; grid-template-columns:180px repeat(var(--lane-columns),minmax(0,1fr)); grid-template-rows:48px repeat(var(--lane-rows),minmax(0,1fr)); width:1152px; height:280px; flex:none; }
+.swimlane-header,.swimlane-name { font-size:16px; line-height:1.4; display:flex; align-items:center; padding:8px 12px; min-height:0; min-width:0; overflow:hidden; border-bottom:1px solid var(--line); }
+.swimlane-header { justify-content:center; background:#f5f6f7; }
+.swimlane-name { font-weight:bold; }
+.swimlane-cell { display:flex; align-items:center; justify-content:center; min-width:0; min-height:0; border-bottom:1px solid var(--line); }
+.swimlane-card { margin:6px 16px; padding:8px; width:calc(100% - 32px); max-height:calc(100% - 12px); font-size:16px; line-height:1.4; border:1px solid #cfd4d9; border-left:3px solid var(--accent); background:white; overflow:hidden; }
+.swimlane-idle { color:#8a929a; }
+.swimlane-links { position:absolute; inset:0; pointer-events:none; }
+.handoff-line { border-top:1px solid #59636c; }
+.handoff-end::after { content:''; position:absolute; right:0; top:-4px; width:6px; height:6px; border-top:1px solid #59636c; border-right:1px solid #59636c; transform:rotate(45deg); }
+.risk-table { height:auto; }
+.risk-table thead th:nth-child(1) { width:30%; }.risk-table thead th:nth-child(2) { width:10%; }.risk-table thead th:nth-child(3) { width:40%; }.risk-table thead th:nth-child(4) { width:20%; }
+.risk-table tbody th,.risk-table tbody td { font-size:16px; line-height:1.4; padding:6px 12px; }
+.risk-row { height:52px; }
+.risk-high { border-left:4px solid var(--accent); font-weight:bold; }.risk-medium { border-left:3px solid #7b848d; }.risk-low { border-left:1px solid #aeb5bc; }
+
 </style>
 </head>
 <body>
 <header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="sample">サンプル</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
-<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p><p><strong>第2群：説明と意思決定</strong></p><p><code>logic-tree</code>：<code>&lt;!-- root: 論点 --&gt;</code>、見出し2〜3個、各子1〜2件。ルートを含め10ノードまで。<code>pyramid</code>：<code>&gt;</code> を結論、見出し2〜3個を根拠にします。</p><p><code>roadmap</code>：先頭列「施策」の表で、期間3〜6列・施策3〜5行。「実施」を連続させ、「-」で非実施を明示。<code>evaluation</code>：先頭列「判断基準」、案2〜4列・基準3〜5行。各セルは「○ 根拠」など、または「未評価」。<code>&lt;!-- recommend: 案B --&gt;</code> で推奨案を指定できます。表は外側の | と --- の区切り行が必須。セル内の | は \| と記述します。</p><p><code>kpi</code>：<code>&lt;!-- period: 対象期間 --&gt;</code> と指標3〜4個。各見出しの下に <code>- actual:</code>、<code>- target:</code>、<code>- unit:</code> を指定。数値はカンマや指数を含まない十進数。<code>recommendation</code>：<code>&gt;</code> を提言とし、「判断理由」に2〜3項目、「次のアクション」に <code>- action:</code>、<code>- owner:</code>、<code>- due:</code> を指定します。</p><p>新規6種は必ず <code>&lt;!-- layout: ID --&gt;</code> で明示指定してください。初期サンプルには全12種を含みます。要素数や必須入力の不備は原文付きの入力確認表示になります。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
+<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p><p><strong>第2群：説明と意思決定</strong></p><p><code>logic-tree</code>：<code>&lt;!-- root: 論点 --&gt;</code>、見出し2〜3個、各子1〜2件。ルートを含め10ノードまで。<code>pyramid</code>：<code>&gt;</code> を結論、見出し2〜3個を根拠にします。</p><p><code>roadmap</code>：先頭列「施策」の表で、期間3〜6列・施策3〜5行。「実施」を連続させ、「-」で非実施を明示。<code>evaluation</code>：先頭列「判断基準」、案2〜4列・基準3〜5行。各セルは「○ 根拠」など、または「未評価」。<code>&lt;!-- recommend: 案B --&gt;</code> で推奨案を指定できます。表は外側の | と --- の区切り行が必須。セル内の | は \| と記述します。</p><p><code>kpi</code>：<code>&lt;!-- period: 対象期間 --&gt;</code> と指標3〜4個。各見出しの下に <code>- actual:</code>、<code>- target:</code>、<code>- unit:</code> を指定。数値はカンマや指数を含まない十進数。<code>recommendation</code>：<code>&gt;</code> を提言とし、「判断理由」に2〜3項目、「次のアクション」に <code>- action:</code>、<code>- owner:</code>、<code>- due:</code> を指定します。</p><p>新規6種は必ず <code>&lt;!-- layout: ID --&gt;</code> で明示指定してください。初期サンプルには全21種を含みます。要素数や必須入力の不備は原文付きの入力確認表示になります。</p><p><strong>第3群：数値と実行管理</strong></p><p><code>bar</code> は「項目 / 値」、<code>line</code> は「期間 / 値」、<code>waterfall</code> は「区分 / 項目 / 値」の表と <code>&lt;!-- unit: 単位 --&gt;</code>。棒は3〜7件、折れ線は4〜8時点（欠測は「欠測」）、増減は start → delta（2〜5件）→ end。数値は有限の十進数で、合計不整合は図にしません。</p><p><code>composition</code> は「区分 / 割合」の表で3〜5件、合計100%（±0.1ポイント）。%記号は付けません。<code>funnel</code> は「段階 / 件数」の表で3〜5段階、単位と <code>&lt;!-- cohort: 期間と母集団 --&gt;</code> が必須。非負整数の件数を減少順で記述します。</p><p><code>cycle</code> は <code>&lt;!-- center: 循環の目的 --&gt;</code> と見出し4個（左上→右上→右下→左下）。<code>value-chain</code> は「主活動」「支援活動」の見出しの下に「- 活動名: 説明」を記述し、主活動3〜5件・支援1〜2件。</p><p><code>swimlane</code> は先頭列「担当」の表で2〜3主体×3〜5工程。各列の主担当を1つとし、非担当は「-」。<code>risk-register</code> は「リスク / 重大度 / 対応 / 責任者」の表で3〜4件、重大度は高/中/低。判定基準を段落で添えます。新しい9種もレイアウトは明示指定し、初期サンプルには全21種を含みます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
 <div class="presentation-controls"><button id="present-prev" aria-label="前のスライド">←</button><span id="present-count"></span><button id="present-next" aria-label="次のスライド">→</button><button id="exit">終了 (Esc)</button></div><input id="file" type="file" accept=".md,.markdown,.txt,text/plain,text/markdown" hidden><div class="print-deck" id="print-deck" aria-hidden="true"></div>
 <script id="engine">
 'use strict';
@@ -550,21 +636,21 @@ function parseMarkdown(source){
    else target.push({type:'p',text:line});
   }
   if(!s.layout)s.layout=s.sections.length===2?'compare':s.sections.length===3?'pillars':'message';
-  if(!['message','compare','pillars','process','matrix','problem-solution','logic-tree','pyramid','roadmap','evaluation','kpi','recommendation'].includes(s.layout)){s.warnings.push('未対応のレイアウト「'+s.layout+'」です。messageで表示します。');s.layout='message';}
+  if(!['message','compare','pillars','process','matrix','problem-solution','logic-tree','pyramid','roadmap','evaluation','kpi','recommendation','bar','line','waterfall','composition','funnel','cycle','value-chain','swimlane','risk-register'].includes(s.layout)){s.warnings.push('未対応のレイアウト「'+s.layout+'」です。messageで表示します。');s.layout='message';}
   if(!s.title){s.title='無題のスライド';s.warnings.push('「# タイトル」を追加してください。');}
   const expected={compare:2,pillars:3}[s.layout];
   if(expected&&s.sections.length!==expected)s.warnings.push(s.layout+' は「## 見出し」を'+expected+'個にしてください（現在'+s.sections.length+'個）。内容は保持して表示します。');
   if(s.title.length>36)s.warnings.push('タイトルは36字以内を推奨します。');
   if(s.quotes.join(' ').length>60)s.warnings.push('キーメッセージは60字以内を推奨します。');
   if(s.layout==='message'&&!s.quotes.length)s.warnings.push('「> キーメッセージ」を追加すると主張が明確になります。');
-  if (!['logic-tree','pyramid','roadmap','evaluation','kpi','recommendation'].includes(s.layout)) {
+  if (!['logic-tree','pyramid','roadmap','evaluation','kpi','recommendation','bar','line','waterfall','composition','funnel','cycle','value-chain','swimlane','risk-register'].includes(s.layout)) {
   for(const section of s.sections){if(section.heading.length>16)s.warnings.push('見出しは16字以内を推奨します。');if(section.blocks.filter(b=>b.type==='li').length>3)s.warnings.push('各構成要素の箇条書きは3項目以内を推奨します。');}
   if([...s.intro,...s.sections.flatMap(s=>s.blocks)].some(b=>b.text.length>50))s.warnings.push('本文・項目は各50字以内を推奨します。');
   }
   if(s.layout==='process')validateProcess(s);
   if(s.layout==='matrix')validateMatrix(s);
   if(s.layout==='problem-solution')validateProblemSolution(s);
-  const extraValidators = {'logic-tree':validateLogicTree,pyramid:validatePyramid,roadmap:validateRoadmap,evaluation:validateEvaluation,kpi:validateKpi,recommendation:validateRecommendation};
+  const extraValidators = {'logic-tree':validateLogicTree,pyramid:validatePyramid,roadmap:validateRoadmap,evaluation:validateEvaluation,kpi:validateKpi,recommendation:validateRecommendation,bar:validateBar,line:validateLine,waterfall:validateWaterfall,composition:validateComposition,funnel:validateFunnel,cycle:validateCycle,'value-chain':validateValueChain,swimlane:validateSwimlane,'risk-register':validateRiskRegister};
   if (Object.hasOwn(extraValidators, s.layout)) { extraValidators[s.layout](s); s.intro.forEach(b => textBudget(s, b.text, 50, '補足本文')); }
   return s;
  });
@@ -705,7 +791,7 @@ function tableCells(line) {
  result.push(cell.trim());
  return result;
 }
-function readTable(s) {
+function readTable(s, rowKey = 0) {
  if (s.sections.length) inputError(s, s.layout + ' は見出しを含まない1つの表で指定してください。');
  const lines = [], prose = []; let started = false, ended = false;
  for (const block of s.intro) {
@@ -724,7 +810,7 @@ function readTable(s) {
  if (!rows[1].every(cell => /^:?-{3,}:?$/.test(cell))) inputError(s, '表の区切り行は各列 --- で指定してください。');
  const data = rows.slice(2);
  if (data.some(row => row.some(cell => !cell))) inputError(s, '表に空のセルがあります。値を明示してください。');
- if (new Set(data.map(row => row[0])).size !== data.length) inputError(s, '表の行名が重複しています。');
+ if (new Set(data.map(row => row[rowKey])).size !== data.length) inputError(s, '表の行名が重複しています。');
  return {header, rows:data};
 }
 function validateLogicTree(s) {
@@ -823,6 +909,180 @@ function validateRecommendation(s) {
  textBudget(s, s.action.fields.action || '', 40, '実行内容');
  textBudget(s, s.action.fields.owner || '', 20, '担当');
  textBudget(s, s.action.fields.due || '', 20, '期限');
+}
+
+// Shared chart arithmetic. Scaling first avoids overflow for opposite large signs.
+function chartAxis(values) {
+ const min = Math.min(0, ...values), observedMax = Math.max(0, ...values);
+ const max = min === observedMax ? 1 : observedMax;
+ const scale = Math.max(Math.abs(min), Math.abs(max));
+ const low = min / scale, span = max / scale - low;
+ return {min, max, zero:(-low / span) * 100,
+  position:value => Math.max(0, Math.min(100, (value / scale - low) / span * 100))};
+}
+function compensatedSum(values) {
+ let sum = 0, correction = 0;
+ for (const value of values) {
+  const next = sum + value;
+  if (!Number.isFinite(next)) return NaN;
+  correction += Math.abs(sum) >= Math.abs(value) ? (sum-next)+value : (value-next)+sum;
+  sum = next;
+  if (!Number.isFinite(correction)) return NaN;
+ }
+ const result = sum + correction;
+ return Number.isFinite(result) ? result : NaN;
+}
+
+function nearlyEqual(a, b) {
+ if (a === b) return true;
+ const scale = Math.max(Math.abs(a), Math.abs(b));
+ return Math.abs(a-b) <= 1e-12 || (scale > 0 && Math.abs(a/scale-b/scale) <= 1e-10);
+}
+function waterfallModel(rows) {
+ let running = rows[0].value;
+ const steps = [{...rows[0], from:0, to:running, result:running}];
+ const terms = [running];
+ for (const row of rows.slice(1, -1)) {
+  const before = running; terms.push(row.value); running = compensatedSum(terms);
+  if (!Number.isFinite(running)) return null;
+  steps.push({...row, from:before, to:running, result:running});
+ }
+ const last = rows[rows.length-1];
+ steps.push({...last, from:0, to:last.value, result:last.value});
+ return {steps, calculated:running, matches:nearlyEqual(running, last.value)};
+}
+function chartNumber(s, raw) {
+ if (!decimalValue(raw)) { inputError(s, '数値は有限の十進数で指定してください（指数・単位・カンマは不可）。'); return null; }
+ const value = Number(raw);
+ if (value === 0 && /[1-9]/.test(raw)) { inputError(s, '数値が小さすぎて表示精度を保てません。単位を見直してください。'); return null; }
+ textBudget(s, raw, 12, '数値の表示');
+ if (raw.replace(/[+.-]/g, '').replace(/^0+/, '').length > 15) s.warnings.push('数値の有効桁が多いため、図形の座標には浮動小数点の近似を使用します。表示値は保持します。');
+ return value;
+}
+function expectHeaders(s, table, headers) {
+ if (table.header.length !== headers.length || table.header.some((text, i) => text !== headers[i])) inputError(s, '表の列名・列順は「' + headers.join(' / ') + '」で指定してください。');
+}
+function readNumericPairs(s, headers, min, max, labelMax, allowMissing = false) {
+ s.unit = takeDirective(s, 'unit'); textBudget(s, s.unit, 8, '単位');
+ const table = readTable(s); if (!table) return false;
+ expectHeaders(s, table, headers); countBetween(s, table.rows.length, min, max, 'データ行');
+ const names = table.rows.map(row => row[0].replace(/\*\*([^*]+)\*\*/g, '$1'));
+ if (new Set(names).size !== names.length) inputError(s, '表示上の項目名が重複しています。');
+ s.series = table.rows.map(row => {
+  textBudget(s, names[table.rows.indexOf(row)], labelMax, '項目名');
+  const raw = row[1] || '', missing = allowMissing && raw === '欠測';
+  return {label:row[0], raw, value:missing ? null : chartNumber(s, raw), missing};
+ });
+ return !s.invalid;
+}
+function axisDiagnostics(s, values) {
+ s.axis = chartAxis(values);
+ if (values.length && values.every(value => value === 0)) s.warnings.push('すべて0です。軸上限1は表示用です。');
+ if (values.some(value => value !== 0 && Math.abs(s.axis.position(value)-s.axis.zero) < 0.2)) s.warnings.push('桁差が大きいため、一部の図形は非常に小さくなります。入力値はラベルで確認してください。');
+}
+function validateBar(s) {
+ if (!readNumericPairs(s, ['項目','値'], 3, 7, 16)) return;
+ if (s.series.filter(row => /^\*\*[^*]+\*\*$/.test(row.label)).length > 1) inputError(s, '棒の強調は項目名全体の **...** を1件までにしてください。');
+ axisDiagnostics(s, s.series.map(row => row.value));
+}
+function validateLine(s) {
+ if (!readNumericPairs(s, ['期間','値'], 4, 8, 8, true)) return;
+ const values = s.series.filter(row => !row.missing).map(row => row.value);
+ axisDiagnostics(s, values);
+ if (!values.length) s.warnings.push('すべて欠測です。数量の軸・点・線は表示しません。');
+}
+function validateWaterfall(s) {
+ s.unit = takeDirective(s, 'unit'); textBudget(s, s.unit, 8, '単位');
+ const table = readTable(s, 1); if (!table) return;
+ expectHeaders(s, table, ['区分','項目','値']); countBetween(s, table.rows.length, 4, 7, '起点・増減・終点');
+ const rows = table.rows.map(row => ({kind:row[0], label:row[1] || '', raw:row[2] || '', value:chartNumber(s, row[2] || '')}));
+ rows.forEach((row, i) => {
+  const expected = i === 0 ? 'start' : i === rows.length-1 ? 'end' : 'delta';
+  if (row.kind !== expected) inputError(s, 'waterfall は start → delta（2〜5件）→ end の順にしてください。');
+  textBudget(s, row.label, 12, '項目名');
+ });
+ if (s.invalid) return;
+ const model = waterfallModel(rows);
+ if (!model) { inputError(s, '累積値が数値の表示範囲を超えました。単位を見直してください。'); return; }
+ s.waterfall = model;
+ if (!model.matches) inputError(s, '起点と増減の合計が終点に一致しません（計算値：' + model.calculated + '）。');
+ axisDiagnostics(s, model.steps.flatMap(step => [step.from, step.to]));
+}
+function validateComposition(s) {
+ const table = readTable(s); if (!table) return;
+ expectHeaders(s, table, ['区分','割合']); countBetween(s, table.rows.length, 3, 5, '構成要素');
+ s.parts = table.rows.map(row => {
+  textBudget(s, row[0], 12, '区分名'); const raw = row[1] || '', value = chartNumber(s, raw);
+  if (value !== null && (value < 0 || value > 100)) inputError(s, '割合は0〜100の数値で指定してください。');
+  return {label:row[0], raw, value};
+ });
+ if (s.invalid) return;
+ s.total = compensatedSum(s.parts.map(part => part.value));
+ if (Math.abs(s.total-100) > 0.1 + 1e-9) inputError(s, '構成比の合計は100%（許容誤差±0.1ポイント）にしてください。自動補正はしません。');
+}
+function validateFunnel(s) {
+ s.cohort = takeDirective(s, 'cohort'); textBudget(s, s.cohort, 50, '母集団・期間');
+ if (!readNumericPairs(s, ['段階','件数'], 3, 5, 12)) return;
+ s.series.forEach((row, i) => {
+  if (!Number.isSafeInteger(row.value) || row.value < 0) inputError(s, '件数は0以上の安全な整数（最大9007199254740991）にしてください。');
+  if (i && row.value > s.series[i-1].value) inputError(s, '後段の件数が前段を上回っています。同じ母集団を確認してください。');
+  row.rate = i === 0 || s.series[i-1].value === 0 ? null : row.value / s.series[i-1].value * 100;
+ });
+ if (s.series.every(row => row.value === 0)) s.warnings.push('すべて0です。棒の長さは0、転換率は算出不可です。');
+}
+function validateCycle(s) {
+ s.center = takeDirective(s, 'center'); textBudget(s, s.center, 20, '循環の目的');
+ if (s.sections.length !== 4) inputError(s, 'cycle は4工程（左上→右上→右下→左下）にしてください。');
+ s.sections.forEach(section => {
+  textBudget(s, section.heading, 10, '工程名');
+  textBudget(s, section.blocks.map(b => b.text).join(' '), 30, '工程の説明');
+  if (section.blocks.some(b => b.type !== 'p')) s.warnings.push('cycle の説明は段落を推奨します（入力内容は保持します）。');
+ });
+}
+function validateValueChain(s) {
+ const primary = s.sections.filter(section => section.heading === '主活動');
+ const support = s.sections.filter(section => section.heading === '支援活動');
+ if (s.sections.length !== 2 || primary.length !== 1 || support.length !== 1) { inputError(s, '「主活動」と「支援活動」の見出しを各1つ指定してください。'); return; }
+ function activities(section, min, max) {
+  countBetween(s, section.blocks.length, min, max, section.heading);
+  const rows = section.blocks.map(block => {
+   const match = block.type === 'li' && block.text.match(/^([^:：]+)[:：]\s*(.*)$/);
+   if (!match || !match[1].trim() || !match[2].trim()) { inputError(s, '活動は「- 活動名: 説明」で指定してください。'); return {name:'', description:''}; }
+   const row = {name:match[1].trim(), description:match[2].trim()};
+   textBudget(s, row.name, 12, '活動名'); textBudget(s, row.description, 24, '活動の説明'); return row;
+  });
+  if (new Set(rows.map(row => row.name)).size !== rows.length) inputError(s, section.heading + 'の活動名が重複しています。');
+  return rows;
+ }
+ s.primaryActivities = activities(primary[0], 3, 5); s.supportActivities = activities(support[0], 1, 2);
+}
+function validateSwimlane(s) {
+ const table = readTable(s); if (!table) return;
+ s.table = table;
+ if (table.header[0] !== '担当') inputError(s, 'スイムレーンの先頭列名は「担当」にしてください。');
+ countBetween(s, table.header.length-1, 3, 5, '工程'); countBetween(s, table.rows.length, 2, 3, '担当主体');
+ table.header.slice(1).forEach(text => textBudget(s, text, 10, '工程名'));
+ table.rows.forEach(row => { textBudget(s, row[0], 10, '担当名'); row.slice(1).forEach(text => textBudget(s, text, 16, 'セル文言')); });
+ s.owners = table.header.slice(1).map((_, column) => {
+  const owners = table.rows.map((row, i) => row[column+1] !== '-' ? i : -1).filter(i => i >= 0);
+  if (owners.length !== 1) inputError(s, '工程「' + table.header[column+1] + '」の主担当は1つだけ指定してください（欠落と「-」は区別）。');
+  return owners[0];
+ });
+ s.handoffs = [];
+ for (let i = 1; i < s.owners.length; i++) if (s.owners[i-1] !== s.owners[i]) s.handoffs.push({column:i, from:s.owners[i-1], to:s.owners[i]});
+}
+function validateRiskRegister(s) {
+ const table = readTable(s); if (!table) return;
+ s.table = table; expectHeaders(s, table, ['リスク','重大度','対応','責任者']); countBetween(s, table.rows.length, 3, 4, 'リスク');
+ if (!s.intro.some(block => block.type === 'p')) inputError(s, '重大度の判定基準を補足段落に記述してください。');
+ if (s.intro.length > 1) s.warnings.push('重大度の判定基準は1段落を推奨します（内容は保持します）。');
+ table.rows.forEach(row => {
+  if (!['高','中','低'].includes(row[1])) inputError(s, '重大度は「高」「中」「低」で指定してください。');
+  textBudget(s, row[0], 24, 'リスク'); textBudget(s, row[2] || '', 30, '対応'); textBudget(s, row[3] || '', 12, '責任者');
+  if (['未割当','未定'].includes(row[3])) s.warnings.push('責任者が未割当・未定です。具体的な担当を指定してください。');
+  if (row[2] === '未定') s.warnings.push('リスク対応が未定です。具体的な対応を指定してください。');
+  if (row[2] === '-' || row[3] === '-') inputError(s, '対応と責任者は「-」で省略せず、具体的な内容を指定してください。');
+ });
 }
 
 // Only text nodes and application-owned elements enter the DOM.
@@ -1069,6 +1329,162 @@ function recommendation(s, content) {
  action.append(list); columns.append(reasons, action); content.append(columns);
 }
 
+function chartBegin(s, content, extra = '') {
+ content.classList.add('structured-content', 'chart-content'); addIntro(s, content);
+ const meta = el('div', 'chart-meta');
+ if (s.unit) meta.append(inline(el('span'), '単位：' + s.unit));
+ if (extra) meta.append(inline(el('span'), extra));
+ if (meta.children.length) content.append(meta);
+}
+function axisLabel(value) { return Number(value.toPrecision(4)).toString(); }
+function numericText(s) {
+ if (s.warnings.some(text => text.startsWith('すべて欠測'))) return '全数欠測。数量の軸・点・線は表示していません。';
+ return s.warnings.some(text => text.startsWith('すべて0')) ? 'すべて0です。軸上限1は表示用です。' : 'ゼロ基準。値は入力順・入力表記のまま表示します。';
+}
+function bar(s, content) {
+ chartBegin(s, content);
+ const rows = el('div', 'bar-rows'); rows.style.setProperty('--bar-count', s.series.length);
+ const axis = s.axis;
+ s.series.forEach(point => {
+  const row = checked('div', 'bar-row'); row.append(inline(el('div', 'bar-label'), point.label));
+  const track = el('div', 'bar-track');
+  const zero = el('div', 'bar-zero'); zero.style.left = axis.zero + '%'; track.append(zero);
+  const end = axis.position(point.value), fill = el('div', 'bar-fill' + (point.value < 0 ? ' negative-bar' : '') + (/^\*\*[^*]+\*\*$/.test(point.label) ? ' highlighted-bar' : ''));
+  fill.style.left = Math.min(axis.zero, end) + '%'; fill.style.width = Math.abs(end-axis.zero) + '%'; fill.setAttribute('aria-hidden','true');
+  track.append(fill); row.append(track, checked('div', 'bar-value', point.raw)); rows.append(row);
+ });
+ content.append(rows);
+ const limits = el('div', 'bar-limits'); limits.append(el('span','',axisLabel(axis.min)), el('span','',axisLabel(axis.max))); content.append(limits);
+ content.append(el('div', 'chart-note', numericText(s))); addTakeaway(s, content);
+}
+// Every slide uses a 1152px content width. The fixed plot is 1032 x 174 design pixels.
+function segment(className, x1, y1, x2, y2) {
+ const line = el('div', className); const dx=x2-x1, dy=y2-y1;
+ line.style.left=x1+'px'; line.style.top=y1+'px'; line.style.width=Math.hypot(dx,dy)+'px'; line.style.transform='rotate('+Math.atan2(dy,dx)*180/Math.PI+'deg)';
+ line.setAttribute('aria-hidden','true'); return line;
+}
+function plotFrame(axis, labels, drawAxes = true) {
+ const surface = el('div', 'chart-surface'); const plot = el('div', 'plot-box');
+ if (drawAxes) {
+  [...new Set([axis.min,0,axis.max])].forEach(value => {
+   const y=100-axis.position(value), grid = el('div', value===0?'plot-grid plot-zero':'plot-grid'); grid.style.top=y+'%';
+   const tick = el('span', 'plot-ytick', axisLabel(value)); grid.append(tick); plot.append(grid);
+  });
+ }
+ labels.forEach((label,i) => { const node=inline(checked('div','plot-xlabel'),label); node.style.left=(i+.5)/labels.length*100+'%'; plot.append(node); });
+ surface.append(plot); return {surface,plot};
+}
+function plotValue(plot, x, y, raw) {
+ const label=checked('div','plot-value',raw); label.style.left=x+'%'; label.style.top=y+'%'; plot.append(label);
+}
+function line(s, content) {
+ chartBegin(s,content);
+ const frame=plotFrame(s.axis,s.series.map(point=>point.label),s.series.some(point=>!point.missing));
+ frame.surface.setAttribute('role','img'); frame.surface.setAttribute('aria-label',s.series.map(point=>point.label+'：'+point.raw).join('、')+'。単位：'+s.unit);
+ const points=s.series.map((point,i)=>({x:(i+.5)/s.series.length*100,y:point.missing?null:100-s.axis.position(point.value)}));
+ points.forEach((point,i)=>{
+  if (point.y===null) {
+   const missing=el('div','plot-missing','欠測'); missing.style.left=point.x+'%'; frame.plot.append(missing); return;
+  }
+  if (i && points[i-1].y!==null) frame.plot.append(segment('plot-segment',points[i-1].x*10.32,points[i-1].y*1.74,point.x*10.32,point.y*1.74));
+  const dot=el('div','plot-dot'); dot.style.left=point.x+'%'; dot.style.top=point.y+'%'; dot.setAttribute('aria-hidden','true'); frame.plot.append(dot);
+  plotValue(frame.plot,point.x,point.y,s.series[i].raw);
+ });
+ content.append(frame.surface,el('div','chart-note','期間は等間隔のカテゴリ。欠測の前後は接続しません。'+numericText(s))); addTakeaway(s,content);
+}
+function waterfall(s,content) {
+ chartBegin(s,content); const steps=s.waterfall.steps;
+ const frame=plotFrame(s.axis,steps.map(step=>step.label));
+ frame.surface.setAttribute('role','img'); frame.surface.setAttribute('aria-label',steps.map(step=>step.label+'：'+step.raw).join('、')+'。単位：'+s.unit);
+ steps.forEach((step,i)=>{
+  const x=(i+.5)/steps.length*100, from=100-s.axis.position(step.from), to=100-s.axis.position(step.to);
+  const fill=el('div','waterfall-bar '+(step.kind==='delta'?(step.value<0?'waterfall-down':'waterfall-up'):'waterfall-total'));
+  fill.style.left=x+'%'; fill.style.top=Math.min(from,to)+'%'; fill.style.height=Math.abs(to-from)+'%'; fill.setAttribute('aria-hidden','true'); frame.plot.append(fill);
+  if(i<steps.length-1){const right=x*10.32+24,next=((i+1.5)/steps.length)*1032-24;frame.plot.append(segment('waterfall-connector',right,to*1.74,next,to*1.74));}
+  const text=step.kind==='delta'&&step.value>0&&!step.raw.startsWith('+')?'+'+step.raw:step.raw;
+  plotValue(frame.plot,x,Math.min(from,to),text);
+ });
+ content.append(frame.surface,el('div','chart-note','起点・終点は総額、途中は符号付き増減。合計の許容誤差：絶対1e-12 / 相対1e-10。')); addTakeaway(s,content);
+}
+function composition(s,content) {
+ chartBegin(s,content);
+ const body=el('div','composition-body'), callouts=el('div','composition-callouts'); callouts.style.setProperty('--part-count',s.parts.length);
+ s.parts.forEach((_,i)=>callouts.append(el('div','composition-number',String(i+1).padStart(2,'0'))));
+ const leaders=el('div','composition-leaders'); let cumulative=0;
+ s.parts.forEach((part,i)=>{const midpoint=cumulative+part.value/2;leaders.append(segment('composition-leader',(i+.5)/s.parts.length*1152,0,midpoint/100*1152,38));cumulative+=part.value;});
+ const strip=el('div','composition-strip');
+ s.parts.forEach((part,i)=>{const block=el('div','composition-part part-'+i);block.style.width=part.value+'%';if(part.value===0)block.style.borderWidth='0';block.setAttribute('aria-label',`${i+1} ${part.label} ${part.raw}%`);strip.append(block);});
+ const ends=el('div','composition-ends');ends.append(el('span','','0%'),el('span','','100%'));
+ const legend=el('div','composition-legend');legend.style.setProperty('--part-count',s.parts.length);
+ s.parts.forEach((part,i)=>{const item=checked('div','composition-item');item.append(el('div','composition-index',String(i+1).padStart(2,'0')),inline(el('h2'),part.label),el('div','composition-value',part.raw+'%'));legend.append(item);});
+ body.append(callouts,leaders,strip,ends,legend);content.append(body,el('div','chart-note','合計 '+Number(s.total.toFixed(10))+'%。帯は入力値を100%基準で描画し、合計100%への正規化はしません。'));addTakeaway(s,content);
+}
+function funnel(s,content) {
+ chartBegin(s,content,'母集団・期間：'+s.cohort);
+ const rows=el('div','funnel-rows');rows.style.setProperty('--funnel-count',s.series.length); const start=s.series[0].value;
+ s.series.forEach((point,i)=>{
+  const row=checked('div','funnel-row'),track=el('div','funnel-track'),fill=el('div','funnel-fill');
+  fill.style.width=(start?point.value/start*100:0)+'%';fill.setAttribute('aria-hidden','true');track.append(fill);
+  const rate=i===0?'—（起点）':point.rate===null?'算出不可（前段0）':point.rate.toFixed(1)+'%';
+  row.append(inline(el('div','funnel-label'),point.label),track,checked('div','funnel-value',point.raw),el('div','funnel-rate',rate));rows.append(row);
+ });
+ content.append(rows,el('div','chart-note','棒の幅は起点件数に比例。右端は前段からの転換率（小数第1位に丸め）。前段0は算出不可。'));addTakeaway(s,content);
+}
+function cycle(s,content) {
+ content.classList.add('structured-content');addIntro(s,content);const diagram=el('div','cycle-diagram');
+ const positions=[[1,1],[1,3],[3,3],[3,1]];
+ s.sections.forEach((section,i)=>{const card=checked('section','cycle-card');card.style.gridRow=positions[i][0];card.style.gridColumn=positions[i][1];card.setAttribute('data-order',i+1);const heading=inline(el('h2'),section.heading);heading.append(el('span','cycle-number',String(i+1).padStart(2,'0')));card.append(heading);blocks(card,section.blocks);diagram.append(card);});
+ [['→',1,2],['↓',2,3],['←',3,2],['↑',2,1]].forEach(([arrow,row,column])=>{const node=el('div','cycle-arrow',arrow);node.style.gridRow=row;node.style.gridColumn=column;node.setAttribute('aria-hidden','true');diagram.append(node);});
+ const center=checked('div','cycle-center');center.append(el('div','cycle-center-label','循環の目的'),inline(el('div'),s.center));diagram.append(center);content.append(diagram);addTakeaway(s,content);
+}
+function valueChain(s,content) {
+ content.classList.add('structured-content');addIntro(s,content);const body=el('div','value-body'),primary=el('section','value-primary');primary.append(el('div','value-group-label','主活動'));
+ const main=el('div','value-main');main.style.setProperty('--activity-count',s.primaryActivities.length);
+ s.primaryActivities.forEach((activity,i)=>{const slot=el('div','value-slot');if(i){const arrow=el('span','value-link','→');arrow.setAttribute('aria-hidden','true');slot.append(arrow);}const card=checked('div','value-card');card.append(inline(el('h2'),activity.name),inline(el('p'),activity.description));slot.append(card);main.append(slot);});primary.append(main);
+ const support=el('section','value-supports');support.append(el('div','value-group-label','横断的な支援活動'));
+ s.supportActivities.forEach(activity=>{const band=checked('div','support-band');band.append(inline(el('h2'),activity.name),inline(el('p'),activity.description));support.append(band);});
+ body.append(primary,support);content.append(body);addTakeaway(s,content);
+}
+function swimlane(s,content) {
+ content.classList.add('structured-content'); addIntro(s,content);
+ const grid=checked('div','swimlane-grid');
+ grid.style.setProperty('--lane-columns',s.table.header.length-1);
+ grid.style.setProperty('--lane-rows',s.table.rows.length);
+ grid.setAttribute('role','table'); grid.setAttribute('aria-label','担当主体と工程の主担当');
+ function place(parent,node,row,column,role) {
+  node.style.gridRow=row; node.style.gridColumn=column; node.setAttribute('role',role); parent.append(node);
+ }
+ const headers=el('div','swimlane-semantic-row'); headers.setAttribute('role','row');
+ s.table.header.forEach((text,i)=>place(headers,inline(checked('div','swimlane-header'),text),1,i+1,'columnheader'));
+ grid.append(headers);
+ s.table.rows.forEach((row,i)=>{
+  const semanticRow=el('div','swimlane-semantic-row'); semanticRow.setAttribute('role','row');
+  place(semanticRow,inline(checked('div','swimlane-name'),row[0]),i+2,1,'rowheader');
+  row.slice(1).forEach((text,j)=>{
+   const cell=el('div','swimlane-cell');
+   cell.setAttribute('aria-label',row[0]+' / '+s.table.header[j+1]+'：'+(text==='-'?'非担当':text));
+   cell.append(text==='-'?el('span','swimlane-idle','—'):inline(checked('div','swimlane-card'),text));
+   place(semanticRow,cell,i+2,j+2,'cell');
+  });
+  grid.append(semanticRow);
+ });
+ const links=el('div','swimlane-links'); links.setAttribute('aria-hidden','true');
+ const width=972/(s.table.header.length-1),height=232/s.table.rows.length;
+ s.handoffs.forEach(handoff=>{
+  const x=180+handoff.column*width,y1=48+(handoff.from+.5)*height,y2=48+(handoff.to+.5)*height;
+  links.append(segment('handoff-line',x-16,y1,x,y1),segment('handoff-line',x,y1,x,y2),segment('handoff-line handoff-end',x,y2,x+16,y2));
+ });
+ grid.append(links);
+ content.append(grid,el('div','chart-note','工程は左から右へ。担当が変わる隣接工程だけ、カード間の余白に引き継ぎ線を表示します。'));
+ addTakeaway(s,content);
+}
+
+function riskRegister(s,content) {
+ content.classList.add('structured-content');addIntro(s,content);const table=tableFrame(content,'risk-table','リスク・重大度・対応・責任者');tableHead(table,s.table.header);const body=el('tbody');
+ const levels={'高':'high','中':'medium','低':'low'};
+ s.table.rows.forEach(values=>{const row=el('tr','risk-row');values.forEach((text,i)=>{const cell=inline(el(i===0?'th':'td',i===1?'risk-level risk-'+levels[text]:''),text);if(i===0)cell.setAttribute('scope','row');row.append(cell);});body.append(row);});table.append(body);addTakeaway(s,content);
+}
+
 const LAYOUTS = {
  message: {label:'KEY MESSAGE', draw:message},
  compare: {label:'COMPARISON', draw:structured},
@@ -1081,7 +1497,16 @@ const LAYOUTS = {
  roadmap: {label:'IMPLEMENTATION ROADMAP', draw:roadmap},
  evaluation: {label:'OPTION EVALUATION', draw:evaluation},
  kpi: {label:'PERFORMANCE SNAPSHOT', draw:kpi},
- recommendation: {label:'RECOMMENDATION', draw:recommendation}
+ recommendation: {label:'RECOMMENDATION', draw:recommendation},
+ bar: {label:'QUANTITATIVE COMPARISON', draw:bar},
+ line: {label:'TREND OVER TIME', draw:line},
+ waterfall: {label:'DRIVERS OF CHANGE', draw:waterfall},
+ composition: {label:'PARTS OF THE WHOLE', draw:composition},
+ funnel: {label:'CONVERSION FUNNEL', draw:funnel},
+ cycle: {label:'CONTINUOUS IMPROVEMENT', draw:cycle},
+ 'value-chain': {label:'VALUE CREATION', draw:valueChain},
+ swimlane: {label:'ROLES & HANDOFFS', draw:swimlane},
+ 'risk-register': {label:'RISKS & RESPONSES', draw:riskRegister}
 };
 function renderSlide(s, index, total) {
  const slide = el('article', 'slide ' + s.layout);
@@ -1103,7 +1528,7 @@ function overflowed(slide) {
 </script>
 <script id="app">
 'use strict';
-const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n\n---\n\n# 小さく検証してから、全社へ展開する\n<!-- layout: process -->\n\n## 現状把握\n対象業務と制約を整理する。\n- 課題一覧\n\n## 小規模検証\n効果と運用負荷を確かめる。\n- 検証レポート\n\n## 全社展開\n標準手順に組み込む。\n- 運用ガイド\n\n> 各段階の成果物を、次の判断材料にする\n\n---\n\n# まずは低工数・高効果の施策に集中する\n<!-- layout: matrix -->\n<!-- x-axis: 工数 / 小 / 大 -->\n<!-- y-axis: 効果 / 小 / 大 -->\n\n## すぐ着手\n- テンプレート統一\n\n## 計画投資\n- 基幹システム刷新\n\n## 余力で対応\n- 軽微な文言修正\n\n## 再検討\n- 全画面の作り直し\n\n> 軸の定義をそろえてから、施策を分類する\n\n---\n\n# 手戻りの削減には、着手前の合意が必要\n<!-- layout: problem-solution -->\n\n## 要件の認識差\n- 課題: 実装後に修正が続く\n- 原因: 完了条件が曖昧という仮説\n- 対策: 着手前に受入条件を合意する\n\n## 判断の遅れ\n- 課題: レビュー待ちが積み上がる\n- 原因: 判断者が明確でないという仮説\n- 対策: 判断者と回答期限を定める\n\n> 対策は原因仮説と結び付けて検証する\n\n---\n\n# 売上低下の論点を、顧客数と単価に分ける\n<!-- layout: logic-tree -->\n<!-- root: 売上低下の要因 -->\n## 顧客数\n- 新規獲得の減少\n- 継続率の低下\n## 顧客単価\n- 購入頻度の低下\n- 商品構成の変化\n> 枝ごとに仮説と検証データをそろえる\n---\n\n# 対象業務を絞った先行導入を提案する\n<!-- layout: pyramid -->\n> まずは問い合わせ対応から導入する\n## 効果を測りやすい\n- 応答時間を継続計測できる\n## 運用を限定できる\n- 対象チームを小さく始められる\n## 再利用しやすい\n- 他部門にも共通する課題がある\n---\n\n# 先行導入と標準化を、段階的に進める\n<!-- layout: roadmap -->\n| 施策 | 第1四半期 | 第2四半期 | 第3四半期 | 第4四半期 |\n| --- | --- | --- | --- | --- |\n| 先行導入 | 実施 | 実施 | - | - |\n| 標準化 | - | 実施 | 実施 | - |\n| 全社展開 | - | - | 実施 | 実施 |\n> 検証結果を標準化へ引き継いでから展開する\n---\n\n# 初期投資と運用負荷のバランスから、案Bを推奨する\n<!-- layout: evaluation -->\n<!-- recommend: 案B -->\n| 判断基準 | 案A | 案B | 案C |\n| --- | --- | --- | --- |\n| 初期投資 | ◎ 小さい | ○ 許容範囲 | △ 大きい |\n| 導入速度 | ◎ すぐ開始 | ○ 段階導入 | △ 準備が必要 |\n| 運用負荷 | × 手作業中心 | ○ 標準化可能 | ◎ 自動化中心 |\n> 運用の持続性を重視して選ぶ\n---\n\n# 応答時間は目標内、継続率には改善余地がある\n<!-- layout: kpi -->\n<!-- period: 2026年 第3四半期 -->\n## 平均応答時間\n- actual: 2.4\n- target: 3\n- unit: 時間\n## 顧客継続率\n- actual: 88\n- target: 92\n- unit: %\n## 導入部門数\n- actual: 12\n- target: 10\n- unit: 部門\n> 指標の良否は、業務上の意味と合わせて判断する\n---\n\n# 先行導入の承認をお願いしたい\n<!-- layout: recommendation -->\n> 対象1部門で、4週間の先行導入を実施する\n## 判断理由\n- 対象を限定して運用リスクを抑える\n- 効果を測定してから追加投資を判断する\n## 次のアクション\n- action: 検証計画を確定する\n- owner: 業務改革チーム\n- due: 承認後1週間以内\n";
+const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n\n---\n\n# 小さく検証してから、全社へ展開する\n<!-- layout: process -->\n\n## 現状把握\n対象業務と制約を整理する。\n- 課題一覧\n\n## 小規模検証\n効果と運用負荷を確かめる。\n- 検証レポート\n\n## 全社展開\n標準手順に組み込む。\n- 運用ガイド\n\n> 各段階の成果物を、次の判断材料にする\n\n---\n\n# まずは低工数・高効果の施策に集中する\n<!-- layout: matrix -->\n<!-- x-axis: 工数 / 小 / 大 -->\n<!-- y-axis: 効果 / 小 / 大 -->\n\n## すぐ着手\n- テンプレート統一\n\n## 計画投資\n- 基幹システム刷新\n\n## 余力で対応\n- 軽微な文言修正\n\n## 再検討\n- 全画面の作り直し\n\n> 軸の定義をそろえてから、施策を分類する\n\n---\n\n# 手戻りの削減には、着手前の合意が必要\n<!-- layout: problem-solution -->\n\n## 要件の認識差\n- 課題: 実装後に修正が続く\n- 原因: 完了条件が曖昧という仮説\n- 対策: 着手前に受入条件を合意する\n\n## 判断の遅れ\n- 課題: レビュー待ちが積み上がる\n- 原因: 判断者が明確でないという仮説\n- 対策: 判断者と回答期限を定める\n\n> 対策は原因仮説と結び付けて検証する\n\n---\n\n# 売上低下の論点を、顧客数と単価に分ける\n<!-- layout: logic-tree -->\n<!-- root: 売上低下の要因 -->\n## 顧客数\n- 新規獲得の減少\n- 継続率の低下\n## 顧客単価\n- 購入頻度の低下\n- 商品構成の変化\n> 枝ごとに仮説と検証データをそろえる\n---\n\n# 対象業務を絞った先行導入を提案する\n<!-- layout: pyramid -->\n> まずは問い合わせ対応から導入する\n## 効果を測りやすい\n- 応答時間を継続計測できる\n## 運用を限定できる\n- 対象チームを小さく始められる\n## 再利用しやすい\n- 他部門にも共通する課題がある\n---\n\n# 先行導入と標準化を、段階的に進める\n<!-- layout: roadmap -->\n| 施策 | 第1四半期 | 第2四半期 | 第3四半期 | 第4四半期 |\n| --- | --- | --- | --- | --- |\n| 先行導入 | 実施 | 実施 | - | - |\n| 標準化 | - | 実施 | 実施 | - |\n| 全社展開 | - | - | 実施 | 実施 |\n> 検証結果を標準化へ引き継いでから展開する\n---\n\n# 初期投資と運用負荷のバランスから、案Bを推奨する\n<!-- layout: evaluation -->\n<!-- recommend: 案B -->\n| 判断基準 | 案A | 案B | 案C |\n| --- | --- | --- | --- |\n| 初期投資 | ◎ 小さい | ○ 許容範囲 | △ 大きい |\n| 導入速度 | ◎ すぐ開始 | ○ 段階導入 | △ 準備が必要 |\n| 運用負荷 | × 手作業中心 | ○ 標準化可能 | ◎ 自動化中心 |\n> 運用の持続性を重視して選ぶ\n---\n\n# 応答時間は目標内、継続率には改善余地がある\n<!-- layout: kpi -->\n<!-- period: 2026年 第3四半期 -->\n## 平均応答時間\n- actual: 2.4\n- target: 3\n- unit: 時間\n## 顧客継続率\n- actual: 88\n- target: 92\n- unit: %\n## 導入部門数\n- actual: 12\n- target: 10\n- unit: 部門\n> 指標の良否は、業務上の意味と合わせて判断する\n---\n\n# 先行導入の承認をお願いしたい\n<!-- layout: recommendation -->\n> 対象1部門で、4週間の先行導入を実施する\n## 判断理由\n- 対象を限定して運用リスクを抑える\n- 効果を測定してから追加投資を判断する\n## 次のアクション\n- action: 検証計画を確定する\n- owner: 業務改革チーム\n- due: 承認後1週間以内\n\n---\n\n# 調査業務が、全体の工数を押し上げている\n<!-- layout: bar -->\n<!-- unit: 時間 -->\n| 項目 | 値 |\n| --- | --- |\n| 調査 | 120 |\n| 分析 | 80 |\n| 資料作成 | 65 |\n| レビュー | 30 |\n> まず調査の再利用性を高める\n---\n\n# 平均処理時間は、導入後に短縮傾向が見られる\n<!-- layout: line -->\n<!-- unit: 分 -->\n| 期間 | 値 |\n| --- | --- |\n| 4月 | 42 |\n| 5月 | 40 |\n| 6月 | 35 |\n| 7月 | 31 |\n| 8月 | 30 |\n> 傾向を確認しつつ、他の影響要因も検証する\n---\n\n# 原価改善が、人件費増を上回る\n<!-- layout: waterfall -->\n<!-- unit: 百万円 -->\n| 区分 | 項目 | 値 |\n| --- | --- | --- |\n| start | 前期利益 | 100 |\n| delta | 原価改善 | 30 |\n| delta | 人件費増 | -15 |\n| delta | その他 | 5 |\n| end | 今期利益 | 120 |\n> 増減の内訳と合計の整合を確認する\n---\n\n# 既存顧客が、売上構成の中心を占める\n<!-- layout: composition -->\n| 区分 | 割合 |\n| --- | --- |\n| 既存大口 | 45 |\n| 既存中小 | 35 |\n| 新規 | 20 |\n> 既存顧客の継続と拡大を優先する\n---\n\n# 商談化の改善が、受注増加の起点となる\n<!-- layout: funnel -->\n<!-- cohort: 2026年4月に獲得したリード -->\n<!-- unit: 件 -->\n| 段階 | 件数 |\n| --- | --- |\n| リード | 1000 |\n| 商談 | 200 |\n| 提案 | 100 |\n| 受注 | 30 |\n> 同じ母集団を追跡した数値で比較する\n---\n\n# 検証を次の計画へ戻し、改善を継続する\n<!-- layout: cycle -->\n<!-- center: 学習を蓄積する -->\n## 計画\n仮説と検証方法を決める。\n## 実行\n対象を限定して試す。\n## 評価\n効果と副作用を確かめる。\n## 改善\n学びを次の計画に反映する。\n> 最後の工程を、次の一周へ接続する\n---\n\n# 主活動の改善を、共通基盤で支える\n<!-- layout: value-chain -->\n## 主活動\n- 調達: 品質と安定供給を確保\n- 開発: 顧客課題を製品に変換\n- 提供: 確実に価値を届ける\n- 支援: 利用の定着を促す\n## 支援活動\n- 人材育成: 全活動に必要な能力を整える\n- 情報基盤: 活動間のデータをつなぐ\n> 個別最適と共通基盤を一緒に設計する\n---\n\n# 引き継ぎ点の合意が、承認待ちを減らす\n<!-- layout: swimlane -->\n| 担当 | 依頼 | 確認 | 承認 | 実行 |\n| --- | --- | --- | --- | --- |\n| 依頼部門 | 条件を整理 | - | - | - |\n| 管理部門 | - | 条件を確認 | - | 手配する |\n| 責任者 | - | - | 可否を判断 | - |\n> 主担当と引き継ぐ条件を明確にする\n---\n\n# 先行導入の主要リスクには、事前の備えを置く\n<!-- layout: risk-register -->\n重大度は影響範囲と復旧難易度を踏まえて判断する。\n| リスク | 重大度 | 対応 | 責任者 |\n| --- | --- | --- | --- |\n| 誤回答 | 高 | 人による確認を必須にする | 業務責任者 |\n| 運用負荷の増加 | 中 | 対象件数を制限する | 運用担当 |\n| 利用の未定着 | 中 | 週次で利用状況を確認 | 推進担当 |\n> リスクの列挙で終えず、対応と責任を定める\n";
 const $=id=>document.getElementById(id);
 let deck=[],current=0,presenting=false,revision=0,readSequence=0;
 function fit(){const stage=$('stage'),vp=$('viewport');const style=getComputedStyle(stage);const width=stage.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);const height=stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);const scale=Math.max(.01,Math.min(width/1280,height/720));vp.style.width=1280*scale+'px';vp.style.height=720*scale+'px';const slide=vp.firstElementChild;if(slide)slide.style.transform=`scale(${scale})`;}
