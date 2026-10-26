@@ -438,11 +438,23 @@ body>.print-deck {
 .matrix-x { grid-column:2; grid-row:2; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:20px; align-items:center; border-top:1px solid var(--line); padding-top:8px; min-height:0; overflow:hidden; }
 .matrix-x .axis-end:last-child { text-align:right; }
 
+
+/* Row alignment is the message: every action corresponds to a cause hypothesis. */
+.problem-table-wrap { flex:1; min-height:0; overflow:hidden; }
+.problem-table { width:100%; height:100%; table-layout:fixed; border-collapse:collapse; }
+.problem-table th,.problem-table td { text-align:left; vertical-align:top; overflow-wrap:anywhere; }
+.problem-table thead th { font-size:14px; line-height:1.5; font-weight:normal; color:var(--muted); padding:8px 12px; border-bottom:2px solid var(--line); }
+.problem-table thead th:first-child { width:15%; }
+.problem-table tbody th,.problem-table tbody td { font-size:18px; line-height:1.5; padding:12px; border-bottom:1px solid var(--line); }
+.problem-table tbody th { font-weight:bold; }
+.problem-table .solution-heading { color:var(--accent); font-weight:bold; }
+.problem-table .solution-cell { background:#fff5f7; border-left:2px solid var(--accent); }
+
 </style>
 </head>
 <body>
 <header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="sample">サンプル</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
-<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
+<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
 <div class="presentation-controls"><button id="present-prev" aria-label="前のスライド">←</button><span id="present-count"></span><button id="present-next" aria-label="次のスライド">→</button><button id="exit">終了 (Esc)</button></div><input id="file" type="file" accept=".md,.markdown,.txt,text/plain,text/markdown" hidden><div class="print-deck" id="print-deck" aria-hidden="true"></div>
 <script id="engine">
 'use strict';
@@ -461,7 +473,7 @@ function parseMarkdown(source){
    else target.push({type:'p',text:line});
   }
   if(!s.layout)s.layout=s.sections.length===2?'compare':s.sections.length===3?'pillars':'message';
-  if(!['message','compare','pillars','process','matrix'].includes(s.layout)){s.warnings.push('未対応のレイアウト「'+s.layout+'」です。messageで表示します。');s.layout='message';}
+  if(!['message','compare','pillars','process','matrix','problem-solution'].includes(s.layout)){s.warnings.push('未対応のレイアウト「'+s.layout+'」です。messageで表示します。');s.layout='message';}
   if(!s.title){s.title='無題のスライド';s.warnings.push('「# タイトル」を追加してください。');}
   const expected={compare:2,pillars:3}[s.layout];
   if(expected&&s.sections.length!==expected)s.warnings.push(s.layout+' は「## 見出し」を'+expected+'個にしてください（現在'+s.sections.length+'個）。内容は保持して表示します。');
@@ -472,6 +484,7 @@ function parseMarkdown(source){
   if([...s.intro,...s.sections.flatMap(s=>s.blocks)].some(b=>b.text.length>50))s.warnings.push('本文・項目は各50字以内を推奨します。');
   if(s.layout==='process')validateProcess(s);
   if(s.layout==='matrix')validateMatrix(s);
+  if(s.layout==='problem-solution')validateProblemSolution(s);
   return s;
  });
 }
@@ -522,6 +535,30 @@ function validateMatrix(s) {
   if (section.heading.length > 12) s.warnings.push('象限の見出しは12字以内を推奨します。');
   if (section.blocks.filter(b => b.type === 'li').length > 2) s.warnings.push('象限内の項目は2件以内を推奨します。');
   if (section.blocks.some(b => b.text.length > 20)) s.warnings.push('象限内の本文・項目は各20字以内を推奨します。');
+ }
+}
+// Reserved row fields never affect ordinary bullet lists in other layouts.
+function validateProblemSolution(s) {
+ const keys = ['課題', '原因', '対策'];
+ const error = text => { s.invalid = true; s.warnings.push(text + ' 入力確認表示で修正してください。'); };
+ if (s.sections.length < 2 || s.sections.length > 3) error('problem-solution は2〜3行にしてください（現在' + s.sections.length + '行）。');
+ for (const section of s.sections) {
+  section.fields = {};
+  for (const block of section.blocks) {
+   const match = block.type === 'li' && block.text.match(/^([^:：]+)[:：]\s*(.*)$/);
+   const key = match && match[1].trim();
+   if (!match || !keys.includes(key)) {
+    error('「' + section.heading + '」に未対応の項目があります。「課題:」「原因:」「対策:」を使用してください。');
+    continue;
+   }
+   if (Object.prototype.hasOwnProperty.call(section.fields, key)) error('「' + section.heading + '」の「' + key + '」が重複しています。');
+   const value = match[2].trim();
+   section.fields[key] = value;
+   if (!value) error('「' + section.heading + '」の「' + key + '」が空です。');
+   if (value.length > 40) s.warnings.push('課題・原因仮説・対策は各40字以内を推奨します。');
+  }
+  for (const key of keys) if (!Object.prototype.hasOwnProperty.call(section.fields, key)) error('「' + section.heading + '」に「' + key + ':」がありません。');
+  if (section.heading.length > 12) s.warnings.push('課題行の見出しは12字以内を推奨します。');
  }
 }
 // Only text nodes and application-owned elements enter the DOM.
@@ -603,12 +640,45 @@ function matrix(s, content) {
  content.append(diagram);
  addTakeaway(s, content);
 }
+function problemSolution(s, content) {
+ content.classList.add('structured-content');
+ addIntro(s, content);
+ const wrap = el('div', 'problem-table-wrap');
+ wrap.setAttribute('data-check-overflow', '');
+ const table = el('table', 'problem-table');
+ table.setAttribute('aria-label', '課題・原因仮説・対策の対応');
+ const head = el('thead');
+ const labels = el('tr');
+ ['論点', '課題', '原因仮説', '対策'].forEach((text, index) => {
+  const th = el('th', index === 3 ? 'solution-heading' : '', text);
+  th.setAttribute('scope', 'col');
+  labels.append(th);
+ });
+ head.append(labels);
+ const body = el('tbody');
+ s.sections.forEach(section => {
+  const row = el('tr', 'problem-row');
+  const name = inline(el('th', 'problem-row-name'), section.heading);
+  name.setAttribute('scope', 'row');
+  row.append(name);
+  ['課題', '原因', '対策'].forEach((key, index) => {
+   const cell = inline(el('td', index === 2 ? 'problem-cell solution-cell' : 'problem-cell'), section.fields[key]);
+   row.append(cell);
+  });
+  body.append(row);
+ });
+ table.append(head, body);
+ wrap.append(table);
+ content.append(wrap);
+ addTakeaway(s, content);
+}
 const LAYOUTS = {
  message: {label:'KEY MESSAGE', draw:message},
  compare: {label:'COMPARISON', draw:structured},
  pillars: {label:'THREE PILLARS', draw:structured},
  process: {label:'PROCESS', draw:process},
- matrix: {label:'PRIORITY MATRIX', draw:matrix}
+ matrix: {label:'PRIORITY MATRIX', draw:matrix},
+ 'problem-solution': {label:'PROBLEM TO ACTION', draw:problemSolution}
 };
 function renderSlide(s, index, total) {
  const slide = el('article', 'slide ' + s.layout);
@@ -630,7 +700,7 @@ function overflowed(slide) {
 </script>
 <script id="app">
 'use strict';
-const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n\n---\n\n# 小さく検証してから、全社へ展開する\n<!-- layout: process -->\n\n## 現状把握\n対象業務と制約を整理する。\n- 課題一覧\n\n## 小規模検証\n効果と運用負荷を確かめる。\n- 検証レポート\n\n## 全社展開\n標準手順に組み込む。\n- 運用ガイド\n\n> 各段階の成果物を、次の判断材料にする\n\n---\n\n# まずは低工数・高効果の施策に集中する\n<!-- layout: matrix -->\n<!-- x-axis: 工数 / 小 / 大 -->\n<!-- y-axis: 効果 / 小 / 大 -->\n\n## すぐ着手\n- テンプレート統一\n\n## 計画投資\n- 基幹システム刷新\n\n## 余力で対応\n- 軽微な文言修正\n\n## 再検討\n- 全画面の作り直し\n\n> 軸の定義をそろえてから、施策を分類する\n";
+const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n\n---\n\n# 小さく検証してから、全社へ展開する\n<!-- layout: process -->\n\n## 現状把握\n対象業務と制約を整理する。\n- 課題一覧\n\n## 小規模検証\n効果と運用負荷を確かめる。\n- 検証レポート\n\n## 全社展開\n標準手順に組み込む。\n- 運用ガイド\n\n> 各段階の成果物を、次の判断材料にする\n\n---\n\n# まずは低工数・高効果の施策に集中する\n<!-- layout: matrix -->\n<!-- x-axis: 工数 / 小 / 大 -->\n<!-- y-axis: 効果 / 小 / 大 -->\n\n## すぐ着手\n- テンプレート統一\n\n## 計画投資\n- 基幹システム刷新\n\n## 余力で対応\n- 軽微な文言修正\n\n## 再検討\n- 全画面の作り直し\n\n> 軸の定義をそろえてから、施策を分類する\n\n---\n\n# 手戻りの削減には、着手前の合意が必要\n<!-- layout: problem-solution -->\n\n## 要件の認識差\n- 課題: 実装後に修正が続く\n- 原因: 完了条件が曖昧という仮説\n- 対策: 着手前に受入条件を合意する\n\n## 判断の遅れ\n- 課題: レビュー待ちが積み上がる\n- 原因: 判断者が明確でないという仮説\n- 対策: 判断者と回答期限を定める\n\n> 対策は原因仮説と結び付けて検証する\n";
 const $=id=>document.getElementById(id);
 let deck=[],current=0,presenting=false,revision=0,readSequence=0;
 function fit(){const stage=$('stage'),vp=$('viewport');const style=getComputedStyle(stage);const width=stage.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);const height=stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);const scale=Math.max(.01,Math.min(width/1280,height/720));vp.style.width=1280*scale+'px';vp.style.height=720*scale+'px';const slide=vp.firstElementChild;if(slide)slide.style.transform=`scale(${scale})`;}
