@@ -9,6 +9,14 @@ const tests=async function(){
  function assert(ok,msg){if(!ok)throw Error(msg);}
  async function test(name,fn){try{await fn();results.push('PASS '+name);}catch(e){results.push('FAIL '+name+': '+e.message);}document.getElementById('results').textContent=results.join('\n');}
  function edit(text){$('editor').value=text;$('editor').dispatchEvent(new w.Event('input'));}
+ await tick();
+ await test('new deck starts empty and selected templates append without replacing content',async()=>{
+  assert($('editor').value==='','empty editor');assert($('viewport').textContent.includes('テンプレート'),'empty guidance');assert($('present').disabled&&$('print').disabled,'empty controls');
+  $('template-open').click();assert($('template-dialog').open,'chooser');assert($('template-choice').options.length===21,'all choices');$('template-choice').value='1';$('template-choice').dispatchEvent(new w.Event('change'));$('template-insert').click();await tick();assert(w.parseMarkdown($('editor').value)[0].layout==='compare','selected template');assert(d.activeElement===$('editor'),'editor focus');
+  const first=$('editor').value;$('template-open').click();$('template-choice').value='2';$('template-insert').click();await tick();assert($('editor').value.startsWith(first.trimEnd()),'existing content');assert($('slides').value==='1','new preview selected');
+  const before=$('editor').value;$('template-open').click();$('template-close').click();await tick();assert($('editor').value===before,'cancel inert');assert(d.activeElement===$('template-open'),'cancel focus');
+ });
+ w.confirm=()=>true;$('sample').click();await tick();
  const sample=$('editor').value;
  const samples=w.parseMarkdown(sample);
  const count=samples.length;
@@ -79,9 +87,13 @@ const tests=async function(){
  await test('presentation keyboard and exit (Fullscreen API stubbed)',async()=>{edit(sample);d.documentElement.requestFullscreen=async()=>{};$('present').click();await tick();assert(d.body.classList.contains('presenting'),'presentation start');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'End',bubbles:true}));assert($('slides').value===String(count-1),'End');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Home',bubbles:true}));assert($('slides').value==='0','Home');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'ArrowRight',bubbles:true}));assert($('slides').value==='1','next');d.dispatchEvent(new w.KeyboardEvent('keydown',{key:'Escape',bubbles:true}));assert(!d.body.classList.contains('presenting'),'exit');});
  await test('QR dialog shows current full text, refreshes and clears failed or closed output',async()=>{
   edit('# 日本語🌱\n<!-- layout: message -->\n> 内容');$('qr-open').click();await tick();assert($('qr-dialog').open,'dialog open');assert($('qr-output').querySelector('canvas'),'QR generated');assert($('qr-status').textContent.includes(String(new w.TextEncoder().encode($('editor').value).length)),'byte count');
-  edit('x'.repeat(2331));$('qr-refresh').click();assert(!$('qr-output').children.length,'old QR cleared');assert($('qr-status').textContent.includes('容量超過'),'capacity message');
-  edit('');$('qr-refresh').click();assert($('qr-status').textContent.includes('空です'),'empty');
-  edit('現在の全文');$('qr-refresh').click();assert($('qr-output').querySelector('canvas'),'refresh');$('qr-close').click();await tick();assert(!$('qr-dialog').open,'closed');assert(!$('qr-output').children.length,'cleared');assert(d.activeElement===$('qr-open'),'focus returned');
+  edit('x'.repeat(49153));await w.refreshQr();assert(!$('qr-output').children.length,'old QR cleared');assert($('qr-status').textContent.includes('容量超過'),'capacity message');
+  edit('');await w.refreshQr();assert($('qr-status').textContent.includes('空です'),'empty');
+  edit('現在の全文');await w.refreshQr();assert($('qr-output').querySelector('canvas'),'refresh');$('qr-close').click();await tick();assert(!$('qr-dialog').open,'closed');assert(!$('qr-output').children.length,'cleared');assert(d.activeElement===$('qr-open'),'focus returned');
+ });
+ await test('multipart QR navigation and paste restoration protect the current deck',async()=>{
+  const source='日本語🌱\n'.repeat(500),transfer=await w.makeQrTransfer(source);edit(source);$('qr-open').click();await w.refreshQr();assert($('qr-count').textContent.startsWith('1 /'),'first part');$('qr-next').click();assert($('qr-count').textContent.startsWith('2 /'),'next part');$('qr-close').click();await tick();
+  edit('# Existing');$('restore-open').click();$('restore-input').value=transfer.parts.slice().reverse().join('\n');await $('restore-check').onclick();assert($('restore-preview').value===source,'preview exact');assert($('editor').value==='# Existing','not overwritten');w.confirm=()=>false;$('restore-apply').click();assert($('editor').value==='# Existing','cancel apply');w.confirm=()=>true;$('restore-apply').click();await tick();assert($('editor').value===source,'apply exact');assert(!$('restore-dialog').open,'restore close');
  });
  await test('offline license dialog exposes complete GPL and third-party notice',async()=>{
   d.getElementById('syntax-help').open=true;$('about-open').click();assert($('about-dialog').open,'about open');assert($('gpl-license').textContent.includes('END OF TERMS AND CONDITIONS'),'GPL');assert($('qr-license').textContent.includes('Project Nayuki'),'MIT notice');$('about-close').click();await tick();assert(d.activeElement===$('about-open'),'about focus');edit(sample);await tick();

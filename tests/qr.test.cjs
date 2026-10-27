@@ -40,15 +40,12 @@ test('embedded encoder and complete license copies match checked-in sources',()=
  assert.equal(unescape(html.match(/<pre id="qr-license"[^>]*>([\s\S]*?)<\/pre>/)[1]),script.slice(0,script.indexOf('"use strict";')));
 });
 test('all inline application scripts are valid JavaScript',()=>{for(const m of html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g))new vm.Script(m[1]);});
-test('QR controls use current full text, clear stale output on error and restore focus',()=>{
- const elements=new Map();let source='first',lastSource,draws=0;
- const $=id=>{if(!elements.has(id))elements.set(id,{textContent:'',children:[],handlers:{},replaceChildren(){this.children=[];},append(x){this.children.push(x);},addEventListener(k,fn){this.handlers[k]=fn;},showModal(){this.open=true;},close(){this.open=false;this.handlers.close?.();},focus(){this.focused=true;}});return elements.get(id);};
- const ui=vm.createContext({$,QR_MAX_BYTES:2330,makeMarkdownQr(text){lastSource=text;return make(text);},drawMarkdownQr(){draws++;return {};}});
- vm.runInContext(html.split('<script id="qr-ui">')[1].split('</script>')[0],ui);
- $('editor').value=source;$('qr-open').onclick();assert.equal(lastSource,source);assert.equal($('qr-dialog').open,true);assert.equal($('qr-output').children.length,1);
- $('editor').value='日本語🌱\n<!-- layout: compare -->\n---\nlatest';$('qr-refresh').onclick();assert.equal(lastSource,$('editor').value);assert.equal(draws,2);
- $('editor').value='a'.repeat(2331);$('qr-refresh').onclick();assert.equal($('qr-output').children.length,0);assert.match($('qr-status').textContent,/容量超過/);
- $('editor').value='';$('qr-refresh').onclick();assert.match($('qr-status').textContent,/空です/);
- $('editor').value='again';$('qr-refresh').onclick();$('qr-close').onclick();assert.equal($('qr-dialog').open,false);assert.equal($('qr-output').children.length,0);assert.equal($('qr-open').focused,true);
+test('QR controls refresh, paginate, clear failures and restore focus',async()=>{
+ const {context:c,$}=require('./helpers/transfer.cjs').fixture(true);
+ $('editor').value='first';$('qr-open').onclick();await c.refreshQr();assert.equal($('qr-dialog').open,true);assert.equal($('qr-output').children.length,1);
+ $('editor').value='a'.repeat(3000);await $('qr-refresh').onclick();assert.equal($('qr-count').textContent,'1 / 2');$('qr-next').onclick();assert.equal($('qr-count').textContent,'2 / 2');assert.equal($('qr-next').disabled,true);
+ $('editor').value='a'.repeat(49153);await $('qr-refresh').onclick();assert.equal($('qr-output').children.length,0);assert.match($('qr-status').textContent,/容量超過/);
+ $('editor').value='';await $('qr-refresh').onclick();assert.match($('qr-status').textContent,/空です/);
+ $('qr-close').onclick();assert.equal($('qr-dialog').open,false);assert.equal($('qr-output').children.length,0);assert.equal($('qr-open').focused,true);
  $('about-open').onclick();assert.equal($('about-dialog').open,true);$('about-close').onclick();assert.equal($('about-open').focused,true);
 });

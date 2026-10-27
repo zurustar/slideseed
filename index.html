@@ -624,19 +624,27 @@ dialog::backdrop { background:rgba(0,0,0,.4); }
 .qr-scroll { overflow:auto; max-height:60dvh; background:white; border:1px solid var(--line); }
 .qr-scroll canvas { display:block; margin:0 auto; max-width:none; }
 @media print { dialog.utility-dialog { display:none !important; } }
+
+.empty-preview { padding:40px; line-height:1.9; color:var(--muted); }
+.utility-dialog select { width:100%; padding:12px; font:inherit; }
+.utility-dialog textarea { display:block; height:160px; border:1px solid var(--line); margin:10px 0; }
+#template-preview { max-height:40dvh; overflow:auto; border-top:1px solid var(--line); padding:16px 0; }
+@media(min-width:851px) { header.app-header { height:110px; } .workspace { height:calc(100dvh - 110px); } }
 </style>
 </head>
 <body>
-<header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="qr-open">QRコード</button><button id="sample">サンプル</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
-<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p>「QRコード」は編集欄の全文を生成時点の状態で格納します。一般的なQRリーダーでテキストとして読み取ってコピーできます。長い原稿は容量を超えるためMarkdown保存を利用してください。複数QRへの分割・カメラ読込には対応していません。QRは暗号化ではなく、見える人が内容を読み取れます。<button id="about-open" type="button">このアプリについて／ライセンス</button></p><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p><p><strong>第2群：説明と意思決定</strong></p><p><code>logic-tree</code>：<code>&lt;!-- root: 論点 --&gt;</code>、見出し2〜3個、各子1〜2件。ルートを含め10ノードまで。<code>pyramid</code>：<code>&gt;</code> を結論、見出し2〜3個を根拠にします。</p><p><code>roadmap</code>：先頭列「施策」の表で、期間3〜6列・施策3〜5行。「実施」を連続させ、「-」で非実施を明示。<code>evaluation</code>：先頭列「判断基準」、案2〜4列・基準3〜5行。各セルは「○ 根拠」など、または「未評価」。<code>&lt;!-- recommend: 案B --&gt;</code> で推奨案を指定できます。表は外側の | と --- の区切り行が必須。セル内の | は \| と記述します。</p><p><code>kpi</code>：<code>&lt;!-- period: 対象期間 --&gt;</code> と指標3〜4個。各見出しの下に <code>- actual:</code>、<code>- target:</code>、<code>- unit:</code> を指定。数値はカンマや指数を含まない十進数。<code>recommendation</code>：<code>&gt;</code> を提言とし、「判断理由」に2〜3項目、「次のアクション」に <code>- action:</code>、<code>- owner:</code>、<code>- due:</code> を指定します。</p><p>新規6種は必ず <code>&lt;!-- layout: ID --&gt;</code> で明示指定してください。初期サンプルには全21種を含みます。要素数や必須入力の不備は原文付きの入力確認表示になります。</p><p><strong>第3群：数値と実行管理</strong></p><p><code>bar</code> は「項目 / 値」、<code>line</code> は「期間 / 値」、<code>waterfall</code> は「区分 / 項目 / 値」の表と <code>&lt;!-- unit: 単位 --&gt;</code>。棒は3〜7件、折れ線は4〜8時点（欠測は「欠測」）、増減は start → delta（2〜5件）→ end。数値は有限の十進数で、合計不整合は図にしません。</p><p><code>composition</code> は「区分 / 割合」の表で3〜5件、合計100%（±0.1ポイント）。%記号は付けません。<code>funnel</code> は「段階 / 件数」の表で3〜5段階、単位と <code>&lt;!-- cohort: 期間と母集団 --&gt;</code> が必須。非負整数の件数を減少順で記述します。</p><p><code>cycle</code> は <code>&lt;!-- center: 循環の目的 --&gt;</code> と見出し4個（左上→右上→右下→左下）。<code>value-chain</code> は「主活動」「支援活動」の見出しの下に「- 活動名: 説明」を記述し、主活動3〜5件・支援1〜2件。</p><p><code>swimlane</code> は先頭列「担当」の表で2〜3主体×3〜5工程。各列の主担当を1つとし、非担当は「-」。<code>risk-register</code> は「リスク / 重大度 / 対応 / 責任者」の表で3〜4件、重大度は高/中/低。判定基準を段落で添えます。新しい9種もレイアウトは明示指定し、初期サンプルには全21種を含みます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
+<header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="qr-open">QRコード</button><button id="restore-open">分割QRを復元</button><button id="template-open">テンプレートを挿入</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
+<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p>空の原稿から開始します。「テンプレートを挿入」で必要な型だけを、プレビューで選択中のスライドの後へ追加できます。<button id="sample" type="button">全21種のサンプルで置換</button></p><p>「QRコード」は編集欄の全文を生成時点の状態で格納します。一般的なQRリーダーでテキストとして読み取ってコピーできます。長い原稿は複数のQRに分割します。全番号を読み取り、「分割QRを復元」で各テキストを1行ずつ貼り付けて戻してください。カメラ読込には対応していません。QRは暗号化ではなく、見える人が内容を読み取れます。<button id="about-open" type="button">このアプリについて／ライセンス</button></p><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p><p><strong>第2群：説明と意思決定</strong></p><p><code>logic-tree</code>：<code>&lt;!-- root: 論点 --&gt;</code>、見出し2〜3個、各子1〜2件。ルートを含め10ノードまで。<code>pyramid</code>：<code>&gt;</code> を結論、見出し2〜3個を根拠にします。</p><p><code>roadmap</code>：先頭列「施策」の表で、期間3〜6列・施策3〜5行。「実施」を連続させ、「-」で非実施を明示。<code>evaluation</code>：先頭列「判断基準」、案2〜4列・基準3〜5行。各セルは「○ 根拠」など、または「未評価」。<code>&lt;!-- recommend: 案B --&gt;</code> で推奨案を指定できます。表は外側の | と --- の区切り行が必須。セル内の | は \| と記述します。</p><p><code>kpi</code>：<code>&lt;!-- period: 対象期間 --&gt;</code> と指標3〜4個。各見出しの下に <code>- actual:</code>、<code>- target:</code>、<code>- unit:</code> を指定。数値はカンマや指数を含まない十進数。<code>recommendation</code>：<code>&gt;</code> を提言とし、「判断理由」に2〜3項目、「次のアクション」に <code>- action:</code>、<code>- owner:</code>、<code>- due:</code> を指定します。</p><p>新規6種は必ず <code>&lt;!-- layout: ID --&gt;</code> で明示指定してください。選択用サンプルには全21種を含みます。要素数や必須入力の不備は原文付きの入力確認表示になります。</p><p><strong>第3群：数値と実行管理</strong></p><p><code>bar</code> は「項目 / 値」、<code>line</code> は「期間 / 値」、<code>waterfall</code> は「区分 / 項目 / 値」の表と <code>&lt;!-- unit: 単位 --&gt;</code>。棒は3〜7件、折れ線は4〜8時点（欠測は「欠測」）、増減は start → delta（2〜5件）→ end。数値は有限の十進数で、合計不整合は図にしません。</p><p><code>composition</code> は「区分 / 割合」の表で3〜5件、合計100%（±0.1ポイント）。%記号は付けません。<code>funnel</code> は「段階 / 件数」の表で3〜5段階、単位と <code>&lt;!-- cohort: 期間と母集団 --&gt;</code> が必須。非負整数の件数を減少順で記述します。</p><p><code>cycle</code> は <code>&lt;!-- center: 循環の目的 --&gt;</code> と見出し4個（左上→右上→右下→左下）。<code>value-chain</code> は「主活動」「支援活動」の見出しの下に「- 活動名: 説明」を記述し、主活動3〜5件・支援1〜2件。</p><p><code>swimlane</code> は先頭列「担当」の表で2〜3主体×3〜5工程。各列の主担当を1つとし、非担当は「-」。<code>risk-register</code> は「リスク / 重大度 / 対応 / 責任者」の表で3〜4件、重大度は高/中/低。判定基準を段落で添えます。新しい9種もレイアウトは明示指定し、選択用サンプルには全21種を含みます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
 <div class="presentation-controls"><button id="present-prev" aria-label="前のスライド">←</button><span id="present-count"></span><button id="present-next" aria-label="次のスライド">→</button><button id="exit">終了 (Esc)</button></div><input id="file" type="file" accept=".md,.markdown,.txt,text/plain,text/markdown" hidden><div class="print-deck" id="print-deck" aria-hidden="true"></div>
 <dialog id="qr-dialog" class="utility-dialog" aria-labelledby="qr-title" aria-describedby="qr-description">
 <div class="dialog-head"><h2 id="qr-title">MarkdownをQRコードで渡す</h2><button id="qr-close" type="button" autofocus>閉じる</button></div>
 <p id="qr-description">編集欄の全文を、生成時点の状態で格納します。読み取り後はテキストをコピーしてください。QRは暗号化ではありません。</p>
 <p id="qr-status" role="status" aria-live="polite"></p><div class="qr-scroll" id="qr-output"></div>
 <p>黒いコードと周囲の白い余白をすべて画面に表示して読み取ってください。収まらない場合はウィンドウを広げるかブラウザの表示倍率を調整してください。読み取れない場合はMarkdown保存を利用してください。</p>
-<button id="qr-refresh" type="button">現在の全文で再生成</button>
+<div class="dialog-head"><button id="qr-prev" type="button">前のQR</button><span id="qr-count" aria-live="polite"></span><button id="qr-next" type="button">次のQR</button></div><p id="qr-kind"></p><button id="qr-refresh" type="button">現在の全文で再生成</button>
 </dialog>
+<dialog id="template-dialog" class="utility-dialog" aria-labelledby="template-title"><div class="dialog-head"><h2 id="template-title">テンプレートを挿入</h2><button id="template-close" type="button" autofocus>閉じる</button></div><p id="template-position"></p><label for="template-choice">用途に合うパターン</label><select id="template-choice"></select><pre id="template-preview" class="license-text"></pre><button id="template-insert" type="button" class="primary">選んだテンプレートを挿入</button></dialog>
+<dialog id="restore-dialog" class="utility-dialog" aria-labelledby="restore-title"><div class="dialog-head"><h2 id="restore-title">分割QRを復元</h2><button id="restore-close" type="button" autofocus>閉じる</button></div><p>各QRから読み取ったSSQR1で始まるテキストを1行ずつ貼り付けてください。順不同で構いません。同じ番号の重複はまとめて確認します。通常の単一QRは生のMarkdownなので、編集欄へ直接貼り付けてください。</p><label for="restore-input">読み取った分割データ（最大32個）</label><textarea id="restore-input" rows="6" spellcheck="false"></textarea><button id="restore-check" type="button">検証して復元</button><p id="restore-status" role="status" aria-live="polite"></p><label for="restore-preview">復元した原稿（確認用）</label><textarea id="restore-preview" rows="6" readonly></textarea><button id="restore-apply" type="button" disabled>確認した原稿で編集欄を置き換える</button></dialog>
 <dialog id="about-dialog" class="utility-dialog" aria-labelledby="about-title">
 <div class="dialog-head"><h2 id="about-title">SlideSeedについて／ライセンス</h2><button id="about-close" type="button" autofocus>閉じる</button></div>
 <p>Markdownからプレゼンテーションを生成する、単一HTMLのオフラインアプリです。このHTML自体が編集可能なソースです。リポジトリ：zurustar/slideseed（GitHub）。</p>
@@ -3116,54 +3124,161 @@ function drawMarkdownQr(result,doc=document) {
  return canvas;
 }
 </script>
+<script id="qr-transfer">
+'use strict';
+const QR_PART_BYTES=1536, QR_MAX_PARTS=32, QR_TOTAL_BYTES=QR_PART_BYTES*QR_MAX_PARTS;
+async function qrDigest(bytes){
+ if(!globalThis.crypto?.subtle)throw Error('このブラウザでは整合性確認機能を利用できません。Chrome / Edgeで開くかMarkdown保存を利用してください。');
+ return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',bytes)),b=>b.toString(16).padStart(2,'0')).join('');
+}
+function qrBase64(bytes){return btoa(Array.from(bytes,b=>String.fromCharCode(b)).join(''));}
+async function makeQrTransfer(text){
+ const single=makeMarkdownQr(text);
+ if(single.kind!=='capacity')return {...single,parts:single.kind==='ok'?[text]:[]};
+ if(single.bytes>QR_TOTAL_BYTES)return {kind:'limit',bytes:single.bytes,parts:[]};
+ const bytes=new TextEncoder().encode(text),digest=await qrDigest(bytes),total=Math.ceil(bytes.length/QR_PART_BYTES),parts=[];
+ for(let i=0;i<total;i++)parts.push(`SSQR1:${digest}:${i+1}:${total}:${bytes.length}:${qrBase64(bytes.slice(i*QR_PART_BYTES,(i+1)*QR_PART_BYTES))}`);
+ return {kind:'ok',bytes:bytes.length,parts};
+}
+async function restoreQrParts(input){
+ if(input.length>QR_MAX_PARTS*QR_MAX_BYTES*2)throw Error('貼り付け量が上限を超えています。1組ずつ復元してください。');
+ const lines=input.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+ if(!lines.length)throw Error('読み取った分割QRのテキストを1行ずつ貼り付けてください。');
+ if(lines.length>QR_MAX_PARTS*2)throw Error('貼り付けた行が多すぎます。重複を整理してください。');
+ const chunks=new Map();let meta;
+ for(const line of lines){
+  if(line.length>QR_MAX_BYTES)throw Error('分割データの長さが不正です。');
+  const m=/^SSQR1:([a-f0-9]{64}):([1-9][0-9]*):([1-9][0-9]*):([1-9][0-9]*):([A-Za-z0-9+/]+={0,2})$/.exec(line);
+  if(!m)throw Error('分割QRの形式が不正、または未対応のバージョンです。');
+  const [,digest,indexText,totalText,sizeText,payload]=m,index=Number(indexText),total=Number(totalText),size=Number(sizeText);
+  if(!Number.isSafeInteger(size)||size<=QR_MAX_BYTES||size>QR_TOTAL_BYTES||total!==Math.ceil(size/QR_PART_BYTES)||total<2||total>QR_MAX_PARTS||index>total)throw Error('分割番号・総数・原文サイズが不正です。');
+  const key=`${digest}:${total}:${size}`;
+  if(meta&&meta.key!==key)throw Error('別の原稿のQRが混在しています。1組ずつ復元してください。');
+  meta={key,digest,total,size};
+  let decoded;try{decoded=Uint8Array.from(atob(payload),c=>c.charCodeAt(0));}catch{throw Error('分割データを復号できません。');}
+  if(qrBase64(decoded)!==payload||decoded.length!==(index===total?size-(total-1)*QR_PART_BYTES:QR_PART_BYTES))throw Error('分割データが破損しています。');
+  if(chunks.has(index)&&chunks.get(index).payload!==payload)throw Error('同じ番号に異なるデータがあります。');
+  chunks.set(index,{payload,decoded});
+ }
+ const missing=Array.from({length:meta.total},(_,i)=>i+1).filter(i=>!chunks.has(i));
+ if(missing.length)return {kind:'missing',received:chunks.size,total:meta.total,missing};
+ const bytes=new Uint8Array(meta.size);for(let i=1;i<=meta.total;i++)bytes.set(chunks.get(i).decoded,(i-1)*QR_PART_BYTES);
+ if(await qrDigest(bytes)!==meta.digest)throw Error('原文の整合性が一致しません。各QRを読み取り直してください。');
+ let text;try{text=new TextDecoder('utf-8',{fatal:true,ignoreBOM:true}).decode(bytes);}catch{throw Error('原文が正しいUTF-8ではありません。');}
+ return {kind:'ok',text,bytes:bytes.length,total:meta.total};
+}
+</script>
+<script id="template-engine">
+'use strict';
+// Match exactly the engine's normalized slide separator, retaining original offsets.
+function sourceSlideRanges(source){
+ let normalized='',offsets=[];
+ for(let i=source.charCodeAt(0)===0xFEFF?1:0;i<source.length;i++){
+  offsets.push(i);if(source[i]==='\r'){normalized+='\n';if(source[i+1]==='\n')i++;}else normalized+=source[i];
+ }
+ offsets.push(source.length);
+ const ranges=[];let start=0;
+ for(const match of normalized.matchAll(/^\s*---[\t ]*$/gm)){
+  ranges.push({start,end:offsets[match.index]});start=offsets[match.index+match[0].length];
+ }
+ ranges.push({start,end:source.length});return ranges;
+}
+function insertTemplate(source,template,index){
+ if(!source.trim()){const start=source.length+(source.length?1:0);return {text:source+(source.length?'\n':'')+template+'\n',start,index:0};}
+ const ranges=sourceSlideRanges(source),at=Math.max(0,Math.min(index,ranges.length-1)),pos=ranges[at].end;
+ const before=source.slice(0,pos),after=source.slice(pos),join='\n\n---\n\n',start=before.length+join.length;
+ return {text:before+join+template+(after?'\n\n'+after:'\n'),start,index:at+1};
+}
+</script>
 <script id="app">
 'use strict';
 const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n\n---\n\n# 小さく検証してから、全社へ展開する\n<!-- layout: process -->\n\n## 現状把握\n対象業務と制約を整理する。\n- 課題一覧\n\n## 小規模検証\n効果と運用負荷を確かめる。\n- 検証レポート\n\n## 全社展開\n標準手順に組み込む。\n- 運用ガイド\n\n> 各段階の成果物を、次の判断材料にする\n\n---\n\n# まずは低工数・高効果の施策に集中する\n<!-- layout: matrix -->\n<!-- x-axis: 工数 / 小 / 大 -->\n<!-- y-axis: 効果 / 小 / 大 -->\n\n## すぐ着手\n- テンプレート統一\n\n## 計画投資\n- 基幹システム刷新\n\n## 余力で対応\n- 軽微な文言修正\n\n## 再検討\n- 全画面の作り直し\n\n> 軸の定義をそろえてから、施策を分類する\n\n---\n\n# 手戻りの削減には、着手前の合意が必要\n<!-- layout: problem-solution -->\n\n## 要件の認識差\n- 課題: 実装後に修正が続く\n- 原因: 完了条件が曖昧という仮説\n- 対策: 着手前に受入条件を合意する\n\n## 判断の遅れ\n- 課題: レビュー待ちが積み上がる\n- 原因: 判断者が明確でないという仮説\n- 対策: 判断者と回答期限を定める\n\n> 対策は原因仮説と結び付けて検証する\n\n---\n\n# 売上低下の論点を、顧客数と単価に分ける\n<!-- layout: logic-tree -->\n<!-- root: 売上低下の要因 -->\n## 顧客数\n- 新規獲得の減少\n- 継続率の低下\n## 顧客単価\n- 購入頻度の低下\n- 商品構成の変化\n> 枝ごとに仮説と検証データをそろえる\n---\n\n# 対象業務を絞った先行導入を提案する\n<!-- layout: pyramid -->\n> まずは問い合わせ対応から導入する\n## 効果を測りやすい\n- 応答時間を継続計測できる\n## 運用を限定できる\n- 対象チームを小さく始められる\n## 再利用しやすい\n- 他部門にも共通する課題がある\n---\n\n# 先行導入と標準化を、段階的に進める\n<!-- layout: roadmap -->\n| 施策 | 第1四半期 | 第2四半期 | 第3四半期 | 第4四半期 |\n| --- | --- | --- | --- | --- |\n| 先行導入 | 実施 | 実施 | - | - |\n| 標準化 | - | 実施 | 実施 | - |\n| 全社展開 | - | - | 実施 | 実施 |\n> 検証結果を標準化へ引き継いでから展開する\n---\n\n# 初期投資と運用負荷のバランスから、案Bを推奨する\n<!-- layout: evaluation -->\n<!-- recommend: 案B -->\n| 判断基準 | 案A | 案B | 案C |\n| --- | --- | --- | --- |\n| 初期投資 | ◎ 小さい | ○ 許容範囲 | △ 大きい |\n| 導入速度 | ◎ すぐ開始 | ○ 段階導入 | △ 準備が必要 |\n| 運用負荷 | × 手作業中心 | ○ 標準化可能 | ◎ 自動化中心 |\n> 運用の持続性を重視して選ぶ\n---\n\n# 応答時間は目標内、継続率には改善余地がある\n<!-- layout: kpi -->\n<!-- period: 2026年 第3四半期 -->\n## 平均応答時間\n- actual: 2.4\n- target: 3\n- unit: 時間\n## 顧客継続率\n- actual: 88\n- target: 92\n- unit: %\n## 導入部門数\n- actual: 12\n- target: 10\n- unit: 部門\n> 指標の良否は、業務上の意味と合わせて判断する\n---\n\n# 先行導入の承認をお願いしたい\n<!-- layout: recommendation -->\n> 対象1部門で、4週間の先行導入を実施する\n## 判断理由\n- 対象を限定して運用リスクを抑える\n- 効果を測定してから追加投資を判断する\n## 次のアクション\n- action: 検証計画を確定する\n- owner: 業務改革チーム\n- due: 承認後1週間以内\n\n---\n\n# 調査業務が、全体の工数を押し上げている\n<!-- layout: bar -->\n<!-- unit: 時間 -->\n| 項目 | 値 |\n| --- | --- |\n| 調査 | 120 |\n| 分析 | 80 |\n| 資料作成 | 65 |\n| レビュー | 30 |\n> まず調査の再利用性を高める\n---\n\n# 平均処理時間は、導入後に短縮傾向が見られる\n<!-- layout: line -->\n<!-- unit: 分 -->\n| 期間 | 値 |\n| --- | --- |\n| 4月 | 42 |\n| 5月 | 40 |\n| 6月 | 35 |\n| 7月 | 31 |\n| 8月 | 30 |\n> 傾向を確認しつつ、他の影響要因も検証する\n---\n\n# 原価改善が、人件費増を上回る\n<!-- layout: waterfall -->\n<!-- unit: 百万円 -->\n| 区分 | 項目 | 値 |\n| --- | --- | --- |\n| start | 前期利益 | 100 |\n| delta | 原価改善 | 30 |\n| delta | 人件費増 | -15 |\n| delta | その他 | 5 |\n| end | 今期利益 | 120 |\n> 増減の内訳と合計の整合を確認する\n---\n\n# 既存顧客が、売上構成の中心を占める\n<!-- layout: composition -->\n| 区分 | 割合 |\n| --- | --- |\n| 既存大口 | 45 |\n| 既存中小 | 35 |\n| 新規 | 20 |\n> 既存顧客の継続と拡大を優先する\n---\n\n# 商談化の改善が、受注増加の起点となる\n<!-- layout: funnel -->\n<!-- cohort: 2026年4月に獲得したリード -->\n<!-- unit: 件 -->\n| 段階 | 件数 |\n| --- | --- |\n| リード | 1000 |\n| 商談 | 200 |\n| 提案 | 100 |\n| 受注 | 30 |\n> 同じ母集団を追跡した数値で比較する\n---\n\n# 検証を次の計画へ戻し、改善を継続する\n<!-- layout: cycle -->\n<!-- center: 学習を蓄積する -->\n## 計画\n仮説と検証方法を決める。\n## 実行\n対象を限定して試す。\n## 評価\n効果と副作用を確かめる。\n## 改善\n学びを次の計画に反映する。\n> 最後の工程を、次の一周へ接続する\n---\n\n# 主活動の改善を、共通基盤で支える\n<!-- layout: value-chain -->\n## 主活動\n- 調達: 品質と安定供給を確保\n- 開発: 顧客課題を製品に変換\n- 提供: 確実に価値を届ける\n- 支援: 利用の定着を促す\n## 支援活動\n- 人材育成: 全活動に必要な能力を整える\n- 情報基盤: 活動間のデータをつなぐ\n> 個別最適と共通基盤を一緒に設計する\n---\n\n# 引き継ぎ点の合意が、承認待ちを減らす\n<!-- layout: swimlane -->\n| 担当 | 依頼 | 確認 | 承認 | 実行 |\n| --- | --- | --- | --- | --- |\n| 依頼部門 | 条件を整理 | - | - | - |\n| 管理部門 | - | 条件を確認 | - | 手配する |\n| 責任者 | - | - | 可否を判断 | - |\n> 主担当と引き継ぐ条件を明確にする\n---\n\n# 先行導入の主要リスクには、事前の備えを置く\n<!-- layout: risk-register -->\n重大度は影響範囲と復旧難易度を踏まえて判断する。\n| リスク | 重大度 | 対応 | 責任者 |\n| --- | --- | --- | --- |\n| 誤回答 | 高 | 人による確認を必須にする | 業務責任者 |\n| 運用負荷の増加 | 中 | 対象件数を制限する | 運用担当 |\n| 利用の未定着 | 中 | 週次で利用状況を確認 | 推進担当 |\n> リスクの列挙で終えず、対応と責任を定める\n";
 const $=id=>document.getElementById(id);
 let deck=[],current=0,presenting=false,revision=0,readSequence=0;
-function fit(){const stage=$('stage'),vp=$('viewport');const style=getComputedStyle(stage);const width=stage.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);const height=stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);const scale=Math.max(.01,Math.min(width/1280,height/720));vp.style.width=1280*scale+'px';vp.style.height=720*scale+'px';const slide=vp.firstElementChild;if(slide)slide.style.transform=`scale(${scale})`;}
-function show(){current=Math.max(0,Math.min(current,deck.length-1));const slide=renderSlide(deck[current],current,deck.length);$('viewport').replaceChildren(slide);$('slides').value=String(current);$('previous').disabled=$('present-prev').disabled=current===0;$('next').disabled=$('present-next').disabled=current===deck.length-1;$('layout-label').textContent=deck[current].layout.toUpperCase()+' · 16:9';$('present-count').textContent=`${current+1} / ${deck.length}`;fit();requestAnimationFrame(checkAll);}
-function checkAll(){const warnings=[];deck.forEach((s,i)=>{for(const w of s.warnings)warnings.push(`${i+1}枚目：${w}`);const slide=renderSlide(s,i,deck.length);slide.style.position='absolute';slide.style.visibility='hidden';document.body.append(slide);if(overflowed(slide))warnings.push(`${i+1}枚目：文字が表示領域を超えています。内容を分割・短縮してください（自動縮小・省略はしません）。`);slide.remove();});const box=$('diagnostics');box.classList.toggle('has-warning',warnings.length>0);box.replaceChildren(el('strong','',warnings.length?`要確認 · ${warnings.length}件`:'表示チェック OK'));if(warnings.length){const ul=el('ul');[...new Set(warnings)].forEach(w=>ul.append(el('li','',w)));box.append(ul);}else box.append(document.createTextNode(' — 全スライドに構造・はみ出しの警告はありません。'));}
-function update(){revision++;deck=parseMarkdown($('editor').value);$('slides').replaceChildren(...deck.map((s,i)=>{const o=el('option','',`${i+1} / ${deck.length}　${s.title}`);o.value=String(i);return o;}));show();}
+function fit(){const stage=$('stage'),vp=$('viewport');const style=getComputedStyle(stage);const width=stage.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);const height=stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);const scale=Math.max(.01,Math.min(width/1280,height/720));vp.style.width=1280*scale+'px';vp.style.height=720*scale+'px';const slide=vp.firstElementChild;if(slide&&deck.length)slide.style.transform=`scale(${scale})`;}
+function show(){if(!deck.length){current=0;$('viewport').replaceChildren(el('div','empty-preview','Markdownを入力するか、「テンプレートを挿入」から始めてください。'));$('slides').value='';$('slides').disabled=true;for(const id of ['previous','next','present-prev','present-next','present','print'])$(id).disabled=true;$('layout-label').textContent='0枚';$('present-count').textContent='0 / 0';checkAll();return;}for(const id of ['slides','present','print'])$(id).disabled=false;current=Math.max(0,Math.min(current,deck.length-1));const slide=renderSlide(deck[current],current,deck.length);$('viewport').replaceChildren(slide);$('slides').value=String(current);$('previous').disabled=$('present-prev').disabled=current===0;$('next').disabled=$('present-next').disabled=current===deck.length-1;$('layout-label').textContent=deck[current].layout.toUpperCase()+' · 16:9';$('present-count').textContent=`${current+1} / ${deck.length}`;fit();requestAnimationFrame(checkAll);}
+function checkAll(){if(!deck.length){$('diagnostics').classList.remove('has-warning');$('diagnostics').textContent='原稿を入力すると、構造・はみ出しを確認します。';return;}const warnings=[];deck.forEach((s,i)=>{for(const w of s.warnings)warnings.push(`${i+1}枚目：${w}`);const slide=renderSlide(s,i,deck.length);slide.style.position='absolute';slide.style.visibility='hidden';document.body.append(slide);if(overflowed(slide))warnings.push(`${i+1}枚目：文字が表示領域を超えています。内容を分割・短縮してください（自動縮小・省略はしません）。`);slide.remove();});const box=$('diagnostics');box.classList.toggle('has-warning',warnings.length>0);box.replaceChildren(el('strong','',warnings.length?`要確認 · ${warnings.length}件`:'表示チェック OK'));if(warnings.length){const ul=el('ul');[...new Set(warnings)].forEach(w=>ul.append(el('li','',w)));box.append(ul);}else box.append(document.createTextNode(' — 全スライドに構造・はみ出しの警告はありません。'));}
+function update(){revision++;deck=$('editor').value.trim()?parseMarkdown($('editor').value):[];$('slides').replaceChildren(...deck.map((s,i)=>{const o=el('option','',`${i+1} / ${deck.length}　${s.title}`);o.value=String(i);return o;}));show();}
 function move(delta){current+=delta;show();}
 function status(text){$('status').textContent=text;}
-async function start(){presenting=true;document.body.classList.add('presenting');show();try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();}catch{status('全画面APIが利用できないため、ウィンドウ内で発表します。Escで終了できます。');}fit();}
+async function start(){if(!deck.length)return;presenting=true;document.body.classList.add('presenting');show();try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen();}catch{status('全画面APIが利用できないため、ウィンドウ内で発表します。Escで終了できます。');}fit();}
 function end(){presenting=false;document.body.classList.remove('presenting');if(document.fullscreenElement)document.exitFullscreen().catch(()=>{});fit();$('present').focus();}
 
-$('editor').value=SAMPLE;$('editor').addEventListener('input',update);
+$('editor').value='';$('editor').addEventListener('input',update);
 $('previous').onclick=$('present-prev').onclick=()=>move(-1);$('next').onclick=$('present-next').onclick=()=>move(1);$('slides').onchange=()=>{current=Number($('slides').value);show();};
-$('sample').onclick=()=>{if($('editor').value!==SAMPLE&&!confirm('編集中の内容をサンプルに置き換えます。必要なら先に保存してください。'))return;$('editor').value=SAMPLE;current=0;update();status(deck.length+'パターンのサンプルを読み込みました。');};
+$('sample').onclick=()=>{if($('editor').value.trim()&&!confirm('編集中の内容をサンプルに置き換えます。必要なら先に保存してください。'))return;$('editor').value=SAMPLE;current=0;update();status(deck.length+'パターンのサンプルを読み込みました。');};
 $('load').onclick=()=>{$('file').value='';$('file').click();};
-$('file').onchange=async()=>{const file=$('file').files[0];if(!file)return;const sequence=++readSequence;const before=revision;try{const text=await file.text();if(sequence!==readSequence)return;if((before!==revision||$('editor').value!==SAMPLE)&&!confirm('編集中の内容をファイルで置き換えます。必要ならキャンセルして保存してください。'))return;$('editor').value=text;current=0;update();status(file.name+' を読み込みました。');}catch{status('ファイルを読み込めませんでした。もう一度選択してください。');}};
+$('file').onchange=async()=>{const file=$('file').files[0];if(!file)return;const sequence=++readSequence;const before=revision;try{const text=await file.text();if(sequence!==readSequence)return;if((before!==revision||$('editor').value.trim())&&!confirm('編集中の内容をファイルで置き換えます。必要ならキャンセルして保存してください。'))return;$('editor').value=text;current=0;update();status(file.name+' を読み込みました。');}catch{status('ファイルを読み込めませんでした。もう一度選択してください。');}};
 $('save').onclick=()=>{const blob=new Blob([$ ('editor').value],{type:'text/markdown;charset=utf-8'});const url=URL.createObjectURL(blob);const a=el('a');a.href=url;a.download='slideseed.md';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);status('Markdownの保存を開始しました。');};
 function preparePrint(){const root=$('print-deck');root.replaceChildren(...deck.map((s,i)=>renderSlide(s,i,deck.length)));}
-$('print').onclick=()=>{preparePrint();window.print();};window.addEventListener('beforeprint',preparePrint);
+$('print').onclick=()=>{if(!deck.length)return;preparePrint();window.print();};window.addEventListener('beforeprint',preparePrint);
 $('present').onclick=start;$('exit').onclick=end;
 document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&presenting)end();else fit();});
 document.addEventListener('keydown',event=>{if(document.querySelector('dialog[open]')||!presenting||event.ctrlKey||event.metaKey||event.altKey)return;const k=event.key;if(['ArrowRight','ArrowDown',' ','PageDown'].includes(k)){event.preventDefault();move(1);}else if(['ArrowLeft','ArrowUp','PageUp'].includes(k)){event.preventDefault();move(-1);}else if(k==='Home'){event.preventDefault();current=0;show();}else if(k==='End'){event.preventDefault();current=deck.length-1;show();}else if(k==='Escape'){event.preventDefault();end();}});
 new ResizeObserver(fit).observe($('stage'));window.addEventListener('resize',fit);document.fonts.ready.then(()=>{fit();checkAll();});update();
 </script>
+
 <script id="qr-ui">
 'use strict';
-function refreshQr(){
- const output=$('qr-output');output.replaceChildren();
- try {
-  const result=makeMarkdownQr($('editor').value);
-  if(result.kind==='ok'){
-   output.append(drawMarkdownQr(result));
-   $('qr-status').textContent=`生成時点の全文：${result.bytes} / ${QR_MAX_BYTES} UTF-8バイト · 誤り訂正M · バージョン${result.code.version}（上限はバージョン40）。`;
-  }else if(result.kind==='empty')$('qr-status').textContent='内容が空です。Markdownを入力してから再生成してください。';
-  else if(result.kind==='invalid')$('qr-status').textContent='UTF-8で保持できない不正な文字が含まれています。原稿を確認してください。内容は変更していません。';
-  else $('qr-status').textContent=`容量超過：${result.bytes} / ${QR_MAX_BYTES} UTF-8バイト。全文は1個のQRに収まりません。閉じてMarkdown保存を利用してください。内容は省略していません。`;
- }catch{$('qr-status').textContent='QRコードを生成できませんでした。閉じてMarkdown保存を利用してください。';}
+let qrTransfer=null,qrIndex=0,qrRequest=0;
+function qrNavigation(){
+ const total=qrTransfer?.parts.length||0;
+ $('qr-prev').disabled=!total||qrIndex===0;$('qr-next').disabled=!total||qrIndex===total-1;
+ $('qr-count').textContent=total?`${qrIndex+1} / ${total}`:'';
 }
-$('qr-open').onclick=()=>{refreshQr();$('qr-dialog').showModal();};
-$('qr-refresh').onclick=refreshQr;
-$('about-open').onclick=()=>$('about-dialog').showModal();
-$('qr-dialog').addEventListener('close',()=>{$('qr-output').replaceChildren();$('qr-status').textContent='';$('qr-open').focus();});
-$('about-dialog').addEventListener('close',()=>$('about-open').focus());
+function showQrPart(){
+ $('qr-output').replaceChildren();qrNavigation();if(!qrTransfer)return;
+ const part=qrTransfer.parts[qrIndex];
+ $('qr-output').append(drawMarkdownQr(makeMarkdownQr(part)));
+ $('qr-status').textContent=`生成時点の全文：${qrTransfer.bytes} UTF-8バイト · ${qrIndex+1} / ${qrTransfer.parts.length} · 誤り訂正M`;
+ $('qr-kind').textContent=qrTransfer.parts.length===1?'通常のQR：読み取ったテキストがMarkdown全文です。':'分割QR：全番号を読み取り、各SSQR1テキストを1行ずつ「分割QRを復元」へ貼り付けてください。単純な文字列の連結では原文に戻りません。';
+}
+async function refreshQr(){
+ const request=++qrRequest;qrTransfer=null;qrIndex=0;$('qr-output').replaceChildren();$('qr-kind').textContent='';qrNavigation();$('qr-status').textContent='全文からQRを生成しています…';
+ try{
+  const result=await makeQrTransfer($('editor').value);if(request!==qrRequest)return;
+  if(result.kind==='ok'){qrTransfer=result;showQrPart();}
+  else if(result.kind==='empty')$('qr-status').textContent='内容が空です。Markdownを入力してから再生成してください。';
+  else if(result.kind==='invalid')$('qr-status').textContent='UTF-8で保持できない不正な文字が含まれています。内容は変更していません。';
+  else $('qr-status').textContent=`容量超過：${result.bytes} / ${QR_TOTAL_BYTES} UTF-8バイト（最大${QR_MAX_PARTS}個）。閉じてMarkdown保存を利用してください。内容は省略していません。`;
+ }catch(error){if(request!==qrRequest)return;qrTransfer=null;$('qr-output').replaceChildren();qrNavigation();$('qr-status').textContent='生成できませんでした。'+error.message;}
+}
+$('qr-open').onclick=()=>{$('qr-dialog').showModal();refreshQr();};$('qr-refresh').onclick=refreshQr;
+$('qr-prev').onclick=()=>{if(qrTransfer&&qrIndex>0){qrIndex--;showQrPart();}};
+$('qr-next').onclick=()=>{if(qrTransfer&&qrIndex<qrTransfer.parts.length-1){qrIndex++;showQrPart();}};
 $('qr-close').onclick=()=>$('qr-dialog').close();
-$('about-close').onclick=()=>$('about-dialog').close();
+$('qr-dialog').addEventListener('close',()=>{qrRequest++;qrTransfer=null;$('qr-output').replaceChildren();$('qr-status').textContent='';$('qr-kind').textContent='';qrNavigation();$('qr-open').focus();});
+$('about-open').onclick=()=>$('about-dialog').showModal();$('about-close').onclick=()=>$('about-dialog').close();$('about-dialog').addEventListener('close',()=>$('about-open').focus());
+let restoreRequest=0,restored=null;
+function clearRestored(){restored=null;$('restore-preview').value='';$('restore-apply').disabled=true;}
+$('restore-open').onclick=()=>$('restore-dialog').showModal();$('restore-close').onclick=()=>$('restore-dialog').close();
+$('restore-input').addEventListener('input',()=>{restoreRequest++;clearRestored();$('restore-status').textContent='内容が変わりました。「検証して復元」を押してください。';});
+$('restore-check').onclick=async()=>{
+ const request=++restoreRequest;clearRestored();$('restore-status').textContent='検証しています…';
+ try{const result=await restoreQrParts($('restore-input').value);if(request!==restoreRequest)return;
+  if(result.kind==='missing'){$('restore-status').textContent=`${result.received} / ${result.total}個を確認。不足：${result.missing.join(', ')}番`;return;}
+  restored=result;$('restore-preview').value=result.text;$('restore-apply').disabled=false;$('restore-status').textContent=`全${result.total}個、${result.bytes}バイトの整合性を確認しました。内容を確認してから編集欄へ適用してください。`;
+ }catch(error){if(request===restoreRequest)$('restore-status').textContent=error.message;}
+};
+$('restore-apply').onclick=()=>{
+ if(!restored)return;
+ if($('editor').value.length&&!confirm('編集中の原稿を復元した内容で置き換えます。必要なら先に保存してください。'))return;
+ $('editor').value=restored.text;current=0;update();$('restore-dialog').close();status('分割QRから復元した原稿を読み込みました。');
+};
+$('restore-dialog').addEventListener('close',()=>{restoreRequest++;clearRestored();$('restore-input').value='';$('restore-status').textContent='';$('restore-open').focus();});
+const TEMPLATE_INFO=[
+ ['message','キーメッセージ','1枚で主張を伝える'],['compare','左右比較','2つの案や状態を比べる'],['pillars','3本柱','3つの要素を並べる'],['process','プロセス','工程の順序と成果物'],['matrix','2×2マトリクス','2軸で施策を整理する'],['problem-solution','課題・対策','課題と原因仮説、対策を対応させる'],['logic-tree','ロジックツリー','論点を親子関係で分解する'],['pyramid','ピラミッド','結論を根拠で支える'],['roadmap','ロードマップ','時期と並行施策を示す'],['evaluation','選択肢評価','共通の基準で案を比べる'],['kpi','KPI','実績と目標を示す'],['recommendation','提言','判断依頼と次の行動'],['bar','横棒グラフ','数量を比較する'],['line','折れ線グラフ','時系列の推移を示す'],['waterfall','ウォーターフォール','起点から終点への増減'],['composition','構成比','全体に占める割合'],['funnel','ファネル','同じ母集団の転換率'],['cycle','サイクル','反復・改善を示す'],['value-chain','バリューチェーン','主活動と支援活動'],['swimlane','スイムレーン','担当間の引き継ぎ'],['risk-register','リスク一覧','リスクと対応・責任者']
+];
+const TEMPLATE_SOURCES=parseMarkdown(SAMPLE);
+const TEMPLATES=TEMPLATE_INFO.map(([id,name,use])=>({id,name,use,source:TEMPLATE_SOURCES.find(s=>s.layout===id).source.trim()}));
+let templateCaret=null;
+$('template-choice').replaceChildren(...TEMPLATES.map((t,i)=>{const option=el('option','',`${t.name} — ${t.use}`);option.value=String(i);return option;}));
+function templatePreview(){const t=TEMPLATES[Number($('template-choice').value)||0];$('template-preview').textContent=t.source;}
+$('template-choice').onchange=templatePreview;
+$('template-open').onclick=()=>{$('template-position').textContent=deck.length?`挿入先：${current+1}枚目「${deck[current].title}」の後。既存の原稿は保持します。`:'空の原稿に、最初のスライドとして挿入します。';templateCaret=null;templatePreview();$('template-dialog').showModal();};
+$('template-close').onclick=()=>$('template-dialog').close();
+$('template-insert').onclick=()=>{const t=TEMPLATES[Number($('template-choice').value)||0],result=insertTemplate($('editor').value,t.source,current);$('editor').value=result.text;current=result.index;update();templateCaret=result.start;$('template-dialog').close();status(t.name+'のテンプレートを挿入しました。');};
+$('template-dialog').addEventListener('close',()=>{if(templateCaret===null){$('template-open').focus();return;}const editor=$('editor');editor.focus();editor.setSelectionRange(templateCaret,templateCaret);const line=editor.value.slice(0,templateCaret).split('\n').length-1;editor.scrollTop=Math.max(0,line*parseFloat(getComputedStyle(editor).lineHeight)-30);templateCaret=null;});
 </script>
 </body>
 </html>

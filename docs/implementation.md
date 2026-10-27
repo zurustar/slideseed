@@ -139,3 +139,8 @@ node tests/browser.test.cjs
 ## 配布・QR表示の追加
 
 Issue #26 / #27の実装は [単一HTML配布とQR表示](distribution-qr.md) を参照。配布名はSlideSeed.html、開発用index.htmlは維持する。
+
+
+## 分割QR・選択テンプレートの追加
+
+Issue #29 / #30の実装は [分割QRと選択テンプレート](multipart-templates.md) を参照。初期原稿は空とし、必要な型を選択挿入できる。長い原稿は最大32個のQRで転送し、貼り付け復元に対応する。
