@@ -631,8 +631,6 @@ dialog::backdrop { background:rgba(0,0,0,.4); }
 #template-preview { max-height:40dvh; overflow:auto; border-top:1px solid var(--line); padding:16px 0; }
 @media(min-width:851px) { header.app-header { height:110px; } .workspace { height:calc(100dvh - 110px); } }
 
-.has-logo .slide-header { padding-right:224px; min-height:80px; }
-.slide-logo { position:absolute; top:48px; right:64px; max-width:200px; max-height:60px; width:auto; height:auto; }
 .brand-footer { max-width:940px; max-height:36px; line-height:18px; overflow:hidden; overflow-wrap:anywhere; white-space:pre-wrap; }
 .slide-footer { min-height:51px; gap:24px; align-items:flex-start; }
 .theme-preview { max-height:390px; overflow:auto; margin:16px 0; background:#f3f4f5; padding:10px; }
@@ -646,7 +644,7 @@ dialog::backdrop { background:rgba(0,0,0,.4); }
 </head>
 <body>
 <header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="qr-open">QRコード</button><button id="restore-open">分割QRを復元</button><button id="template-open">テンプレートを挿入</button><button id="theme-open">基本デザイン</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
-<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p>空の原稿から開始します。「テンプレートを挿入」で必要な型だけを、プレビューで選択中のスライドの後へ追加できます。</p><p>「QRコード」は編集欄の全文を生成時点の状態で格納します。一般的なQRリーダーでテキストとして読み取ってコピーできます。長い原稿は複数のQRに分割します。全番号を読み取り、「分割QRを復元」で各テキストを1行ずつ貼り付けて戻してください。カメラ読込には対応していません。QRは暗号化ではなく、見える人が内容を読み取れます。<button id="about-open" type="button">このアプリについて／ライセンス</button></p><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p><p><strong>第2群：説明と意思決定</strong></p><p><code>logic-tree</code>：<code>&lt;!-- root: 論点 --&gt;</code>、見出し2〜3個、各子1〜2件。ルートを含め10ノードまで。<code>pyramid</code>：<code>&gt;</code> を結論、見出し2〜3個を根拠にします。</p><p><code>roadmap</code>：先頭列「施策」の表で、期間3〜6列・施策3〜5行。「実施」を連続させ、「-」で非実施を明示。<code>evaluation</code>：先頭列「判断基準」、案2〜4列・基準3〜5行。各セルは「○ 根拠」など、または「未評価」。<code>&lt;!-- recommend: 案B --&gt;</code> で推奨案を指定できます。表は外側の | と --- の区切り行が必須。セル内の | は \| と記述します。</p><p><code>kpi</code>：<code>&lt;!-- period: 対象期間 --&gt;</code> と指標3〜4個。各見出しの下に <code>- actual:</code>、<code>- target:</code>、<code>- unit:</code> を指定。数値はカンマや指数を含まない十進数。<code>recommendation</code>：<code>&gt;</code> を提言とし、「判断理由」に2〜3項目、「次のアクション」に <code>- action:</code>、<code>- owner:</code>、<code>- due:</code> を指定します。</p><p>新規6種は必ず <code>&lt;!-- layout: ID --&gt;</code> で明示指定してください。選択用サンプルには全21種を含みます。要素数や必須入力の不備は原文付きの入力確認表示になります。</p><p><strong>第3群：数値と実行管理</strong></p><p><code>bar</code> は「項目 / 値」、<code>line</code> は「期間 / 値」、<code>waterfall</code> は「区分 / 項目 / 値」の表と <code>&lt;!-- unit: 単位 --&gt;</code>。棒は3〜7件、折れ線は4〜8時点（欠測は「欠測」）、増減は start → delta（2〜5件）→ end。数値は有限の十進数で、合計不整合は図にしません。</p><p><code>composition</code> は「区分 / 割合」の表で3〜5件、合計100%（±0.1ポイント）。%記号は付けません。<code>funnel</code> は「段階 / 件数」の表で3〜5段階、単位と <code>&lt;!-- cohort: 期間と母集団 --&gt;</code> が必須。非負整数の件数を減少順で記述します。</p><p><code>cycle</code> は <code>&lt;!-- center: 循環の目的 --&gt;</code> と見出し4個（左上→右上→右下→左下）。<code>value-chain</code> は「主活動」「支援活動」の見出しの下に「- 活動名: 説明」を記述し、主活動3〜5件・支援1〜2件。</p><p><code>swimlane</code> は先頭列「担当」の表で2〜3主体×3〜5工程。各列の主担当を1つとし、非担当は「-」。<code>risk-register</code> は「リスク / 重大度 / 対応 / 責任者」の表で3〜4件、重大度は高/中/低。判定基準を段落で添えます。新しい9種もレイアウトは明示指定し、選択用サンプルには全21種を含みます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
+<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p>空の原稿から開始します。「テンプレートを挿入」で必要な型だけを、プレビューで選択中のスライドの後へ追加できます。</p><p>「QRコード」は編集欄の全文を生成時点の状態で格納します。一般的なQRリーダーでテキストとして読み取ってコピーできます。長い原稿は複数のQRに分割します。全番号を読み取り、「分割QRを復元」で各テキストを1行ずつ貼り付けて戻してください。カメラ読込には対応していません。QRは暗号化ではなく、見える人が内容を読み取れます。<button id="about-open" type="button">このアプリについて／ライセンス</button></p><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p><p><strong>第2群：説明と意思決定</strong></p><p><code>logic-tree</code>：<code>&lt;!-- root: 論点 --&gt;</code>、見出し2〜3個、各子1〜2件。ルートを含め10ノードまで。<code>pyramid</code>：<code>&gt;</code> を結論、見出し2〜3個を根拠にします。</p><p><code>roadmap</code>：先頭列「施策」の表で、期間3〜6列・施策3〜5行。「実施」を連続させ、「-」で非実施を明示。<code>evaluation</code>：先頭列「判断基準」、案2〜4列・基準3〜5行。各セルは「○ 根拠」など、または「未評価」。<code>&lt;!-- recommend: 案B --&gt;</code> で推奨案を指定できます。表は外側の | と --- の区切り行が必須。セル内の | は \| と記述します。</p><p><code>kpi</code>：<code>&lt;!-- period: 対象期間 --&gt;</code> と指標3〜4個。各見出しの下に <code>- actual:</code>、<code>- target:</code>、<code>- unit:</code> を指定。数値はカンマや指数を含まない十進数。<code>recommendation</code>：<code>&gt;</code> を提言とし、「判断理由」に2〜3項目、「次のアクション」に <code>- action:</code>、<code>- owner:</code>、<code>- due:</code> を指定します。</p><p>新規6種は必ず <code>&lt;!-- layout: ID --&gt;</code> で明示指定してください。選択用サンプルには全21種を含みます。要素数や必須入力の不備は原文付きの入力確認表示になります。</p><p><strong>第3群：数値と実行管理</strong></p><p><code>bar</code> は「項目 / 値」、<code>line</code> は「期間 / 値」、<code>waterfall</code> は「区分 / 項目 / 値」の表と <code>&lt;!-- unit: 単位 --&gt;</code>。棒は3〜7件、折れ線は4〜8時点（欠測は「欠測」）、増減は start → delta（2〜5件）→ end。数値は有限の十進数で、合計不整合は図にしません。</p><p><code>composition</code> は「区分 / 割合」の表で3〜5件、合計100%（±0.1ポイント）。%記号は付けません。<code>funnel</code> は「段階 / 件数」の表で3〜5段階、単位と <code>&lt;!-- cohort: 期間と母集団 --&gt;</code> が必須。非負整数の件数を減少順で記述します。</p><p><code>cycle</code> は <code>&lt;!-- center: 循環の目的 --&gt;</code> と見出し4個（左上→右上→右下→左下）。<code>value-chain</code> は「主活動」「支援活動」の見出しの下に「- 活動名: 説明」を記述し、主活動3〜5件・支援1〜2件。</p><p><code>swimlane</code> は先頭列「担当」の表で2〜3主体×3〜5工程。各列の主担当を1つとし、非担当は「-」。<code>risk-register</code> は「リスク / 重大度 / 対応 / 責任者」の表で3〜4件、重大度は高/中/低。判定基準を段落で添えます。新しい9種もレイアウトは明示指定し、選択用サンプルには全21種を含みます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
 <div class="presentation-controls"><button id="present-prev" aria-label="前のスライド">←</button><span id="present-count"></span><button id="present-next" aria-label="次のスライド">→</button><button id="exit">終了 (Esc)</button></div><input id="file" type="file" accept=".md,.markdown,.txt,text/plain,text/markdown" hidden><div class="print-deck" id="print-deck" aria-hidden="true"></div>
 <dialog id="qr-dialog" class="utility-dialog" aria-labelledby="qr-title" aria-describedby="qr-description">
 <div class="dialog-head"><h2 id="qr-title">MarkdownをQRコードで渡す</h2><button id="qr-close" type="button" autofocus>閉じる</button></div>
@@ -657,7 +655,7 @@ dialog::backdrop { background:rgba(0,0,0,.4); }
 </dialog>
 <dialog id="template-dialog" class="utility-dialog" aria-labelledby="template-title"><div class="dialog-head"><h2 id="template-title">テンプレートを挿入</h2><button id="template-close" type="button" autofocus>閉じる</button></div><p id="template-position"></p><label for="template-choice">用途に合うパターン</label><select id="template-choice"></select><pre id="template-preview" class="license-text"></pre><button id="template-insert" type="button" class="primary">選んだテンプレートを挿入</button></dialog>
 <dialog id="restore-dialog" class="utility-dialog" aria-labelledby="restore-title"><div class="dialog-head"><h2 id="restore-title">分割QRを復元</h2><button id="restore-close" type="button" autofocus>閉じる</button></div><p>各QRから読み取ったSSQR1で始まるテキストを1行ずつ貼り付けてください。順不同で構いません。同じ番号の重複はまとめて確認します。通常の単一QRは生のMarkdownなので、編集欄へ直接貼り付けてください。</p><label for="restore-input">読み取った分割データ（最大32個）</label><textarea id="restore-input" rows="6" spellcheck="false"></textarea><button id="restore-check" type="button">検証して復元</button><p id="restore-status" role="status" aria-live="polite"></p><label for="restore-preview">復元した原稿（確認用）</label><textarea id="restore-preview" rows="6" readonly></textarea><button id="restore-apply" type="button" disabled>確認した原稿で編集欄を置き換える</button></dialog>
-<dialog id="theme-dialog" class="utility-dialog" aria-labelledby="theme-title"><div class="dialog-head"><h2 id="theme-title">スライドの基本デザイン</h2><button id="theme-close" type="button" autofocus>キャンセル</button></div><p>全スライド共通です。原稿は変更しません。設定は自動保存されません。「設定を保存」で再利用できます。MarkdownとQRには設定やロゴを含めません。</p><label for="theme-footer">左下の共通文字列（改行なし・80文字以内／空欄可）</label><input id="theme-footer" type="text"><label for="theme-color">コーポレートカラー</label><div class="dialog-head"><input id="theme-picker" type="color" value="#CC0033"><input id="theme-color" type="text" value="#CC0033" aria-describedby="theme-color-note"></div><p id="theme-color-note">淡い色では、文字・線に同系色の濃い補助色を使って視認性を補います。選んだ塗り色は保持します。</p><label for="theme-logo-file">右上のロゴ（任意・静的PNG/JPEG・2MiB以下）</label><input id="theme-logo-file" type="file" accept="image/png,image/jpeg"><button id="theme-logo-remove" type="button">ロゴを外す</button><p id="theme-logo-state"></p><p>未指定なら空欄です。画像は取り込み後に縮小して設定内に保持します。外部URLは取得しません。</p><div id="theme-preview" class="theme-preview" aria-label="基本デザインのプレビュー"></div><p id="theme-status" role="status" aria-live="polite"></p><div class="toolbar"><button id="theme-reset" type="button">初期値に戻す</button><button id="theme-save" type="button">表示中の設定を保存</button><button id="theme-load" type="button">設定ファイルを開く</button><button id="theme-apply" type="button" class="primary">全スライドに適用</button></div><input id="theme-profile-file" type="file" accept=".json,application/json" hidden></dialog>
+<dialog id="theme-dialog" class="utility-dialog" aria-labelledby="theme-title"><div class="dialog-head"><h2 id="theme-title">スライドの基本デザイン</h2><button id="theme-close" type="button" autofocus>キャンセル</button></div><p>全スライド共通です。原稿は変更しません。設定は自動保存されません。「設定を保存」で再利用できます。MarkdownとQRにはデザイン設定を含めません。</p><label for="theme-footer">左下の共通文字列（改行なし・80文字以内／空欄可）</label><input id="theme-footer" type="text"><label for="theme-color">コーポレートカラー</label><div class="dialog-head"><input id="theme-picker" type="color" value="#CC0033"><input id="theme-color" type="text" value="#CC0033" aria-describedby="theme-color-note"></div><p id="theme-color-note">淡い色では、文字・線に同系色の濃い補助色を使って視認性を補います。選んだ塗り色は保持します。</p><div id="theme-preview" class="theme-preview" aria-label="基本デザインのプレビュー"></div><p id="theme-status" role="status" aria-live="polite"></p><div class="toolbar"><button id="theme-reset" type="button">初期値に戻す</button><button id="theme-save" type="button">表示中の設定を保存</button><button id="theme-load" type="button">設定ファイルを開く</button><button id="theme-apply" type="button" class="primary">全スライドに適用</button></div><input id="theme-profile-file" type="file" accept=".json,application/json" hidden></dialog>
 <dialog id="about-dialog" class="utility-dialog" aria-labelledby="about-title">
 <div class="dialog-head"><h2 id="about-title">SlideSeedについて／ライセンス</h2><button id="about-close" type="button" autofocus>閉じる</button></div>
 <p>Markdownからプレゼンテーションを生成する、単一HTMLのオフラインアプリです。このHTML自体が編集可能なソースです。リポジトリ：zurustar/slideseed（GitHub）。</p>
@@ -1363,8 +1361,7 @@ Public License instead of this License.  But first, please read
 </dialog>
 <script id="theme-engine">
 'use strict';
-const THEME_LOGO_BYTES=2097152,THEME_LOGO_PIXELS=16777216;
-function defaultTheme(){return {color:'#CC0033',footer:'',logo:null};}
+function defaultTheme(){return {color:'#CC0033',footer:''};}
 function themeColor(color){if(typeof color!=='string'||!/^#[0-9a-f]{6}$/i.test(color))throw Error('色は#と6桁の16進数で指定してください。');return color.toUpperCase();}
 function themeRgb(color){return [1,3,5].map(i=>parseInt(color.slice(i,i+2),16));}
 function themeHex(rgb){return '#'+rgb.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('').toUpperCase();}
@@ -1374,54 +1371,19 @@ function themeTokens(color){
  for(let i=0;i<100&&((softLum+.05)/(themeLuminance(themeRgb(themeHex(ink)))+.05))<4.5;i++)ink=ink.map(v=>v*.94);
  return {color:themeHex(rgb),soft,text:themeHex(ink),on:lum>.179?'#000000':'#FFFFFF',lowContrast:1.05/(lum+.05)<4.5};
 }
-function inspectLogoBytes(bytes){
- if(bytes.length>THEME_LOGO_BYTES)throw Error('ロゴは2MiB以下にしてください。');
- let width,height,type;
- const at=i=>(bytes[i]*16777216+bytes[i+1]*65536+bytes[i+2]*256+bytes[i+3]);
- if(bytes.length>=33&&[137,80,78,71,13,10,26,10].every((v,i)=>bytes[i]===v)){
-  if(at(8)!==13||String.fromCharCode(...bytes.slice(12,16))!=='IHDR')throw Error('PNGのヘッダーが不正です。');
-  width=at(16);height=at(20);type='image/png';
-  let i=8;while(i+12<=bytes.length){const n=at(i);if(n>bytes.length-i-12)throw Error('PNGの構造が不正です。');const name=String.fromCharCode(...bytes.slice(i+4,i+8));if(name==='acTL')throw Error('アニメーションPNGは使えません。');i+=n+12;if(name==='IEND')break;}
- }else if(bytes.length>4&&bytes[0]===255&&bytes[1]===216){
-  type='image/jpeg';let i=2;
-  while(i<bytes.length){if(bytes[i++]!==255)throw Error('JPEGの構造が不正です。');while(bytes[i]===255)i++;const marker=bytes[i++];if(marker===217||marker===218)break;if(marker===1||(marker>=208&&marker<=215))continue;
-   const length=bytes[i]*256+bytes[i+1];if(!(length>=2)||i+length>bytes.length)throw Error('JPEGの構造が不正です。');
-   if([192,193,194].includes(marker)){if(length<8)throw Error('JPEGの寸法が不正です。');height=bytes[i+3]*256+bytes[i+4];width=bytes[i+5]*256+bytes[i+6];break;}i+=length;
-  }
- }else throw Error('ロゴは静的なPNGまたはJPEG画像を選んでください。');
- if(!width||!height||width>8192||height>8192||width*height>THEME_LOGO_PIXELS)throw Error('画像は各辺8192px以下、合計16,777,216画素以下にしてください。');
- return {width,height,type};
-}
-function logoDataBytes(data){
- if(typeof data!=='string'||data.length>524288||!/^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/.test(data))throw Error('設定内のロゴ形式が不正です。');
- let bytes;try{const body=data.slice(22),raw=atob(body);bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));if(btoa(raw)!==body)throw Error();}catch{throw Error('設定内のロゴデータが不正です。');}
- const info=inspectLogoBytes(bytes);if(info.type!=='image/png'||info.width>640||info.height>192)throw Error('設定内のロゴ寸法が大きすぎます。');return bytes;
-}
 function normalizeTheme(value){
  if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!['color','footer','logo'].includes(k)))throw Error('設定項目が不正です。');
  const color=themeColor(value.color);
  if(typeof value.footer!=='string'||Array.from(value.footer).length>80||/[\r\n\u0000-\u001F\u007F\u2028\u2029]/.test(value.footer))throw Error('左下の文字列は改行なし・80文字以内にしてください。');
- let logo=null;
- if(value.logo!==null){if(!value.logo||typeof value.logo!=='object'||Object.keys(value.logo).some(k=>!['data'].includes(k)))throw Error('ロゴ設定が不正です。');logoDataBytes(value.logo.data);logo={data:value.logo.data};}
- return {color,footer:value.footer,logo};
+ if(value.logo!==undefined&&value.logo!==null)throw Error('ロゴ機能は廃止しました。ロゴを含まない基本デザイン設定を使用してください。');
+ return {color,footer:value.footer};
 }
-function exportThemeProfile(theme){return JSON.stringify({format:'SlideSeedTheme',version:1,theme:{color:theme.color,footer:theme.footer,logo:theme.logo?{data:theme.logo.data}:null}},null,2);}
-async function decodeLogo(bytes){
- const info=inspectLogoBytes(bytes);if(typeof createImageBitmap!=='function')throw Error('このブラウザでは画像を取り込めません。Chrome / Edgeを利用してください。');
- const bitmap=await createImageBitmap(new Blob([bytes],{type:info.type}));
- try{
-  if(!((bitmap.width===info.width&&bitmap.height===info.height)||(bitmap.width===info.height&&bitmap.height===info.width)))throw Error('画像の寸法が一致しません。');
-  const scale=Math.min(1,640/bitmap.width,192/bitmap.height),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
-  const ctx=canvas.getContext('2d');if(!ctx)throw Error('画像の描画に失敗しました。');ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
-  let data=canvas.toDataURL('image/png');if(data.length>524288){canvas.width=Math.max(1,Math.floor(canvas.width/2));canvas.height=Math.max(1,Math.floor(canvas.height/2));canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);data=canvas.toDataURL('image/png');}logoDataBytes(data);return {data,bitmap:canvas,width:canvas.width,height:canvas.height};
- }finally{bitmap.close();}
-}
-async function readLogoFile(file){if(file.size>THEME_LOGO_BYTES)throw Error('ロゴは2MiB以下にしてください。');return decodeLogo(new Uint8Array(await file.arrayBuffer()));}
+function exportThemeProfile(theme){return JSON.stringify({format:'SlideSeedTheme',version:1,theme:{color:theme.color,footer:theme.footer}},null,2);}
 async function importThemeProfile(text){
  if(text.length>600000)throw Error('設定ファイルが大きすぎます。');let profile;
  try{profile=JSON.parse(text);}catch{throw Error('設定ファイルがJSONではありません。');}
  if(!profile||profile.format!=='SlideSeedTheme'||profile.version!==1||Object.keys(profile).some(k=>!['format','version','theme'].includes(k)))throw Error('設定ファイルの形式・バージョンが不正です。');
- const theme=normalizeTheme(profile.theme);if(theme.logo)theme.logo=await decodeLogo(logoDataBytes(theme.logo.data));return theme;
+ return normalizeTheme(profile.theme);
 }
 </script>
 <script id="engine">
@@ -2313,10 +2275,9 @@ const LAYOUTS = {
  swimlane: {label:'ROLES & HANDOFFS', draw:swimlane},
  'risk-register': {label:'RISKS & RESPONSES', draw:riskRegister}
 };
-function renderSlide(s, index, total, theme = {color:'#CC0033',footer:'',logo:null}) {
+function renderSlide(s, index, total, theme = {color:'#CC0033',footer:''}) {
  const slide = el('article', 'slide ' + s.layout);
  if(theme.tokens)for(const [name,value] of Object.entries(theme.tokens))slide.style.setProperty(name,value);
- if(theme.logo&&theme.logo.bitmap){slide.classList.add('has-logo');const logo=el('canvas','slide-logo');logo.width=theme.logo.width;logo.height=theme.logo.height;logo.setAttribute('role','img');logo.setAttribute('aria-label','会社・組織のロゴ');logo.getContext('2d').drawImage(theme.logo.bitmap,0,0);slide.append(logo);}
  slide.setAttribute('aria-label', `${index+1} / ${total} ${s.title}`);
  const header = el('div', 'slide-header');
  header.append(inline(el('h1'), s.title), el('div', 'title-rule'));
@@ -3361,34 +3322,27 @@ $('template-dialog').addEventListener('close',()=>{if(templateCaret===null){$('t
 </script>
 <script id="theme-ui">
 'use strict';
-let draftLogo=null,themeRequest=0,themeBusy=false;
+let themeRequest=0,themeBusy=false;
 function themeBusyState(busy){themeBusy=busy;$('theme-apply').disabled=$('theme-save').disabled=busy;}
 function readThemeDraft(){
- const theme=normalizeTheme({color:$('theme-color').value,footer:$('theme-footer').value,logo:draftLogo?{data:draftLogo.data}:null});
- theme.logo=draftLogo;const tokens=themeTokens(theme.color);theme.tokens={'--accent':tokens.color,'--accent-soft':tokens.soft,'--accent-text':tokens.text,'--accent-line':tokens.text,'--on-accent':tokens.on};return theme;
+ const theme=normalizeTheme({color:$('theme-color').value,footer:$('theme-footer').value});
+ const tokens=themeTokens(theme.color);theme.tokens={'--accent':tokens.color,'--accent-soft':tokens.soft,'--accent-text':tokens.text,'--accent-line':tokens.text,'--on-accent':tokens.on};return theme;
 }
 function previewTheme(){
  if(themeBusy)return;
- $('theme-logo-state').textContent=draftLogo?`ロゴあり（${draftLogo.width} × ${draftLogo.height}px）。取り込んだ画像は設定内に保持しています。`:'ロゴなし：右上は空欄です。';$('theme-logo-remove').disabled=!draftLogo;
  try{const theme=readThemeDraft();$('theme-preview').replaceChildren(renderSlide(parseMarkdown('# 共通デザインのプレビュー\n> 会社の色とロゴで、資料の印象をそろえる。')[0],0,1,theme));$('theme-apply').disabled=$('theme-save').disabled=false;
   const notes=[];if(themeTokens(theme.color).lowContrast)notes.push('淡い色のため、文字と線に濃い補助色を使います。');if(Array.from(theme.footer).length>40)notes.push('左下は40文字程度を推奨します。適用後にはみ出し警告を確認してください。');$('theme-status').textContent=notes.join(' ')||'プレビューを確認し、「全スライドに適用」を押してください。';
  }catch(error){$('theme-apply').disabled=$('theme-save').disabled=true;$('theme-preview').replaceChildren();$('theme-status').textContent=error.message;}
 }
-function fillTheme(theme){draftLogo=theme.logo;$('theme-footer').value=theme.footer;$('theme-color').value=theme.color;$('theme-picker').value=theme.color;$('theme-logo-file').value='';previewTheme();}
+function fillTheme(theme){$('theme-footer').value=theme.footer;$('theme-color').value=theme.color;$('theme-picker').value=theme.color;previewTheme();}
 function cancelThemeRead(){themeRequest++;themeBusyState(false);}
 $('theme-open').onclick=()=>{cancelThemeRead();fillTheme(activeTheme);$('theme-dialog').showModal();};
 $('theme-close').onclick=()=>$('theme-dialog').close();
-$('theme-dialog').addEventListener('close',()=>{cancelThemeRead();draftLogo=null;$('theme-preview').replaceChildren();$('theme-status').textContent='';$('theme-open').focus();});
+$('theme-dialog').addEventListener('close',()=>{cancelThemeRead();$('theme-preview').replaceChildren();$('theme-status').textContent='';$('theme-open').focus();});
 $('theme-footer').addEventListener('input',()=>{cancelThemeRead();previewTheme();});
 $('theme-color').addEventListener('input',()=>{cancelThemeRead();try{$('theme-picker').value=themeColor($('theme-color').value);}catch{}previewTheme();});
 $('theme-picker').addEventListener('input',()=>{cancelThemeRead();$('theme-color').value=$('theme-picker').value;previewTheme();});
-$('theme-logo-remove').onclick=()=>{cancelThemeRead();draftLogo=null;$('theme-logo-file').value='';previewTheme();};
 $('theme-reset').onclick=()=>{cancelThemeRead();fillTheme(defaultTheme());};
-$('theme-logo-file').onchange=async()=>{
- const file=$('theme-logo-file').files[0];if(!file)return;const request=++themeRequest;themeBusyState(true);$('theme-status').textContent='ロゴを検証しています…';
- try{const logo=await readLogoFile(file);if(request!==themeRequest)return;themeBusyState(false);draftLogo=logo;previewTheme();}
- catch(error){if(request!==themeRequest)return;themeBusyState(false);previewTheme();$('theme-status').textContent=error.message+' 現在のロゴは保持しています。';}
-};
 $('theme-load').onclick=()=>{$('theme-profile-file').value='';$('theme-profile-file').click();};
 $('theme-profile-file').onchange=async()=>{
  const file=$('theme-profile-file').files[0];if(!file)return;const request=++themeRequest;themeBusyState(true);$('theme-status').textContent='設定を検証しています…';
