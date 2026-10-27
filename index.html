@@ -30,17 +30,17 @@ button {
   padding:9px 14px;
   color:var(--ink)}
 button:hover {
-  border-color:var(--accent);
+  border-color:var(--accent-text,var(--accent));
   color:var(--accent)}
 button:disabled {
   opacity:.4;
   cursor:default}
 button:focus-visible,a:focus-visible,summary:focus-visible {
-  outline:3px solid var(--accent);
+  outline:3px solid var(--accent-line,var(--accent));
   outline-offset:3px}
 .primary {
   background:var(--accent);
-  border-color:var(--accent);
+  border-color:var(--accent-text,var(--accent));
   color:white}
 .primary:hover {
   background:#a8002a;
@@ -159,7 +159,7 @@ textarea:focus {
 .slide-kicker {
   font-size:13px;
   letter-spacing:2px;
-  color:var(--accent);
+  color:var(--accent-text,var(--accent));
   font-weight:bold;
   margin-bottom:16px}
 .slide h1 {
@@ -227,7 +227,7 @@ textarea:focus {
   line-height:1.6;
   font-weight:700;
   letter-spacing:.02em;
-  border-left:5px solid var(--accent);
+  border-left:5px solid var(--accent-line,var(--accent));
   padding:0 0 0 30px;
   margin:0 0 28px}
 .message-support {
@@ -256,10 +256,10 @@ textarea:focus {
   background:#f8f9fa;
   overflow:hidden}
 .compare .column:last-child {
-  border-color:var(--accent);
-  background:#fff5f7}
+  border-color:var(--accent-text,var(--accent));
+  background:var(--accent-soft,#fff5f7)}
 .pillar-index {
-  color:var(--accent);
+  color:var(--accent-text,var(--accent));
   font-size:38px;
   font-weight:bold;
   line-height:1;
@@ -267,7 +267,7 @@ textarea:focus {
   letter-spacing:-1px}
 .pillars .column {
   background:white;
-  border-top:3px solid var(--accent);
+  border-top:3px solid var(--accent-line,var(--accent));
   padding:22px 10px 8px}
 .pillars .column+.column {
   border-left:1px solid var(--line);
@@ -285,7 +285,7 @@ textarea:focus {
   font-size:24px;
   line-height:1.6;
   font-weight:bold;
-  border-left:4px solid var(--accent);
+  border-left:4px solid var(--accent-line,var(--accent));
   padding:10px 20px;
   background:#f7f7f8;
   flex:none}
@@ -322,7 +322,7 @@ textarea:focus {
   max-height:140px;
   overflow:auto}
 .diagnostics.has-warning {
-  border-left:3px solid var(--accent)}
+  border-left:3px solid var(--accent-line,var(--accent))}
 .diagnostics ul {
   padding-left:20px;
   margin:4px 0}
@@ -413,22 +413,22 @@ body>.print-deck {
 /* Ordered steps: number, description and deliverable have distinct roles. */
 .process-grid { display:grid; grid-template-columns:repeat(var(--step-count),minmax(0,1fr)); gap:28px; flex:1; min-height:0; }
 .process-step { position:relative; min-width:0; min-height:0; }
-.step-body { height:100%; overflow:hidden; border-top:2px solid var(--accent); padding-top:16px; }
-.step-index { font-size:28px; line-height:1; font-weight:bold; color:var(--accent); margin-bottom:10px; }
+.step-body { height:100%; overflow:hidden; border-top:2px solid var(--accent-line,var(--accent)); padding-top:16px; }
+.step-index { font-size:28px; line-height:1; font-weight:bold; color:var(--accent-text,var(--accent)); margin-bottom:10px; }
 .process h2 { font-size:22px; line-height:1.4; margin:0 0 12px; }
 .process .step-body p { font-size:18px; line-height:1.5; margin:0 0 6px; }
 .step-deliverable { margin-top:12px; padding-top:10px; border-top:1px solid var(--line); }
 .step-label { font-size:11px; letter-spacing:1px; color:var(--muted); margin-bottom:5px; }
 .step-link { position:absolute; left:-25px; top:18px; width:22px; font-size:22px; line-height:1; color:var(--muted); text-align:center; }
 .validation-content { display:flex; flex-direction:column; gap:16px; }
-.validation-note { font-size:20px; line-height:1.6; border-left:4px solid var(--accent); padding-left:16px; flex:none; }
+.validation-note { font-size:20px; line-height:1.6; border-left:4px solid var(--accent-line,var(--accent)); padding-left:16px; flex:none; }
 .validation-source { font:18px/1.7 'Meiryo UI','Meiryo',sans-serif; white-space:pre-wrap; overflow-wrap:anywhere; overflow:auto; min-height:0; margin:0; padding:16px; background:var(--wash); }
 
 
 /* The order is fixed: top-left, top-right, bottom-left, bottom-right. */
 .matrix-diagram { display:grid; grid-template-columns:104px minmax(0,1fr); grid-template-rows:minmax(0,1fr) 42px; gap:12px; flex:1; min-height:0; }
 .matrix-y { grid-column:1; grid-row:1; display:flex; flex-direction:column; justify-content:space-between; text-align:center; border-right:1px solid var(--line); padding:4px 14px 4px 0; min-height:0; overflow:hidden; }
-.axis-name { font-size:18px; line-height:1.4; color:var(--accent); font-weight:bold; }
+.axis-name { font-size:18px; line-height:1.4; color:var(--accent-text,var(--accent)); font-weight:bold; }
 .axis-end { font-size:16px; line-height:1.4; color:var(--ink); }
 .matrix-quadrants { grid-column:2; grid-row:1; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:12px; min-height:0; }
 .matrix-cell { border:1px solid var(--line); padding:14px 20px; overflow:hidden; min-height:0; min-width:0; background:#fafafa; }
@@ -447,14 +447,14 @@ body>.print-deck {
 .problem-table thead th:first-child { width:15%; }
 .problem-table tbody th,.problem-table tbody td { font-size:18px; line-height:1.5; padding:12px; border-bottom:1px solid var(--line); }
 .problem-table tbody th { font-weight:bold; }
-.problem-table .solution-heading { color:var(--accent); font-weight:bold; }
-.problem-table .solution-cell { background:#fff5f7; border-left:2px solid var(--accent); }
+.problem-table .solution-heading { color:var(--accent-text,var(--accent)); font-weight:bold; }
+.problem-table .solution-cell { background:var(--accent-soft,#fff5f7); border-left:2px solid var(--accent-line,var(--accent)); }
 
 /* Group 2: fixed topology and bounded typography, never content-driven font scaling. */
 .tree-diagram { display:grid; grid-template-columns:220px minmax(0,1fr); gap:52px; flex:1; min-height:0; }
 .tree-root-slot { display:flex; align-items:center; min-height:0; position:relative; }
 .tree-node { border:1px solid var(--line); background:#fafafa; padding:12px 16px; min-width:0; overflow:hidden; }
-.tree-root { position:relative; border-left:4px solid var(--accent); font-size:24px; line-height:1.5; width:100%; max-height:100%; overflow:hidden; }
+.tree-root { position:relative; border-left:4px solid var(--accent-line,var(--accent)); font-size:24px; line-height:1.5; width:100%; max-height:100%; overflow:hidden; }
 .tree-root-slot::after { content:''; position:absolute; right:-27px; width:26px; top:50%; border-top:1px solid #aeb4bb; }
 .tree-groups { display:grid; grid-template-rows:repeat(var(--branch-count),minmax(0,1fr)); gap:16px; position:relative; min-height:0; }
 .tree-groups::before { content:''; position:absolute; left:-26px; top:var(--trunk-inset); bottom:var(--trunk-inset); border-left:1px solid #aeb4bb; }
@@ -471,7 +471,7 @@ body>.print-deck {
 .tree-leaf-slot::before { content:''; position:absolute; left:-20px; width:20px; top:50%; border-top:1px solid #aeb4bb; }
 .tree-leaf { font-size:18px; line-height:1.4; width:100%; max-height:100%; }
 .pyramid-body { flex:1; min-height:0; display:flex; flex-direction:column; }
-.pyramid-top { max-width:940px; width:90%; align-self:center; padding:16px 28px; border:1px solid var(--line); border-left:4px solid var(--accent); font-size:28px; line-height:1.5; font-weight:bold; position:relative; }
+.pyramid-top { max-width:940px; width:90%; align-self:center; padding:16px 28px; border:1px solid var(--line); border-left:4px solid var(--accent-line,var(--accent)); font-size:28px; line-height:1.5; font-weight:bold; position:relative; }
 .pyramid-top::after { content:''; position:absolute; left:50%; bottom:-17px; height:16px; border-left:1px solid #aeb4bb; }
 .pyramid-reasons { display:grid; grid-template-columns:repeat(var(--reason-count),minmax(0,1fr)); gap:28px; margin-top:28px; padding-top:16px; flex:1; min-height:0; position:relative; }
 .pyramid-reasons::before { content:''; position:absolute; top:0; left:var(--rail-inset); right:var(--rail-inset); border-top:1px solid #aeb4bb; }
@@ -479,7 +479,7 @@ body>.print-deck {
 .pyramid-reason-slot { position:relative; min-height:0; min-width:0; }
 .pyramid-reason-slot::before { content:''; position:absolute; top:-16px; height:16px; left:50%; border-left:1px solid #aeb4bb; }
 .pyramid-reason { height:100%; padding:16px 20px; background:#fafafa; border-top:2px solid var(--line); overflow:hidden; }
-.reason-number { color:var(--accent); font-size:18px; margin-bottom:12px; }
+.reason-number { color:var(--accent-text,var(--accent)); font-size:18px; margin-bottom:12px; }
 .pyramid h2 { font-size:20px; line-height:1.4; margin-bottom:12px; }
 .pyramid .pyramid-reason p,.pyramid .pyramid-reason li { font-size:18px; line-height:1.5; margin:0 0 6px; }
 .pyramid .pyramid-reason ul { margin:0; }
@@ -492,7 +492,7 @@ body>.print-deck {
 .roadmap-table th:first-child { width:25%; }
 .roadmap-table tbody th { font-size:16px; line-height:1.3; padding:8px 12px; }
 .roadmap-table tbody td { padding:6px 0; border-left:1px solid #eceef0; text-align:center; }
-.roadmap-bar { background:var(--accent); color:white; font-size:16px; line-height:1.5; padding:6px 4px; margin:0 6px; }
+.roadmap-bar { background:var(--accent); color:var(--on-accent,white); font-size:16px; line-height:1.5; padding:6px 4px; margin:0 6px; }
 .roadmap-idle { color:#777; font-size:18px; }
 .chart-note,.rating-legend { font-size:14px; line-height:1.5; color:var(--muted); flex:none; }
 .evaluation-table { height:auto; }
@@ -503,11 +503,11 @@ body>.print-deck {
 .rating-symbol { font-size:20px; line-height:1.2; }
 .rating-reason { font-size:16px; line-height:1.3; }
 .unrated { color:var(--muted); }
-.recommended-column { border-left:2px solid var(--accent); border-right:2px solid var(--accent); background:#fff5f7!important; }
-.evaluation-caption { text-align:left; caption-side:top; font-size:14px; line-height:1.5; margin-bottom:8px; color:var(--accent); }
+.recommended-column { border-left:2px solid var(--accent-line,var(--accent)); border-right:2px solid var(--accent-line,var(--accent)); background:var(--accent-soft,#fff5f7)!important; }
+.evaluation-caption { text-align:left; caption-side:top; font-size:14px; line-height:1.5; margin-bottom:8px; color:var(--accent-text,var(--accent)); }
 .kpi-period { font-size:16px; line-height:1.5; color:var(--muted); }
 .kpi-cards { display:grid; grid-template-columns:repeat(var(--kpi-count),minmax(0,1fr)); gap:24px; flex:1; min-height:0; }
-.kpi-card { border-top:3px solid var(--accent); padding:16px; background:#fafafa; min-width:0; overflow:hidden; }
+.kpi-card { border-top:3px solid var(--accent-line,var(--accent)); padding:16px; background:#fafafa; min-width:0; overflow:hidden; }
 .kpi-card h2 { font-size:20px; line-height:1.4; margin-bottom:14px; }
 .kpi-label { font-size:12px; letter-spacing:1px; color:var(--muted); }
 .kpi-value-line { display:flex; align-items:baseline; gap:8px; flex-wrap:wrap; margin:8px 0 16px; }
@@ -521,7 +521,7 @@ body>.print-deck {
 .recommendation-reasons,.recommendation-action { min-width:0; overflow:hidden; padding:12px 0; }
 .recommendation-columns h2 { font-size:22px; line-height:1.5; margin:0 0 14px; }
 .recommendation-reasons li { font-size:20px; line-height:1.4; margin-bottom:12px; }
-.recommendation-action { border-left:4px solid var(--accent); padding:12px 24px; background:#fafafa; }
+.recommendation-action { border-left:4px solid var(--accent-line,var(--accent)); padding:12px 24px; background:#fafafa; }
 .action-details { margin:0; }
 .action-item { margin-bottom:12px; }
 .action-details dt { font-size:12px; color:var(--muted); line-height:1.5; margin-bottom:4px; }
@@ -546,7 +546,7 @@ body>.print-deck {
 .plot-zero { border-color:#69727b; }
 .plot-ytick { position:absolute; left:-84px; top:0; width:76px; text-align:right; font-size:13px; line-height:1.3; transform:translateY(-50%); }
 .plot-xlabel { position:absolute; top:188px; width:120px; max-height:46px; overflow:hidden; transform:translateX(-50%); text-align:center; font-size:16px; line-height:1.35; }
-.plot-segment,.waterfall-connector,.composition-leader,.handoff-line { position:absolute; height:0; border-top:2px solid var(--accent); transform-origin:0 0; }
+.plot-segment,.waterfall-connector,.composition-leader,.handoff-line { position:absolute; height:0; border-top:2px solid var(--accent-line,var(--accent)); transform-origin:0 0; }
 .plot-dot { position:absolute; width:8px; height:8px; border-radius:50%; background:var(--accent); transform:translate(-50%,-50%); }
 .plot-value { position:absolute; width:112px; max-height:38px; overflow:hidden; transform:translate(-50%,calc(-100% - 8px)); text-align:center; font-size:14px; line-height:1.3; font-variant-numeric:tabular-nums; }
 .plot-missing { position:absolute; top:4px; transform:translateX(-50%); font-size:14px; color:var(--muted); }
@@ -561,7 +561,7 @@ body>.print-deck {
 .composition-leader { border-top:1px solid #69727b; }
 .composition-strip { display:flex; height:56px; background:#f5f6f7; position:relative; flex:none; }
 .composition-part { flex:none; border-right:1px solid white; }
-.part-0 { background:#CC0033; }.part-1 { background:#606b75; }.part-2 { background:#919aa3; }.part-3 { background:#bdc4cb; }.part-4 { background:#e0e4e8; border-top:1px solid #aeb5bc; border-bottom:1px solid #aeb5bc; }
+.part-0 { background:var(--accent); }.part-1 { background:#606b75; }.part-2 { background:#919aa3; }.part-3 { background:#bdc4cb; }.part-4 { background:#e0e4e8; border-top:1px solid #aeb5bc; border-bottom:1px solid #aeb5bc; }
 .composition-ends { display:flex; justify-content:space-between; font-size:13px; line-height:1.5; margin:8px 0 22px; }
 .composition-legend { display:grid; grid-template-columns:repeat(var(--part-count),minmax(0,1fr)); gap:24px; }
 .composition-item { min-width:0; overflow:hidden; border-top:1px solid var(--line); padding-top:10px; }
@@ -576,12 +576,12 @@ body>.print-deck {
 .funnel-fill { height:100%; background:var(--accent); }
 .funnel-rate { font-size:16px; line-height:1.4; text-align:right; }
 .cycle-diagram { display:grid; grid-template-columns:minmax(0,1fr) 260px minmax(0,1fr); grid-template-rows:minmax(0,1fr) 104px minmax(0,1fr); gap:12px 24px; flex:1; min-height:0; }
-.cycle-card { background:#fafafa; border-top:2px solid var(--accent); padding:12px; min-height:0; overflow:hidden; }
+.cycle-card { background:#fafafa; border-top:2px solid var(--accent-line,var(--accent)); padding:12px; min-height:0; overflow:hidden; }
 .cycle-card h2 { display:flex; justify-content:space-between; align-items:baseline; gap:8px; font-size:20px; line-height:1.4; margin:0 0 8px; }
 .cycle-number { font-size:12px; color:var(--muted); }
 .cycle-card p,.cycle-card li { font-size:18px; line-height:1.4; margin:0 0 6px; }
 .cycle-card ul { margin:0; }
-.cycle-arrow { display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--accent); }
+.cycle-arrow { display:flex; align-items:center; justify-content:center; font-size:28px; color:var(--accent-text,var(--accent)); }
 .cycle-center { grid-column:2; grid-row:2; align-self:center; text-align:center; padding:8px 12px; font-size:20px; line-height:1.4; max-height:104px; overflow:hidden; }
 .cycle-center-label { color:var(--muted); font-size:12px; line-height:1.5; margin-bottom:6px; }
 .value-body { display:flex; flex-direction:column; flex:1; min-height:0; gap:16px; }
@@ -589,7 +589,7 @@ body>.print-deck {
 .value-group-label { font-size:12px; line-height:1.5; color:var(--muted); margin-bottom:8px; }
 .value-main { display:grid; grid-template-columns:repeat(var(--activity-count),minmax(0,1fr)); gap:20px; min-height:0; flex:1; }
 .value-slot { position:relative; min-width:0; min-height:0; }
-.value-card { border-top:3px solid var(--accent); background:#fafafa; padding:12px; height:100%; overflow:hidden; }
+.value-card { border-top:3px solid var(--accent-line,var(--accent)); background:#fafafa; padding:12px; height:100%; overflow:hidden; }
 .value-card h2 { font-size:20px; line-height:1.4; margin:0 0 12px; }
 .value-card p { font-size:18px; line-height:1.5; margin:0; }
 .value-link { position:absolute; left:-18px; top:30px; font-size:18px; color:var(--muted); }
@@ -602,7 +602,7 @@ body>.print-deck {
 .swimlane-header { justify-content:center; background:#f5f6f7; }
 .swimlane-name { font-weight:bold; }
 .swimlane-cell { display:flex; align-items:center; justify-content:center; min-width:0; min-height:0; border-bottom:1px solid var(--line); }
-.swimlane-card { margin:6px 16px; padding:8px; width:calc(100% - 32px); max-height:calc(100% - 12px); font-size:16px; line-height:1.4; border:1px solid #cfd4d9; border-left:3px solid var(--accent); background:white; overflow:hidden; }
+.swimlane-card { margin:6px 16px; padding:8px; width:calc(100% - 32px); max-height:calc(100% - 12px); font-size:16px; line-height:1.4; border:1px solid #cfd4d9; border-left:3px solid var(--accent-line,var(--accent)); background:white; overflow:hidden; }
 .swimlane-idle { color:#8a929a; }
 .swimlane-links { position:absolute; inset:0; pointer-events:none; }
 .handoff-line { border-top:1px solid #59636c; }
@@ -611,7 +611,7 @@ body>.print-deck {
 .risk-table thead th:nth-child(1) { width:30%; }.risk-table thead th:nth-child(2) { width:10%; }.risk-table thead th:nth-child(3) { width:40%; }.risk-table thead th:nth-child(4) { width:20%; }
 .risk-table tbody th,.risk-table tbody td { font-size:16px; line-height:1.4; padding:6px 12px; }
 .risk-row { height:52px; }
-.risk-high { border-left:4px solid var(--accent); font-weight:bold; }.risk-medium { border-left:3px solid #7b848d; }.risk-low { border-left:1px solid #aeb5bc; }
+.risk-high { border-left:4px solid var(--accent-line,var(--accent)); font-weight:bold; }.risk-medium { border-left:3px solid #7b848d; }.risk-low { border-left:1px solid #aeb5bc; }
 
 
 /* Utility dialogs remain outside the presentation and printed slides. */
@@ -630,11 +630,23 @@ dialog::backdrop { background:rgba(0,0,0,.4); }
 .utility-dialog textarea { display:block; height:160px; border:1px solid var(--line); margin:10px 0; }
 #template-preview { max-height:40dvh; overflow:auto; border-top:1px solid var(--line); padding:16px 0; }
 @media(min-width:851px) { header.app-header { height:110px; } .workspace { height:calc(100dvh - 110px); } }
+
+.has-logo .slide-header { padding-right:224px; min-height:80px; }
+.slide-logo { position:absolute; top:48px; right:64px; max-width:200px; max-height:60px; width:auto; height:auto; }
+.brand-footer { max-width:940px; max-height:36px; line-height:18px; overflow:hidden; overflow-wrap:anywhere; white-space:pre-wrap; }
+.slide-footer { min-height:51px; gap:24px; align-items:flex-start; }
+.theme-preview { max-height:390px; overflow:auto; margin:16px 0; background:#f3f4f5; padding:10px; }
+.theme-preview .slide { transform:scale(.52); transform-origin:top left; margin-bottom:-346px; }
+#theme-dialog input[type=text] { width:100%; padding:10px; border:1px solid var(--line); margin:8px 0 16px; }
+#theme-dialog label { display:block; font-size:14px; }
+#theme-dialog input[type=color] { min-width:60px; height:42px; }
+.slide .roadmap-bar,.slide .plot-dot,.slide .waterfall-up,.slide .highlighted-bar,.slide .funnel-fill,.slide .part-0 { box-shadow:inset 0 0 0 1px var(--accent-line,var(--accent)); }
+.slide .title-rule,.slide li:before { background:var(--accent-line,var(--accent)); }
 </style>
 </head>
 <body>
-<header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="qr-open">QRコード</button><button id="restore-open">分割QRを復元</button><button id="template-open">テンプレートを挿入</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
-<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p>空の原稿から開始します。「テンプレートを挿入」で必要な型だけを、プレビューで選択中のスライドの後へ追加できます。<button id="sample" type="button">全21種のサンプルで置換</button></p><p>「QRコード」は編集欄の全文を生成時点の状態で格納します。一般的なQRリーダーでテキストとして読み取ってコピーできます。長い原稿は複数のQRに分割します。全番号を読み取り、「分割QRを復元」で各テキストを1行ずつ貼り付けて戻してください。カメラ読込には対応していません。QRは暗号化ではなく、見える人が内容を読み取れます。<button id="about-open" type="button">このアプリについて／ライセンス</button></p><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p><p><strong>第2群：説明と意思決定</strong></p><p><code>logic-tree</code>：<code>&lt;!-- root: 論点 --&gt;</code>、見出し2〜3個、各子1〜2件。ルートを含め10ノードまで。<code>pyramid</code>：<code>&gt;</code> を結論、見出し2〜3個を根拠にします。</p><p><code>roadmap</code>：先頭列「施策」の表で、期間3〜6列・施策3〜5行。「実施」を連続させ、「-」で非実施を明示。<code>evaluation</code>：先頭列「判断基準」、案2〜4列・基準3〜5行。各セルは「○ 根拠」など、または「未評価」。<code>&lt;!-- recommend: 案B --&gt;</code> で推奨案を指定できます。表は外側の | と --- の区切り行が必須。セル内の | は \| と記述します。</p><p><code>kpi</code>：<code>&lt;!-- period: 対象期間 --&gt;</code> と指標3〜4個。各見出しの下に <code>- actual:</code>、<code>- target:</code>、<code>- unit:</code> を指定。数値はカンマや指数を含まない十進数。<code>recommendation</code>：<code>&gt;</code> を提言とし、「判断理由」に2〜3項目、「次のアクション」に <code>- action:</code>、<code>- owner:</code>、<code>- due:</code> を指定します。</p><p>新規6種は必ず <code>&lt;!-- layout: ID --&gt;</code> で明示指定してください。選択用サンプルには全21種を含みます。要素数や必須入力の不備は原文付きの入力確認表示になります。</p><p><strong>第3群：数値と実行管理</strong></p><p><code>bar</code> は「項目 / 値」、<code>line</code> は「期間 / 値」、<code>waterfall</code> は「区分 / 項目 / 値」の表と <code>&lt;!-- unit: 単位 --&gt;</code>。棒は3〜7件、折れ線は4〜8時点（欠測は「欠測」）、増減は start → delta（2〜5件）→ end。数値は有限の十進数で、合計不整合は図にしません。</p><p><code>composition</code> は「区分 / 割合」の表で3〜5件、合計100%（±0.1ポイント）。%記号は付けません。<code>funnel</code> は「段階 / 件数」の表で3〜5段階、単位と <code>&lt;!-- cohort: 期間と母集団 --&gt;</code> が必須。非負整数の件数を減少順で記述します。</p><p><code>cycle</code> は <code>&lt;!-- center: 循環の目的 --&gt;</code> と見出し4個（左上→右上→右下→左下）。<code>value-chain</code> は「主活動」「支援活動」の見出しの下に「- 活動名: 説明」を記述し、主活動3〜5件・支援1〜2件。</p><p><code>swimlane</code> は先頭列「担当」の表で2〜3主体×3〜5工程。各列の主担当を1つとし、非担当は「-」。<code>risk-register</code> は「リスク / 重大度 / 対応 / 責任者」の表で3〜4件、重大度は高/中/低。判定基準を段落で添えます。新しい9種もレイアウトは明示指定し、選択用サンプルには全21種を含みます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
+<header class="app-header"><div><div class="brand">Slide<span>Seed</span></div><p class="tagline">内容から、伝わる資料へ。</p></div><div class="toolbar"><button id="load">Markdownを開く</button><button id="save">保存</button><button id="qr-open">QRコード</button><button id="restore-open">分割QRを復元</button><button id="template-open">テンプレートを挿入</button><button id="theme-open">基本デザイン</button><button id="print">印刷 / PDF</button><button id="present" class="primary">プレゼン開始</button></div></header>
+<main class="workspace"><section class="editor-pane" aria-label="Markdownエディタ"><div class="pane-head"><label for="editor">MARKDOWN</label><span class="eyebrow">端末内で処理 · オフライン</span></div><textarea id="editor" spellcheck="false" aria-describedby="syntax-help"></textarea><details class="help" id="syntax-help"><summary>記法とレイアウトのガイド</summary><p>空の原稿から開始します。「テンプレートを挿入」で必要な型だけを、プレビューで選択中のスライドの後へ追加できます。</p><p>「QRコード」は編集欄の全文を生成時点の状態で格納します。一般的なQRリーダーでテキストとして読み取ってコピーできます。長い原稿は複数のQRに分割します。全番号を読み取り、「分割QRを復元」で各テキストを1行ずつ貼り付けて戻してください。カメラ読込には対応していません。QRは暗号化ではなく、見える人が内容を読み取れます。<button id="about-open" type="button">このアプリについて／ライセンス</button></p><p><code>---</code> の独立行でスライドを区切ります。<code>#</code> はタイトル、<code>##</code> は構成要素、<code>-</code> は項目、<code>**強調**</code>、<code>&gt;</code> は結論です。</p><p><code>&lt;!-- layout: message --&gt;</code>：大きなキーメッセージ。<code>compare</code>：見出し2つで左右比較。<code>pillars</code>：見出し3つで3本柱。<code>process</code>：見出し3〜5つを順序付き工程に変換（段落は説明、箇条書きは成果物）。未指定時は見出し2つ→比較、3つ→3本柱、それ以外→メッセージ。</p><p><code>matrix</code>：見出し4つを左上・右上・左下・右下に配置。<code>&lt;!-- x-axis: 工数 / 小 / 大 --&gt;</code> と <code>&lt;!-- y-axis: 効果 / 小 / 大 --&gt;</code> が必須。横軸は左→右、縦軸は下→上に増加します。象限見出し12字、項目2件・各20字、軸名16字、両端ラベル各10字を推奨。軸内の / は区切り専用です。</p><p><code>problem-solution</code>：見出し2〜3つを行にし、各行に <code>- 課題:</code>、<code>- 原因:</code>、<code>- 対策:</code> を1件ずつ記述します（全角：も可）。原因は仮説として表示します。行見出し12字、各セル40字を推奨。不足・重複・未知の項目では入力確認表示になります。</p><p>推奨：タイトル36字、結論60字、見出し16字、本文・項目各50字、各列3項目まで。processは見出し12字、説明40字、成果物1項目30字を推奨（5工程では合計60字/工程）。構造不正時は入力確認表示になります。長い内容はスライドを分割してください。HTML・リンク・画像は実行せず文字として表示します。全画面では ← → / Space、Home / End、Esc を使用できます。</p><p><strong>第2群：説明と意思決定</strong></p><p><code>logic-tree</code>：<code>&lt;!-- root: 論点 --&gt;</code>、見出し2〜3個、各子1〜2件。ルートを含め10ノードまで。<code>pyramid</code>：<code>&gt;</code> を結論、見出し2〜3個を根拠にします。</p><p><code>roadmap</code>：先頭列「施策」の表で、期間3〜6列・施策3〜5行。「実施」を連続させ、「-」で非実施を明示。<code>evaluation</code>：先頭列「判断基準」、案2〜4列・基準3〜5行。各セルは「○ 根拠」など、または「未評価」。<code>&lt;!-- recommend: 案B --&gt;</code> で推奨案を指定できます。表は外側の | と --- の区切り行が必須。セル内の | は \| と記述します。</p><p><code>kpi</code>：<code>&lt;!-- period: 対象期間 --&gt;</code> と指標3〜4個。各見出しの下に <code>- actual:</code>、<code>- target:</code>、<code>- unit:</code> を指定。数値はカンマや指数を含まない十進数。<code>recommendation</code>：<code>&gt;</code> を提言とし、「判断理由」に2〜3項目、「次のアクション」に <code>- action:</code>、<code>- owner:</code>、<code>- due:</code> を指定します。</p><p>新規6種は必ず <code>&lt;!-- layout: ID --&gt;</code> で明示指定してください。選択用サンプルには全21種を含みます。要素数や必須入力の不備は原文付きの入力確認表示になります。</p><p><strong>第3群：数値と実行管理</strong></p><p><code>bar</code> は「項目 / 値」、<code>line</code> は「期間 / 値」、<code>waterfall</code> は「区分 / 項目 / 値」の表と <code>&lt;!-- unit: 単位 --&gt;</code>。棒は3〜7件、折れ線は4〜8時点（欠測は「欠測」）、増減は start → delta（2〜5件）→ end。数値は有限の十進数で、合計不整合は図にしません。</p><p><code>composition</code> は「区分 / 割合」の表で3〜5件、合計100%（±0.1ポイント）。%記号は付けません。<code>funnel</code> は「段階 / 件数」の表で3〜5段階、単位と <code>&lt;!-- cohort: 期間と母集団 --&gt;</code> が必須。非負整数の件数を減少順で記述します。</p><p><code>cycle</code> は <code>&lt;!-- center: 循環の目的 --&gt;</code> と見出し4個（左上→右上→右下→左下）。<code>value-chain</code> は「主活動」「支援活動」の見出しの下に「- 活動名: 説明」を記述し、主活動3〜5件・支援1〜2件。</p><p><code>swimlane</code> は先頭列「担当」の表で2〜3主体×3〜5工程。各列の主担当を1つとし、非担当は「-」。<code>risk-register</code> は「リスク / 重大度 / 対応 / 責任者」の表で3〜4件、重大度は高/中/低。判定基準を段落で添えます。新しい9種もレイアウトは明示指定し、選択用サンプルには全21種を含みます。</p></details></section><section class="preview-pane" aria-label="スライドプレビュー"><div class="pane-head">PREVIEW<span class="eyebrow" id="layout-label"></span></div><div class="stage" id="stage"><div class="slide-viewport" id="viewport"></div></div><nav class="navigation" aria-label="スライド切り替え"><button id="previous" aria-label="前のスライド">←</button><select id="slides" aria-label="スライドを選択"></select><button id="next" aria-label="次のスライド">→</button></nav><div class="diagnostics" id="diagnostics" role="status" aria-live="polite"></div><div class="status" id="status" role="status"></div></section></main>
 <div class="presentation-controls"><button id="present-prev" aria-label="前のスライド">←</button><span id="present-count"></span><button id="present-next" aria-label="次のスライド">→</button><button id="exit">終了 (Esc)</button></div><input id="file" type="file" accept=".md,.markdown,.txt,text/plain,text/markdown" hidden><div class="print-deck" id="print-deck" aria-hidden="true"></div>
 <dialog id="qr-dialog" class="utility-dialog" aria-labelledby="qr-title" aria-describedby="qr-description">
 <div class="dialog-head"><h2 id="qr-title">MarkdownをQRコードで渡す</h2><button id="qr-close" type="button" autofocus>閉じる</button></div>
@@ -645,6 +657,7 @@ dialog::backdrop { background:rgba(0,0,0,.4); }
 </dialog>
 <dialog id="template-dialog" class="utility-dialog" aria-labelledby="template-title"><div class="dialog-head"><h2 id="template-title">テンプレートを挿入</h2><button id="template-close" type="button" autofocus>閉じる</button></div><p id="template-position"></p><label for="template-choice">用途に合うパターン</label><select id="template-choice"></select><pre id="template-preview" class="license-text"></pre><button id="template-insert" type="button" class="primary">選んだテンプレートを挿入</button></dialog>
 <dialog id="restore-dialog" class="utility-dialog" aria-labelledby="restore-title"><div class="dialog-head"><h2 id="restore-title">分割QRを復元</h2><button id="restore-close" type="button" autofocus>閉じる</button></div><p>各QRから読み取ったSSQR1で始まるテキストを1行ずつ貼り付けてください。順不同で構いません。同じ番号の重複はまとめて確認します。通常の単一QRは生のMarkdownなので、編集欄へ直接貼り付けてください。</p><label for="restore-input">読み取った分割データ（最大32個）</label><textarea id="restore-input" rows="6" spellcheck="false"></textarea><button id="restore-check" type="button">検証して復元</button><p id="restore-status" role="status" aria-live="polite"></p><label for="restore-preview">復元した原稿（確認用）</label><textarea id="restore-preview" rows="6" readonly></textarea><button id="restore-apply" type="button" disabled>確認した原稿で編集欄を置き換える</button></dialog>
+<dialog id="theme-dialog" class="utility-dialog" aria-labelledby="theme-title"><div class="dialog-head"><h2 id="theme-title">スライドの基本デザイン</h2><button id="theme-close" type="button" autofocus>キャンセル</button></div><p>全スライド共通です。原稿は変更しません。設定は自動保存されません。「設定を保存」で再利用できます。MarkdownとQRには設定やロゴを含めません。</p><label for="theme-footer">左下の共通文字列（改行なし・80文字以内／空欄可）</label><input id="theme-footer" type="text"><label for="theme-color">コーポレートカラー</label><div class="dialog-head"><input id="theme-picker" type="color" value="#CC0033"><input id="theme-color" type="text" value="#CC0033" aria-describedby="theme-color-note"></div><p id="theme-color-note">淡い色では、文字・線に同系色の濃い補助色を使って視認性を補います。選んだ塗り色は保持します。</p><label for="theme-logo-file">右上のロゴ（任意・静的PNG/JPEG・2MiB以下）</label><input id="theme-logo-file" type="file" accept="image/png,image/jpeg"><button id="theme-logo-remove" type="button">ロゴを外す</button><p id="theme-logo-state"></p><p>未指定なら空欄です。画像は取り込み後に縮小して設定内に保持します。外部URLは取得しません。</p><div id="theme-preview" class="theme-preview" aria-label="基本デザインのプレビュー"></div><p id="theme-status" role="status" aria-live="polite"></p><div class="toolbar"><button id="theme-reset" type="button">初期値に戻す</button><button id="theme-save" type="button">表示中の設定を保存</button><button id="theme-load" type="button">設定ファイルを開く</button><button id="theme-apply" type="button" class="primary">全スライドに適用</button></div><input id="theme-profile-file" type="file" accept=".json,application/json" hidden></dialog>
 <dialog id="about-dialog" class="utility-dialog" aria-labelledby="about-title">
 <div class="dialog-head"><h2 id="about-title">SlideSeedについて／ライセンス</h2><button id="about-close" type="button" autofocus>閉じる</button></div>
 <p>Markdownからプレゼンテーションを生成する、単一HTMLのオフラインアプリです。このHTML自体が編集可能なソースです。リポジトリ：zurustar/slideseed（GitHub）。</p>
@@ -1348,6 +1361,69 @@ Public License instead of this License.  But first, please read
  */
 </pre></details>
 </dialog>
+<script id="theme-engine">
+'use strict';
+const THEME_LOGO_BYTES=2097152,THEME_LOGO_PIXELS=16777216;
+function defaultTheme(){return {color:'#CC0033',footer:'',logo:null};}
+function themeColor(color){if(typeof color!=='string'||!/^#[0-9a-f]{6}$/i.test(color))throw Error('色は#と6桁の16進数で指定してください。');return color.toUpperCase();}
+function themeRgb(color){return [1,3,5].map(i=>parseInt(color.slice(i,i+2),16));}
+function themeHex(rgb){return '#'+rgb.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('').toUpperCase();}
+function themeLuminance(rgb){return rgb.map(v=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;}).reduce((a,v,i)=>a+v*[.2126,.7152,.0722][i],0);}
+function themeTokens(color){
+ const rgb=themeRgb(themeColor(color)),lum=themeLuminance(rgb),soft=themeHex(rgb.map(v=>v*.06+255*.94)),softLum=themeLuminance(themeRgb(soft));let ink=rgb.slice();
+ for(let i=0;i<100&&((softLum+.05)/(themeLuminance(themeRgb(themeHex(ink)))+.05))<4.5;i++)ink=ink.map(v=>v*.94);
+ return {color:themeHex(rgb),soft,text:themeHex(ink),on:lum>.179?'#000000':'#FFFFFF',lowContrast:1.05/(lum+.05)<4.5};
+}
+function inspectLogoBytes(bytes){
+ if(bytes.length>THEME_LOGO_BYTES)throw Error('ロゴは2MiB以下にしてください。');
+ let width,height,type;
+ const at=i=>(bytes[i]*16777216+bytes[i+1]*65536+bytes[i+2]*256+bytes[i+3]);
+ if(bytes.length>=33&&[137,80,78,71,13,10,26,10].every((v,i)=>bytes[i]===v)){
+  if(at(8)!==13||String.fromCharCode(...bytes.slice(12,16))!=='IHDR')throw Error('PNGのヘッダーが不正です。');
+  width=at(16);height=at(20);type='image/png';
+  let i=8;while(i+12<=bytes.length){const n=at(i);if(n>bytes.length-i-12)throw Error('PNGの構造が不正です。');const name=String.fromCharCode(...bytes.slice(i+4,i+8));if(name==='acTL')throw Error('アニメーションPNGは使えません。');i+=n+12;if(name==='IEND')break;}
+ }else if(bytes.length>4&&bytes[0]===255&&bytes[1]===216){
+  type='image/jpeg';let i=2;
+  while(i<bytes.length){if(bytes[i++]!==255)throw Error('JPEGの構造が不正です。');while(bytes[i]===255)i++;const marker=bytes[i++];if(marker===217||marker===218)break;if(marker===1||(marker>=208&&marker<=215))continue;
+   const length=bytes[i]*256+bytes[i+1];if(!(length>=2)||i+length>bytes.length)throw Error('JPEGの構造が不正です。');
+   if([192,193,194].includes(marker)){if(length<8)throw Error('JPEGの寸法が不正です。');height=bytes[i+3]*256+bytes[i+4];width=bytes[i+5]*256+bytes[i+6];break;}i+=length;
+  }
+ }else throw Error('ロゴは静的なPNGまたはJPEG画像を選んでください。');
+ if(!width||!height||width>8192||height>8192||width*height>THEME_LOGO_PIXELS)throw Error('画像は各辺8192px以下、合計16,777,216画素以下にしてください。');
+ return {width,height,type};
+}
+function logoDataBytes(data){
+ if(typeof data!=='string'||data.length>524288||!/^data:image\/png;base64,[A-Za-z0-9+/]+={0,2}$/.test(data))throw Error('設定内のロゴ形式が不正です。');
+ let bytes;try{const body=data.slice(22),raw=atob(body);bytes=Uint8Array.from(raw,c=>c.charCodeAt(0));if(btoa(raw)!==body)throw Error();}catch{throw Error('設定内のロゴデータが不正です。');}
+ const info=inspectLogoBytes(bytes);if(info.type!=='image/png'||info.width>640||info.height>192)throw Error('設定内のロゴ寸法が大きすぎます。');return bytes;
+}
+function normalizeTheme(value){
+ if(!value||typeof value!=='object'||Array.isArray(value)||Object.keys(value).some(k=>!['color','footer','logo'].includes(k)))throw Error('設定項目が不正です。');
+ const color=themeColor(value.color);
+ if(typeof value.footer!=='string'||Array.from(value.footer).length>80||/[\r\n\u0000-\u001F\u007F\u2028\u2029]/.test(value.footer))throw Error('左下の文字列は改行なし・80文字以内にしてください。');
+ let logo=null;
+ if(value.logo!==null){if(!value.logo||typeof value.logo!=='object'||Object.keys(value.logo).some(k=>!['data'].includes(k)))throw Error('ロゴ設定が不正です。');logoDataBytes(value.logo.data);logo={data:value.logo.data};}
+ return {color,footer:value.footer,logo};
+}
+function exportThemeProfile(theme){return JSON.stringify({format:'SlideSeedTheme',version:1,theme:{color:theme.color,footer:theme.footer,logo:theme.logo?{data:theme.logo.data}:null}},null,2);}
+async function decodeLogo(bytes){
+ const info=inspectLogoBytes(bytes);if(typeof createImageBitmap!=='function')throw Error('このブラウザでは画像を取り込めません。Chrome / Edgeを利用してください。');
+ const bitmap=await createImageBitmap(new Blob([bytes],{type:info.type}));
+ try{
+  if(!((bitmap.width===info.width&&bitmap.height===info.height)||(bitmap.width===info.height&&bitmap.height===info.width)))throw Error('画像の寸法が一致しません。');
+  const scale=Math.min(1,640/bitmap.width,192/bitmap.height),canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(bitmap.width*scale));canvas.height=Math.max(1,Math.round(bitmap.height*scale));
+  const ctx=canvas.getContext('2d');if(!ctx)throw Error('画像の描画に失敗しました。');ctx.drawImage(bitmap,0,0,canvas.width,canvas.height);
+  let data=canvas.toDataURL('image/png');if(data.length>524288){canvas.width=Math.max(1,Math.floor(canvas.width/2));canvas.height=Math.max(1,Math.floor(canvas.height/2));canvas.getContext('2d').drawImage(bitmap,0,0,canvas.width,canvas.height);data=canvas.toDataURL('image/png');}logoDataBytes(data);return {data,bitmap:canvas,width:canvas.width,height:canvas.height};
+ }finally{bitmap.close();}
+}
+async function readLogoFile(file){if(file.size>THEME_LOGO_BYTES)throw Error('ロゴは2MiB以下にしてください。');return decodeLogo(new Uint8Array(await file.arrayBuffer()));}
+async function importThemeProfile(text){
+ if(text.length>600000)throw Error('設定ファイルが大きすぎます。');let profile;
+ try{profile=JSON.parse(text);}catch{throw Error('設定ファイルがJSONではありません。');}
+ if(!profile||profile.format!=='SlideSeedTheme'||profile.version!==1||Object.keys(profile).some(k=>!['format','version','theme'].includes(k)))throw Error('設定ファイルの形式・バージョンが不正です。');
+ const theme=normalizeTheme(profile.theme);if(theme.logo)theme.logo=await decodeLogo(logoDataBytes(theme.logo.data));return theme;
+}
+</script>
 <script id="engine">
 'use strict';
 // Pure parsing and validation: no browser state and no HTML interpretation.
@@ -2237,15 +2313,18 @@ const LAYOUTS = {
  swimlane: {label:'ROLES & HANDOFFS', draw:swimlane},
  'risk-register': {label:'RISKS & RESPONSES', draw:riskRegister}
 };
-function renderSlide(s, index, total) {
+function renderSlide(s, index, total, theme = {color:'#CC0033',footer:'',logo:null}) {
  const slide = el('article', 'slide ' + s.layout);
+ if(theme.tokens)for(const [name,value] of Object.entries(theme.tokens))slide.style.setProperty(name,value);
+ if(theme.logo&&theme.logo.bitmap){slide.classList.add('has-logo');const logo=el('canvas','slide-logo');logo.width=theme.logo.width;logo.height=theme.logo.height;logo.setAttribute('role','img');logo.setAttribute('aria-label','会社・組織のロゴ');logo.getContext('2d').drawImage(theme.logo.bitmap,0,0);slide.append(logo);}
  slide.setAttribute('aria-label', `${index+1} / ${total} ${s.title}`);
  const header = el('div', 'slide-header');
- header.append(el('div', 'slide-kicker', LAYOUTS[s.layout].label), inline(el('h1'), s.title), el('div', 'title-rule'));
+ header.append(inline(el('h1'), s.title), el('div', 'title-rule'));
  const content = el('div', 'slide-content');
  (s.invalid ? validationSource : LAYOUTS[s.layout].draw)(s, content);
  const footer = el('div', 'slide-footer');
- footer.append(el('span', '', 'SlideSeed'), el('span', '', `${String(index+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`));
+ const brand=el('span','brand-footer',theme.footer);brand.setAttribute('data-check-overflow','');
+ footer.append(brand, el('span', '', `${String(index+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}`));
  slide.append(header, content, footer);
  return slide;
 }
@@ -3195,9 +3274,10 @@ function insertTemplate(source,template,index){
 const SAMPLE = "# 伝わる資料は、主張から始まる\n<!-- layout: message -->\n\n> デザインに迷う時間を、**伝える内容**に。\n\n文章の構造を整えるだけで、提案の骨格が見えてくる。\n\n## 内容に集中する\n- Markdownで主張と根拠を記述\n- 余白と文字組みはSlideSeedに任せる\n\n---\n\n# AI駆動開発は、役割の転換である\n<!-- layout: compare -->\n\n## 従来型\n- 人がコードを書く\n- AIはコード補完を担う\n- 既存の開発プロセスを維持\n\n## AI駆動型\n- AIがコードを書く\n- 人が仕様と品質を管理\n- 開発プロセス全体を再設計\n\n> 実装主体の転換が、組織の生産性を変える\n\n---\n\n# 品質を支える、3つの設計原則\n<!-- layout: pillars -->\n\n## 内容を構造化\n主張と根拠を分け、論理の流れを明確にする。\n- 1枚に1つのメッセージ\n- 見出しで情報を整理\n\n## 表現を統一\n厳選された型が、資料全体の一貫性を生む。\n- 余白と文字組みを統一\n- 色は意味のある強調に\n\n## どこでも使える\nブラウザで開くだけ。資料を端末の外へ送らない。\n- 単一HTMLで配布\n- 完全オフラインで動作\n\n> 内容に集中できる仕組みが、伝わる資料をつくる\n\n---\n\n# 小さく検証してから、全社へ展開する\n<!-- layout: process -->\n\n## 現状把握\n対象業務と制約を整理する。\n- 課題一覧\n\n## 小規模検証\n効果と運用負荷を確かめる。\n- 検証レポート\n\n## 全社展開\n標準手順に組み込む。\n- 運用ガイド\n\n> 各段階の成果物を、次の判断材料にする\n\n---\n\n# まずは低工数・高効果の施策に集中する\n<!-- layout: matrix -->\n<!-- x-axis: 工数 / 小 / 大 -->\n<!-- y-axis: 効果 / 小 / 大 -->\n\n## すぐ着手\n- テンプレート統一\n\n## 計画投資\n- 基幹システム刷新\n\n## 余力で対応\n- 軽微な文言修正\n\n## 再検討\n- 全画面の作り直し\n\n> 軸の定義をそろえてから、施策を分類する\n\n---\n\n# 手戻りの削減には、着手前の合意が必要\n<!-- layout: problem-solution -->\n\n## 要件の認識差\n- 課題: 実装後に修正が続く\n- 原因: 完了条件が曖昧という仮説\n- 対策: 着手前に受入条件を合意する\n\n## 判断の遅れ\n- 課題: レビュー待ちが積み上がる\n- 原因: 判断者が明確でないという仮説\n- 対策: 判断者と回答期限を定める\n\n> 対策は原因仮説と結び付けて検証する\n\n---\n\n# 売上低下の論点を、顧客数と単価に分ける\n<!-- layout: logic-tree -->\n<!-- root: 売上低下の要因 -->\n## 顧客数\n- 新規獲得の減少\n- 継続率の低下\n## 顧客単価\n- 購入頻度の低下\n- 商品構成の変化\n> 枝ごとに仮説と検証データをそろえる\n---\n\n# 対象業務を絞った先行導入を提案する\n<!-- layout: pyramid -->\n> まずは問い合わせ対応から導入する\n## 効果を測りやすい\n- 応答時間を継続計測できる\n## 運用を限定できる\n- 対象チームを小さく始められる\n## 再利用しやすい\n- 他部門にも共通する課題がある\n---\n\n# 先行導入と標準化を、段階的に進める\n<!-- layout: roadmap -->\n| 施策 | 第1四半期 | 第2四半期 | 第3四半期 | 第4四半期 |\n| --- | --- | --- | --- | --- |\n| 先行導入 | 実施 | 実施 | - | - |\n| 標準化 | - | 実施 | 実施 | - |\n| 全社展開 | - | - | 実施 | 実施 |\n> 検証結果を標準化へ引き継いでから展開する\n---\n\n# 初期投資と運用負荷のバランスから、案Bを推奨する\n<!-- layout: evaluation -->\n<!-- recommend: 案B -->\n| 判断基準 | 案A | 案B | 案C |\n| --- | --- | --- | --- |\n| 初期投資 | ◎ 小さい | ○ 許容範囲 | △ 大きい |\n| 導入速度 | ◎ すぐ開始 | ○ 段階導入 | △ 準備が必要 |\n| 運用負荷 | × 手作業中心 | ○ 標準化可能 | ◎ 自動化中心 |\n> 運用の持続性を重視して選ぶ\n---\n\n# 応答時間は目標内、継続率には改善余地がある\n<!-- layout: kpi -->\n<!-- period: 2026年 第3四半期 -->\n## 平均応答時間\n- actual: 2.4\n- target: 3\n- unit: 時間\n## 顧客継続率\n- actual: 88\n- target: 92\n- unit: %\n## 導入部門数\n- actual: 12\n- target: 10\n- unit: 部門\n> 指標の良否は、業務上の意味と合わせて判断する\n---\n\n# 先行導入の承認をお願いしたい\n<!-- layout: recommendation -->\n> 対象1部門で、4週間の先行導入を実施する\n## 判断理由\n- 対象を限定して運用リスクを抑える\n- 効果を測定してから追加投資を判断する\n## 次のアクション\n- action: 検証計画を確定する\n- owner: 業務改革チーム\n- due: 承認後1週間以内\n\n---\n\n# 調査業務が、全体の工数を押し上げている\n<!-- layout: bar -->\n<!-- unit: 時間 -->\n| 項目 | 値 |\n| --- | --- |\n| 調査 | 120 |\n| 分析 | 80 |\n| 資料作成 | 65 |\n| レビュー | 30 |\n> まず調査の再利用性を高める\n---\n\n# 平均処理時間は、導入後に短縮傾向が見られる\n<!-- layout: line -->\n<!-- unit: 分 -->\n| 期間 | 値 |\n| --- | --- |\n| 4月 | 42 |\n| 5月 | 40 |\n| 6月 | 35 |\n| 7月 | 31 |\n| 8月 | 30 |\n> 傾向を確認しつつ、他の影響要因も検証する\n---\n\n# 原価改善が、人件費増を上回る\n<!-- layout: waterfall -->\n<!-- unit: 百万円 -->\n| 区分 | 項目 | 値 |\n| --- | --- | --- |\n| start | 前期利益 | 100 |\n| delta | 原価改善 | 30 |\n| delta | 人件費増 | -15 |\n| delta | その他 | 5 |\n| end | 今期利益 | 120 |\n> 増減の内訳と合計の整合を確認する\n---\n\n# 既存顧客が、売上構成の中心を占める\n<!-- layout: composition -->\n| 区分 | 割合 |\n| --- | --- |\n| 既存大口 | 45 |\n| 既存中小 | 35 |\n| 新規 | 20 |\n> 既存顧客の継続と拡大を優先する\n---\n\n# 商談化の改善が、受注増加の起点となる\n<!-- layout: funnel -->\n<!-- cohort: 2026年4月に獲得したリード -->\n<!-- unit: 件 -->\n| 段階 | 件数 |\n| --- | --- |\n| リード | 1000 |\n| 商談 | 200 |\n| 提案 | 100 |\n| 受注 | 30 |\n> 同じ母集団を追跡した数値で比較する\n---\n\n# 検証を次の計画へ戻し、改善を継続する\n<!-- layout: cycle -->\n<!-- center: 学習を蓄積する -->\n## 計画\n仮説と検証方法を決める。\n## 実行\n対象を限定して試す。\n## 評価\n効果と副作用を確かめる。\n## 改善\n学びを次の計画に反映する。\n> 最後の工程を、次の一周へ接続する\n---\n\n# 主活動の改善を、共通基盤で支える\n<!-- layout: value-chain -->\n## 主活動\n- 調達: 品質と安定供給を確保\n- 開発: 顧客課題を製品に変換\n- 提供: 確実に価値を届ける\n- 支援: 利用の定着を促す\n## 支援活動\n- 人材育成: 全活動に必要な能力を整える\n- 情報基盤: 活動間のデータをつなぐ\n> 個別最適と共通基盤を一緒に設計する\n---\n\n# 引き継ぎ点の合意が、承認待ちを減らす\n<!-- layout: swimlane -->\n| 担当 | 依頼 | 確認 | 承認 | 実行 |\n| --- | --- | --- | --- | --- |\n| 依頼部門 | 条件を整理 | - | - | - |\n| 管理部門 | - | 条件を確認 | - | 手配する |\n| 責任者 | - | - | 可否を判断 | - |\n> 主担当と引き継ぐ条件を明確にする\n---\n\n# 先行導入の主要リスクには、事前の備えを置く\n<!-- layout: risk-register -->\n重大度は影響範囲と復旧難易度を踏まえて判断する。\n| リスク | 重大度 | 対応 | 責任者 |\n| --- | --- | --- | --- |\n| 誤回答 | 高 | 人による確認を必須にする | 業務責任者 |\n| 運用負荷の増加 | 中 | 対象件数を制限する | 運用担当 |\n| 利用の未定着 | 中 | 週次で利用状況を確認 | 推進担当 |\n> リスクの列挙で終えず、対応と責任を定める\n";
 const $=id=>document.getElementById(id);
 let deck=[],current=0,presenting=false,revision=0,readSequence=0;
+let activeTheme=defaultTheme();
 function fit(){const stage=$('stage'),vp=$('viewport');const style=getComputedStyle(stage);const width=stage.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight);const height=stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom);const scale=Math.max(.01,Math.min(width/1280,height/720));vp.style.width=1280*scale+'px';vp.style.height=720*scale+'px';const slide=vp.firstElementChild;if(slide&&deck.length)slide.style.transform=`scale(${scale})`;}
-function show(){if(!deck.length){current=0;$('viewport').replaceChildren(el('div','empty-preview','Markdownを入力するか、「テンプレートを挿入」から始めてください。'));$('slides').value='';$('slides').disabled=true;for(const id of ['previous','next','present-prev','present-next','present','print'])$(id).disabled=true;$('layout-label').textContent='0枚';$('present-count').textContent='0 / 0';checkAll();return;}for(const id of ['slides','present','print'])$(id).disabled=false;current=Math.max(0,Math.min(current,deck.length-1));const slide=renderSlide(deck[current],current,deck.length);$('viewport').replaceChildren(slide);$('slides').value=String(current);$('previous').disabled=$('present-prev').disabled=current===0;$('next').disabled=$('present-next').disabled=current===deck.length-1;$('layout-label').textContent=deck[current].layout.toUpperCase()+' · 16:9';$('present-count').textContent=`${current+1} / ${deck.length}`;fit();requestAnimationFrame(checkAll);}
-function checkAll(){if(!deck.length){$('diagnostics').classList.remove('has-warning');$('diagnostics').textContent='原稿を入力すると、構造・はみ出しを確認します。';return;}const warnings=[];deck.forEach((s,i)=>{for(const w of s.warnings)warnings.push(`${i+1}枚目：${w}`);const slide=renderSlide(s,i,deck.length);slide.style.position='absolute';slide.style.visibility='hidden';document.body.append(slide);if(overflowed(slide))warnings.push(`${i+1}枚目：文字が表示領域を超えています。内容を分割・短縮してください（自動縮小・省略はしません）。`);slide.remove();});const box=$('diagnostics');box.classList.toggle('has-warning',warnings.length>0);box.replaceChildren(el('strong','',warnings.length?`要確認 · ${warnings.length}件`:'表示チェック OK'));if(warnings.length){const ul=el('ul');[...new Set(warnings)].forEach(w=>ul.append(el('li','',w)));box.append(ul);}else box.append(document.createTextNode(' — 全スライドに構造・はみ出しの警告はありません。'));}
+function show(){if(!deck.length){current=0;$('viewport').replaceChildren(el('div','empty-preview','Markdownを入力するか、「テンプレートを挿入」から始めてください。'));$('slides').value='';$('slides').disabled=true;for(const id of ['previous','next','present-prev','present-next','present','print'])$(id).disabled=true;$('layout-label').textContent='0枚';$('present-count').textContent='0 / 0';checkAll();return;}for(const id of ['slides','present','print'])$(id).disabled=false;current=Math.max(0,Math.min(current,deck.length-1));const slide=renderSlide(deck[current],current,deck.length,activeTheme);$('viewport').replaceChildren(slide);$('slides').value=String(current);$('previous').disabled=$('present-prev').disabled=current===0;$('next').disabled=$('present-next').disabled=current===deck.length-1;$('layout-label').textContent=deck[current].layout.toUpperCase()+' · 16:9';$('present-count').textContent=`${current+1} / ${deck.length}`;fit();requestAnimationFrame(checkAll);}
+function checkAll(){if(!deck.length){$('diagnostics').classList.remove('has-warning');$('diagnostics').textContent='原稿を入力すると、構造・はみ出しを確認します。';return;}const warnings=[];deck.forEach((s,i)=>{for(const w of s.warnings)warnings.push(`${i+1}枚目：${w}`);const slide=renderSlide(s,i,deck.length,activeTheme);slide.style.position='absolute';slide.style.visibility='hidden';document.body.append(slide);if(overflowed(slide))warnings.push(`${i+1}枚目：文字が表示領域を超えています。内容を分割・短縮してください（自動縮小・省略はしません）。`);slide.remove();});const box=$('diagnostics');box.classList.toggle('has-warning',warnings.length>0);box.replaceChildren(el('strong','',warnings.length?`要確認 · ${warnings.length}件`:'表示チェック OK'));if(warnings.length){const ul=el('ul');[...new Set(warnings)].forEach(w=>ul.append(el('li','',w)));box.append(ul);}else box.append(document.createTextNode(' — 全スライドに構造・はみ出しの警告はありません。'));}
 function update(){revision++;deck=$('editor').value.trim()?parseMarkdown($('editor').value):[];$('slides').replaceChildren(...deck.map((s,i)=>{const o=el('option','',`${i+1} / ${deck.length}　${s.title}`);o.value=String(i);return o;}));show();}
 function move(delta){current+=delta;show();}
 function status(text){$('status').textContent=text;}
@@ -3206,11 +3286,10 @@ function end(){presenting=false;document.body.classList.remove('presenting');if(
 
 $('editor').value='';$('editor').addEventListener('input',update);
 $('previous').onclick=$('present-prev').onclick=()=>move(-1);$('next').onclick=$('present-next').onclick=()=>move(1);$('slides').onchange=()=>{current=Number($('slides').value);show();};
-$('sample').onclick=()=>{if($('editor').value.trim()&&!confirm('編集中の内容をサンプルに置き換えます。必要なら先に保存してください。'))return;$('editor').value=SAMPLE;current=0;update();status(deck.length+'パターンのサンプルを読み込みました。');};
 $('load').onclick=()=>{$('file').value='';$('file').click();};
 $('file').onchange=async()=>{const file=$('file').files[0];if(!file)return;const sequence=++readSequence;const before=revision;try{const text=await file.text();if(sequence!==readSequence)return;if((before!==revision||$('editor').value.trim())&&!confirm('編集中の内容をファイルで置き換えます。必要ならキャンセルして保存してください。'))return;$('editor').value=text;current=0;update();status(file.name+' を読み込みました。');}catch{status('ファイルを読み込めませんでした。もう一度選択してください。');}};
 $('save').onclick=()=>{const blob=new Blob([$ ('editor').value],{type:'text/markdown;charset=utf-8'});const url=URL.createObjectURL(blob);const a=el('a');a.href=url;a.download='slideseed.md';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);status('Markdownの保存を開始しました。');};
-function preparePrint(){const root=$('print-deck');root.replaceChildren(...deck.map((s,i)=>renderSlide(s,i,deck.length)));}
+function preparePrint(){const root=$('print-deck');root.replaceChildren(...deck.map((s,i)=>renderSlide(s,i,deck.length,activeTheme)));}
 $('print').onclick=()=>{if(!deck.length)return;preparePrint();window.print();};window.addEventListener('beforeprint',preparePrint);
 $('present').onclick=start;$('exit').onclick=end;
 document.addEventListener('fullscreenchange',()=>{if(!document.fullscreenElement&&presenting)end();else fit();});
@@ -3279,6 +3358,45 @@ $('template-open').onclick=()=>{$('template-position').textContent=deck.length?`
 $('template-close').onclick=()=>$('template-dialog').close();
 $('template-insert').onclick=()=>{const t=TEMPLATES[Number($('template-choice').value)||0],result=insertTemplate($('editor').value,t.source,current);$('editor').value=result.text;current=result.index;update();templateCaret=result.start;$('template-dialog').close();status(t.name+'のテンプレートを挿入しました。');};
 $('template-dialog').addEventListener('close',()=>{if(templateCaret===null){$('template-open').focus();return;}const editor=$('editor');editor.focus();editor.setSelectionRange(templateCaret,templateCaret);const line=editor.value.slice(0,templateCaret).split('\n').length-1;editor.scrollTop=Math.max(0,line*parseFloat(getComputedStyle(editor).lineHeight)-30);templateCaret=null;});
+</script>
+<script id="theme-ui">
+'use strict';
+let draftLogo=null,themeRequest=0,themeBusy=false;
+function themeBusyState(busy){themeBusy=busy;$('theme-apply').disabled=$('theme-save').disabled=busy;}
+function readThemeDraft(){
+ const theme=normalizeTheme({color:$('theme-color').value,footer:$('theme-footer').value,logo:draftLogo?{data:draftLogo.data}:null});
+ theme.logo=draftLogo;const tokens=themeTokens(theme.color);theme.tokens={'--accent':tokens.color,'--accent-soft':tokens.soft,'--accent-text':tokens.text,'--accent-line':tokens.text,'--on-accent':tokens.on};return theme;
+}
+function previewTheme(){
+ if(themeBusy)return;
+ $('theme-logo-state').textContent=draftLogo?`ロゴあり（${draftLogo.width} × ${draftLogo.height}px）。取り込んだ画像は設定内に保持しています。`:'ロゴなし：右上は空欄です。';$('theme-logo-remove').disabled=!draftLogo;
+ try{const theme=readThemeDraft();$('theme-preview').replaceChildren(renderSlide(parseMarkdown('# 共通デザインのプレビュー\n> 会社の色とロゴで、資料の印象をそろえる。')[0],0,1,theme));$('theme-apply').disabled=$('theme-save').disabled=false;
+  const notes=[];if(themeTokens(theme.color).lowContrast)notes.push('淡い色のため、文字と線に濃い補助色を使います。');if(Array.from(theme.footer).length>40)notes.push('左下は40文字程度を推奨します。適用後にはみ出し警告を確認してください。');$('theme-status').textContent=notes.join(' ')||'プレビューを確認し、「全スライドに適用」を押してください。';
+ }catch(error){$('theme-apply').disabled=$('theme-save').disabled=true;$('theme-preview').replaceChildren();$('theme-status').textContent=error.message;}
+}
+function fillTheme(theme){draftLogo=theme.logo;$('theme-footer').value=theme.footer;$('theme-color').value=theme.color;$('theme-picker').value=theme.color;$('theme-logo-file').value='';previewTheme();}
+function cancelThemeRead(){themeRequest++;themeBusyState(false);}
+$('theme-open').onclick=()=>{cancelThemeRead();fillTheme(activeTheme);$('theme-dialog').showModal();};
+$('theme-close').onclick=()=>$('theme-dialog').close();
+$('theme-dialog').addEventListener('close',()=>{cancelThemeRead();draftLogo=null;$('theme-preview').replaceChildren();$('theme-status').textContent='';$('theme-open').focus();});
+$('theme-footer').addEventListener('input',()=>{cancelThemeRead();previewTheme();});
+$('theme-color').addEventListener('input',()=>{cancelThemeRead();try{$('theme-picker').value=themeColor($('theme-color').value);}catch{}previewTheme();});
+$('theme-picker').addEventListener('input',()=>{cancelThemeRead();$('theme-color').value=$('theme-picker').value;previewTheme();});
+$('theme-logo-remove').onclick=()=>{cancelThemeRead();draftLogo=null;$('theme-logo-file').value='';previewTheme();};
+$('theme-reset').onclick=()=>{cancelThemeRead();fillTheme(defaultTheme());};
+$('theme-logo-file').onchange=async()=>{
+ const file=$('theme-logo-file').files[0];if(!file)return;const request=++themeRequest;themeBusyState(true);$('theme-status').textContent='ロゴを検証しています…';
+ try{const logo=await readLogoFile(file);if(request!==themeRequest)return;themeBusyState(false);draftLogo=logo;previewTheme();}
+ catch(error){if(request!==themeRequest)return;themeBusyState(false);previewTheme();$('theme-status').textContent=error.message+' 現在のロゴは保持しています。';}
+};
+$('theme-load').onclick=()=>{$('theme-profile-file').value='';$('theme-profile-file').click();};
+$('theme-profile-file').onchange=async()=>{
+ const file=$('theme-profile-file').files[0];if(!file)return;const request=++themeRequest;themeBusyState(true);$('theme-status').textContent='設定を検証しています…';
+ try{if(file.size>600000)throw Error('設定ファイルが大きすぎます。');const theme=await importThemeProfile(await file.text());if(request!==themeRequest)return;themeBusyState(false);fillTheme(theme);}
+ catch(error){if(request!==themeRequest)return;themeBusyState(false);previewTheme();$('theme-status').textContent=error.message+' 表示中の設定は保持しています。';}
+};
+$('theme-save').onclick=()=>{if(themeBusy)return;try{const profile=exportThemeProfile(readThemeDraft()),url=URL.createObjectURL(new Blob([profile],{type:'application/json'})),link=el('a');link.href=url;link.download='SlideSeed-theme.json';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);$('theme-status').textContent='表示中の設定の保存を開始しました。Markdownは別途保存してください。';}catch(error){$('theme-status').textContent=error.message;}};
+$('theme-apply').onclick=()=>{if(themeBusy)return;try{activeTheme=readThemeDraft();show();$('theme-dialog').close();status('基本デザインを全スライドへ適用しました。設定は「基本デザイン」から保存できます。');}catch(error){$('theme-status').textContent=error.message;}};
 </script>
 </body>
 </html>
