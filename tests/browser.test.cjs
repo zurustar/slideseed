@@ -99,12 +99,10 @@ const tests=async function(){
   d.getElementById('syntax-help').open=true;$('about-open').click();assert($('about-dialog').open,'about open');assert($('gpl-license').textContent.includes('END OF TERMS AND CONDITIONS'),'GPL');assert($('qr-license').textContent.includes('Project Nayuki'),'MIT notice');$('about-close').click();await tick();assert(d.activeElement===$('about-open'),'about focus');edit(sample);await tick();
  });
  await test('print includes all slides',async()=>{w.print=()=>{};$('print').click();assert($('print-deck').children.length===count,'print slide count');});
- await test('theme stages footer, color and local PNG logo for every layout without network images',async()=>{
-  assert(!d.getElementById('sample'),'replacement removed');$('theme-open').click();$('theme-footer').value='株式会社テスト';$('theme-color').value='#0055AA';$('theme-color').dispatchEvent(new w.Event('input'));
-  const canvas=d.createElement('canvas');canvas.width=120;canvas.height=40;const ctx=canvas.getContext('2d');ctx.fillStyle='#0055AA';ctx.fillRect(0,0,120,40);const blob=await new Promise(r=>canvas.toBlob(r,'image/png'));const file=new w.File([blob],'logo.png',{type:'image/png'}),dt=new w.DataTransfer();dt.items.add(file);$('theme-logo-file').files=dt.files;await $('theme-logo-file').onchange();assert(!$('theme-apply').disabled,$('theme-status').textContent);$('theme-apply').click();await tick();
-  edit(sample);for(let i=0;i<count;i++){$('slides').value=String(i);$('slides').dispatchEvent(new w.Event('change'));await tick();assert($('viewport').querySelector('.brand-footer').textContent==='株式会社テスト','custom footer');assert($('viewport').querySelector('canvas.slide-logo'),'local logo canvas');assert(!$('viewport').querySelector('img,.slide-kicker'),'no remote image or kicker');assert($('viewport').firstElementChild.style.getPropertyValue('--accent')==='#0055AA','scoped color');}
-  w.print=()=>{};$('print').click();assert([...$('print-deck').children].every(n=>n.querySelector('canvas.slide-logo')),'synchronous printed logos');
-  $('theme-open').click();$('theme-reset').click();$('theme-apply').click();await tick();assert(!$('viewport').querySelector('.slide-logo'),'no logo placeholder after reset');
+ await test('theme applies footer and color without a logo feature',async()=>{
+  assert(!d.getElementById('theme-logo-file'),'no logo input');$('theme-open').click();$('theme-footer').value='株式会社テスト';$('theme-color').value='#0055AA';$('theme-color').dispatchEvent(new w.Event('input'));$('theme-apply').click();await tick();
+  edit(sample);for(let i=0;i<count;i++){$('slides').value=String(i);$('slides').dispatchEvent(new w.Event('change'));await tick();assert($('viewport').querySelector('.brand-footer').textContent==='株式会社テスト','custom footer');assert(!$('viewport').querySelector('canvas,img,.slide-kicker'),'no logo or kicker');assert($('viewport').firstElementChild.style.getPropertyValue('--accent')==='#0055AA','scoped color');}
+  $('theme-open').click();$('theme-reset').click();$('theme-apply').click();await tick();
  });
  edit(sample);await tick();document.title=results.some(x=>x.startsWith('FAIL'))?'FAIL — SlideSeed tests':'PASS — SlideSeed tests';
 };
